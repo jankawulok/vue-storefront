@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 
 import { UseUser, useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
-import { Customer } from '../types/GraphQlStorefront';
-
+import { customerLogin } from '@jkawulok/prestashop-api';
 
 // @todo useUser
 
@@ -24,10 +23,10 @@ const params: UseUserFactoryParams<any, any, any> = {
     // @todo
     return {};
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async ({ username, password }) => {
-    // @todo
-    return {};
+    const credentials = { email: username, password };
+    const user = await customerLogin(credentials);
+    return user.data.customer.customer;
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   changePassword: async function changePassword({currentUser, currentPassword, newPassword}) {

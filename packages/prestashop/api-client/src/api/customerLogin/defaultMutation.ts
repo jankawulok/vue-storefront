@@ -5,11 +5,9 @@ export default gql`
   ${CustomerFragment}
 
   mutation customerLogin($email: String, $password: String) {
-    customerLoginResponse: customerLogin(email: $email, password: $password) {
-      customerLoginResponse {  
-        customer {
-          ...DefaultCustomer
-        }
+    customer: customerLogin(email: $email, password: $password) {
+      customer {
+        ...DefaultCustomer
       }
     }
   }

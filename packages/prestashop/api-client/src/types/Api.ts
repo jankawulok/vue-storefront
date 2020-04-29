@@ -1,7 +1,7 @@
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
 import { ProductFilterInput, ProductSortInput, CategoryFilterInput, CategorySortInput } from './GraphQlCatalog';
-import { Cart, Customer } from './GraphQlStorefront';
+import { Cart, Customer, CustomerLoginResponse } from './GraphQlStorefront';
 
 export interface CustomQuery {
   query: string;
@@ -30,4 +30,4 @@ export type CartQueryResponse = QueryResponse<'cart', Cart>
 export type MutationResponse <K extends string, V> = FetchResult<Record<K, V>>
 export type CartMutationResponse = MutationResponse<'cart', Cart>
 export type CustomerMutationResponse = MutationResponse<'customer', Customer>
-
+export type CustomerLoginResponse = MutationResponse<'customer', CustomerLoginResponse>
