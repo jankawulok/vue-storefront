@@ -30,7 +30,6 @@
     <template #search>
       <SfSearchBar
       placeholder="szukaj..."
-      v-model="searchState.query"
     />
     </template>
   </SfHeader>
@@ -42,7 +41,6 @@ import uiState from '~/assets/ui-state';
 import { useCart, useUser, cartGetters } from '@jkawulok/prestashop-composables';
 import { computed } from '@vue/composition-api';
 const { toggleCartSidebar, toggleLoginModal } = uiState;
-import searchState from '~/assets/search-state';
 
 export default {
   components: {
@@ -70,8 +68,7 @@ export default {
       toggleLoginModal,
       onAccountClicked,
       toggleCartSidebar,
-      uiState,
-      searchState
+      uiState
     };
   },
   data() {
@@ -79,42 +76,42 @@ export default {
       visible: true,
       subcategories: [
         {
-          header: "Clothing",
+          header: 'Clothing',
           items: [
-            { label: "Skirts" },
-            { label: "Sweaters" },
-            { label: "Dresses" },
-            { label: "TShirts" },
-            { label: "Pants" },
-            { label: "Underwear" },
-            { label: "Jackets" },
-            { label: "Blouses" }
+            { label: 'Skirts' },
+            { label: 'Sweaters' },
+            { label: 'Dresses' },
+            { label: 'TShirts' },
+            { label: 'Pants' },
+            { label: 'Underwear' },
+            { label: 'Jackets' },
+            { label: 'Blouses' }
           ]
         },
         {
-          header: "Accessories",
+          header: 'Accessories',
           items: [
-            { label: "Bags & Purses" },
-            { label: "Belts" },
-            { label: "Gloves" },
-            { label: "Hats" }
+            { label: 'Bags & Purses' },
+            { label: 'Belts' },
+            { label: 'Gloves' },
+            { label: 'Hats' }
           ]
         },
         {
-          header: "Shoes",
+          header: 'Shoes',
           items: [
-            { label: "Boots" },
-            { label: "Heels" },
-            { label: "Flat shoes" },
-            { label: "Loafers" },
-            { label: "Sandals" },
-            { label: "Slippers" },
-            { label: "Trainers" }
+            { label: 'Boots' },
+            { label: 'Heels' },
+            { label: 'Flat shoes' },
+            { label: 'Loafers' },
+            { label: 'Sandals' },
+            { label: 'Slippers' },
+            { label: 'Trainers' }
           ]
         }
       ],
-      asideTitle: "Featured",
-      title: "Man"
+      asideTitle: 'Featured',
+      title: 'Man'
     };
   }
 };

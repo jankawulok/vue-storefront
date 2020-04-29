@@ -146,7 +146,6 @@
         </SfLoader>
       </div>
       <div class="products">
-        <h3 v-if="searchState.query !== ''">szukaj: <strong>{{searchState.query}}</strong> w kategorii {{ categoryGetters.getName(category)}}</h3>
         <SfLoader :class="{ loading }" :loading="loading">
           <div
             v-if="isGridView"
@@ -280,7 +279,6 @@ import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, productGetters, categoryGetters } from '@jkawulok/prestashop-composables';
 import { getCategorySearchParameters } from '~/helpers/category/getCategorySearchParameters';
 import { onSSR } from '@vue-storefront/core';
-import searchState from '~/assets/search-state';
 
 const perPageOptions = [40, 80, 100];
 
@@ -340,6 +338,10 @@ export default {
     const { query } = context.root.$route;
 
     const { categories, search, loading } = useCategory('categories');
+    const category = computed(() => categoryGetters.getFiltered(categories.value[0] ? categories.value[0] : []));
+    const products = computed(() => productGetters.getFiltered(categories.value[0] ? categories.value[0].products.items : [], { master: true}));
+    const totalProducts = computed(() =>categories.value[0] ? categories.value[0].products.total_count.value : 0);
+    const categoryTree = computed(() => categoryGetters.getTree(categories.value[0] ? categories.value[0] : []));
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
     const sortBy = ref(query.sort || sortByOptions[0]);
@@ -351,13 +353,14 @@ export default {
         productsResultSize: itemsPerPage.value
       });
     });
-    watch([sortBy, currentPage, itemsPerPage, () => searchState.query], () => {
+    // watch([sortBy, currentPage, itemsPerPage, () => searchState.query], () => {
+    watch([sortBy, currentPage, itemsPerPage], () => {
       if (categories.value.length) {
         search({
           ...getCategorySearchParameters(context),
           productsResultPage: currentPage.value,
-          productsResultSize: itemsPerPage.value,
-          productsSearchQuery: searchState.query
+          productsResultSize: itemsPerPage.value
+          // productsSearchQuery: searchState.query
         });
         context.root.$router.push({ query: {
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
@@ -366,10 +369,7 @@ export default {
         }});
       }
     });
-    const category = computed(() => categoryGetters.getFiltered(categories.value[0] ? categories.value[0] : []));
-    const products = computed(() => productGetters.getFiltered(categories.value[0] ? categories.value[0].products.items : [], { master: true}));
-    const totalProducts = computed(() =>categories.value[0] ? categories.value[0].products.total_count.value : 0);
-    const categoryTree = computed(() => categoryGetters.getTree(categories.value[0] ? categories.value[0] : []));
+
     // const categoryTree  = [];
     const getCategoryUrl = (slug) => `/c/${slug}`;
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
@@ -414,7 +414,6 @@ export default {
       toggleWishlist,
       isGridView,
       goToPage,
-      searchState,
       availableFilters
     };
   },
@@ -445,97 +444,85 @@ export default {
     max-width: 1240px;
     margin: 0 auto;
   }
-  .description {
-    margin-top: var(--spacer-big);
-  }
 }
-.section {
-  padding: 0 var(--spacer-big);
-  @include for-desktop {
-    padding: 0;
+.main {
+  &.section {
+    padding: var(--spacer-xs);
+    @include for-desktop {
+      padding: 0;
+    }
   }
 }
 .breadcrumbs {
-  padding: var(--spacer-big) var(--spacer-extra-big) var(--spacer-extra-big)
-    var(--spacer-extra-big);
+  padding: var(--spacer-base) 0 var(--spacer-base)
+    var(--spacer-xs);
 }
 .navbar {
   position: relative;
   display: flex;
-  font: 300 var(--font-size-small) / 1.6 var(--body-font-family-primary);
+  border: 1px solid var(--c-light);
+  border-width: 0 0 1px 0;
   @include for-desktop {
-    border: 1px solid var(--c-light);
     border-width: 1px 0 1px 0;
   }
-  &::after {
-    position: absolute;
-    bottom: 0;
-    left: var(--spacer-big);
-    width: calc(100% - calc(var(--spacer-big) * 2));
-    height: 1px;
-    background: var(--c-light);
-    content: "";
+  &.section {
+    padding: var(--spacer-sm);
     @include for-desktop {
-      content: none;
+      padding: 0;
     }
   }
   &__aside,
   &__main {
     display: flex;
     align-items: center;
-    padding: var(--spacer-medium) 0;
-    font-size: var(--font-size-small);
-    line-height: 1.6;
-    @include for-desktop {
-      padding: var(--spacer-big) 0;
-    }
+    padding: var(--spacer-sm) 0;
   }
   &__aside {
     flex: 0 0 15%;
-    padding: var(--spacer-big) var(--spacer-extra-big);
+    padding: var(--spacer-sm) var(--spacer-sm);
     border: 1px solid var(--c-light);
     border-width: 0 1px 0 0;
   }
   &__main {
     flex: 1;
+    padding: 0;
+    @include for-desktop {
+      padding: var(--spacer-xs) var(--spacer-xl);
+    }
   }
   &__title {
-    padding: 0;
-    font-size: var(--font-size-big);
-    font-family: var(--body-font-family-secondary);
-    font-weight: 500;
-    line-height: 1.6;
+    --heading-title-font-weight: var(--font-light);
+    --heading-title-font-size: var(--font-xl);
   }
   &__filters-button {
-    --button-text-decoration: none;
-    --button-font-weight: var(--body-font-weight-secondary);
-    --button-color: var(--c-text);
-    --button-transition: all 150ms linear;
     display: flex;
     align-items: center;
-    @include for-desktop {
-      margin: 0 0 0 var(--spacer-extra-big);
-    }
     svg {
       fill: var(--c-text-muted);
+      transition: fill 150ms ease;
     }
     &:hover {
-      --button-color: var(--c-primary);
       svg {
         fill: var(--c-primary);
       }
     }
   }
   &__label {
+    font-family: var(--font-family-secondary);
+    font-weight: var(--font-normal);
     color: var(--c-text-muted);
+    margin: 0 var(--spacer-2xs) 0 0;
   }
+
   &__sort {
+    --select-margin: 0;
+    --select-padding: 0 var(--spacer-lg) 0 var(--spacer-2xs);
     display: flex;
     align-items: center;
-    margin: 0 auto 0 var(--spacer-extra-big);
-    --select-font-size: var(--font-size-small);
+    margin: 0 auto 0 var(--spacer-2xl);
   }
   &__counter {
+    font-family: var(--font-family-secondary);
     margin: auto;
     @include for-desktop {
       margin: auto 0 auto auto;
@@ -544,37 +531,34 @@ export default {
   &__view {
     display: flex;
     align-items: center;
-    margin: 0 var(--spacer-extra-big);
+    margin: 0 var(--spacer-xl);
     @include for-desktop {
-      margin: var(--spacer-big);
+      margin: 0 0 0 var(--spacer-2xl);
     }
     &-icon {
-      margin: 0 0 0 0.625rem;
       cursor: pointer;
     }
+    &-label {
+      margin: 0 var(--spacer-sm) 0 0;
+      font: var(--font-medium) var(--font-xs) / 1.6 var(--font-family-secondary);
+      text-decoration: underline;
+    }
   }
-}
-.sort-by {
-  /*--select-padding: 0 0.625rem;*/
-  flex: unset;
-  width: 11.875rem;
-  --select-dropdown-z-index: 10;
 }
 .main {
   display: flex;
 }
 .sidebar {
   flex: 0 0 15%;
-  padding: var(--spacer-extra-big);
+  padding: var(--spacer-sm);
   border: 1px solid var(--c-light);
   border-width: 0 1px 0 0;
 }
 .products {
   box-sizing: border-box;
   flex: 1;
-  margin: 0 calc(var(--spacer) * -1);
   @include for-desktop {
-    margin: var(--spacer-big);
+    margin: var(--spacer-xl);
   }
   @include for-mobile {
     display: flex;
@@ -591,12 +575,16 @@ export default {
   &__list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    @include for-desktop {
+      justify-content: flex-start;
+    }
   }
   &__product-card {
     --product-card-padding: var(--spacer);
     flex: 1 1 50%;
     @include for-desktop {
-      --product-card-padding: var(--spacer-big);
+      --product-card-padding: var(--spacer-sm);
       flex: 1 1 25%;
     }
   }
@@ -617,10 +605,10 @@ export default {
   }
   // end of TODO
   &__product-card-horizontal {
-    --product-card-horizontal-padding: var(--spacer);
+    --product-card-horizontal-padding: var(--spacer-xs);
     flex: 0 0 100%;
     @include for-desktop {
-      --product-card-horizontal-padding: var(--spacer-big);
+      --product-card-horizontal-padding: var(--spacer-sm);
     }
   }
   &__slide-enter {
@@ -628,43 +616,64 @@ export default {
     transform: scale(0.5);
   }
   &__slide-enter-active {
-    transition: all 0.1s ease;
+    transition: all 0.2s ease;
     transition-delay: calc(0.1s * var(--index));
   }
   &__pagination {
     @include for-desktop {
       display: flex;
       justify-content: center;
-      margin: var(--spacer-extra-big) 0 0 0;
+      margin: var(--spacer-2xl) 0 0 0;
+    }
+  }
+}
+.list {
+  &__item {
+    &:not(:last-of-type) {
+      --list-item-margin: 0 0 var(--spacer-sm) 0;
     }
   }
 }
 .filters {
-  padding: var(--spacer-big);
   &__title {
-    margin: calc(var(--spacer-big) * 3) 0 var(--spacer-big) 0;
-    font: 400 var(--font-size-extra-big) / 1.6 var(--body-font-family-secondary);
-    line-height: 1.6;
-    &:first-child {
-      margin: 0 0 var(--spacer-big) 0;
-    }
-  }
-  &__colors {
-    margin: calc(var(--spacer) * -1);
+    --heading-title-font-size: var(--font-xl);
+    margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   }
   &__color {
-    margin: var(--spacer);
+    margin: var(--spacer-xs) var(--spacer-xs) var(--spacer-xs) 0;
   }
   &__item {
-    margin: var(--spacer) 0;
+    --filter-label-color: var(--c-secondary-variant);
+    --filter-count-color: var(--c-secondary-variant);
+    --checkbox-padding: 0 var(--spacer-sm) 0 var(--spacer-xl);
+    padding: var(--spacer-sm) 0;
+    border-bottom: 1px solid var(--c-light);
+    &:last-child {
+      border-bottom: 0;
+    }
+    @include for-desktop {
+      --checkbox-padding: 0;
+      margin: var(--spacer-sm) 0;
+      border: 0;
+      padding: 0;
+    }
+  }
+  &__accordion-item {
+    --accordion-item-content-padding: 0;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
   }
   &__buttons {
-    margin: calc(var(--spacer-big) * 3) 0 0 0;
+    margin: var(--spacer-sm) 0;
   }
   &__button-clear {
     --button-background: var(--c-light);
     --button-color: var(--c-dark-variant);
-    margin: 0.625rem 0 0 0;
+    margin: var(--spacer-xs) 0 0 0;
   }
 }
 </style>
