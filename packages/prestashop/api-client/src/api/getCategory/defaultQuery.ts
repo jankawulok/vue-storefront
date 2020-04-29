@@ -46,6 +46,7 @@ query categories(
         filter: $productsFilter,
         sort: $productsSort
         ) {
+        aggregations
         total_count {
          value
          relation
