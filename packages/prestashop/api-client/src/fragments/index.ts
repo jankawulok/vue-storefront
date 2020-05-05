@@ -53,6 +53,14 @@ export const ProductFragment = `
       name
       value
     }
+    accesories {
+      items {
+        id
+        name
+        image
+        url_key
+      }
+    }
     reviews {
       items {
         nickname
