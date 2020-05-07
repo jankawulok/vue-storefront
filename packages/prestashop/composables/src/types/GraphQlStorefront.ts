@@ -132,6 +132,7 @@ export type CartItem = {
   quantity_available?: Maybe<Scalars['Int']>;
   link_rewrite?: Maybe<Scalars['String']>;
   id_image?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['String']>;
 };
 
 export type CartItemInput = {
