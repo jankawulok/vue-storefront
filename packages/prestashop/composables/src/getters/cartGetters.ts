@@ -9,16 +9,15 @@ export const getCartItems = (cart: Cart): CartItem[] => cart ? cart.items : [];
 export const getCartItemName = (product: CartItem): string => product ? product.name : '';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-export const getCartItemImage = (product: CartItem): string => '';
+export const getCartItemImage = (product: CartItem): string => 'https://catalog.maleomi.pl/img/300/300/resize' + product.cover;
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartItem): AgnosticPrice => {
-  return product ? {
-    regular: product.price,
-    special: product.price
-  } : {
-    regular: 0,
-    special: 0
+  const price = product ? product.price_without_reduction : null;
+  const special = product ? product.price_with_reduction : null;
+  return {
+    regular: price,
+    special: (special !== 0) && (special !== price) ? special : null
   };
 };
 
