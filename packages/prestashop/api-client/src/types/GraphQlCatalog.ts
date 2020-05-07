@@ -33,6 +33,30 @@ export type Attribute = {
   options?: Maybe<Array<Maybe<AttributeOption>>>;
 };
 
+export type AttributeCombination = {
+   __typename?: 'AttributeCombination';
+  id_attribute_group?: Maybe<Scalars['Int']>;
+  is_color_group?: Maybe<Scalars['Int']>;
+  public_group_name?: Maybe<Scalars['String']>;
+  id_attribute?: Maybe<Scalars['Int']>;
+  attribute_name?: Maybe<Scalars['String']>;
+  attribute_color?: Maybe<Scalars['String']>;
+  id_product_attribute?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Float']>;
+  price_wt?: Maybe<Scalars['Float']>;
+  special_price?: Maybe<Scalars['Float']>;
+  special_price_wt?: Maybe<Scalars['Float']>;
+  ecotax?: Maybe<Scalars['Float']>;
+  weight?: Maybe<Scalars['Float']>;
+  default_on?: Maybe<Scalars['Int']>;
+  reference?: Maybe<Scalars['String']>;
+  minimal_quantity?: Maybe<Scalars['Int']>;
+  available_date?: Maybe<Scalars['String']>;
+  group_type?: Maybe<Scalars['String']>;
+  id_image?: Maybe<Scalars['String']>;
+};
+
 export type AttributeInput = {
   attribute_code?: Maybe<FilterTypeInput>;
   entity_type?: Maybe<Scalars['String']>;
@@ -238,19 +262,14 @@ export type CmsPages = EsResponseInterface & {
 
 export type ConfigurableOption = {
    __typename?: 'ConfigurableOption';
-  id?: Maybe<Scalars['ID']>;
-  attribute_id?: Maybe<Scalars['ID']>;
-  attribute_code?: Maybe<Scalars['String']>;
-  label?: Maybe<Scalars['String']>;
-  position?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
   values?: Maybe<Array<Maybe<ConfigurableOptionValue>>>;
-  product_id?: Maybe<Scalars['ID']>;
 };
 
 export type ConfigurableOptionValue = {
    __typename?: 'ConfigurableOptionValue';
-  value_index?: Maybe<Scalars['Int']>;
-  label?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  id_attribute?: Maybe<Scalars['String']>;
 };
 
 export type CustomAttributeMetadata = EsResponseInterface & {
@@ -403,14 +422,19 @@ export type Product = {
   category?: Maybe<Array<Maybe<CategoryBinding>>>;
   configurable_children?: Maybe<Array<Maybe<Product>>>;
   stock?: Maybe<StockItem>;
+  minimal_quantity?: Maybe<Scalars['Int']>;
+  quantity_increment?: Maybe<Scalars['Int']>;
   features?: Maybe<Array<Maybe<Feature>>>;
   is_in_stock?: Maybe<Scalars['Boolean']>;
   keyword?: Maybe<Scalars['String']>;
   media_gallery?: Maybe<Array<Maybe<MediaGalleryItem>>>;
   configurable_options?: Maybe<Array<Maybe<ConfigurableOption>>>;
+  attributes_combinations?: Maybe<Array<Maybe<AttributeCombination>>>;
   custom_options?: Maybe<Array<Maybe<CustomOption>>>;
   bundle_options?: Maybe<Array<Maybe<BundleOption>>>;
   aggs?: Maybe<Scalars['JSON']>;
+  accesories?: Maybe<Products>;
+  rating?: Maybe<Scalars['Float']>;
   reviews?: Maybe<Reviews>;
 };
 

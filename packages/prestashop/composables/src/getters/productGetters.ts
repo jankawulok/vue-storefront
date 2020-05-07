@@ -73,6 +73,8 @@ export const getProductId = (product: Product): string => (product as any).id;
 
 export const getFormattedPrice = (price: number) => createFormatPrice(price);
 
+export const getProductMinSaleQty = (product: Product): number => product ? (product as any).minimal_quantity : 1;
+
 export const getProductReviews = (product: Product) =>
   (product ? product.reviews.items : [])
     .map((item) => ({
@@ -98,6 +100,7 @@ const productGetters: ProductGetters<Product, ProductVariantFilters> = {
   getStock: getProductStock,
   getRating: getProductRating,
   getId: getProductId,
+  getMinSaleQty: getProductMinSaleQty,
   getFormattedPrice
 };
 

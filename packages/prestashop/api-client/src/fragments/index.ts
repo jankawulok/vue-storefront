@@ -7,6 +7,8 @@ export const ProductTileFragment = `
     original_price_incl_tax
     special_price_incl_tax
     image
+    minimal_quantity
+    quantity_increment
     media_gallery {
       image
       label
@@ -38,6 +40,8 @@ export const ProductFragment = `
     meta_title
     meta_keyword
     meta_description
+    minimal_quantity
+    quantity_increment
     media_gallery {
       image
       label
@@ -52,6 +56,22 @@ export const ProductFragment = `
     features {
       name
       value
+    }
+    configurable_options {
+      name
+      values {
+        name
+        id_attribute
+      }
+    }
+    attributes_combinations {
+      id_attribute_group
+      id_attribute
+      id_product_attribute
+      price
+      price_wt
+      special_price
+      special_price_wt
     }
     accesories {
       items {
@@ -107,7 +127,7 @@ export const CartFragment = `
       quantity
       quantity_available
       link_rewrite
-      id_image
+      cover
     }
   }
 `;
