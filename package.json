@@ -25,7 +25,9 @@
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
     "build:ps:api-client": "cd packages/prestashop/api-client && yarn build",
     "build:ps:composables": "cd packages/prestashop/composables && yarn build",
-    "build:ps": "yarn build:core && yarn build:ps:api-client && yarn build:ps:composables",
+    "build:ps:theme": "cd packages/prestashop/theme && yarn build",
+    "build:ps": "yarn build:core && yarn build:ps:api-client && yarn build:ps:composables && yarn build:ps:theme",
+    "build:storyblok": "cd packages/storyblok && yarn build",
     "test:ayc:api-client": "cd packages/about-you/api-client && yarn test",
     "test:ayc:composables": "cd packages/about-you/composables && yarn test",
     "test:ct:api-client": "cd packages/commercetools/api-client && yarn test",
@@ -34,14 +36,17 @@
     "test:ps:composables": "cd packages/prestashop/composables && yarn test --coverage",
     "test:core": "jest -c ./packages/core/jest.config.js",
     "test:prismic": "cd packages/prismic && yarn test",
+    "test:storyblok": "cd packages/storyblok && yarn test --coverage",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
+    "start:ps": "cd packages/commercetools/theme && yarn start",
     "dev:ayc:api-client": "cd packages/about-you/api-client && yarn dev",
     "dev:ayc:composables": "cd packages/about-you/composables && yarn dev",
     "dev:ct:api-client": "cd packages/commercetools/api-client && yarn dev",
     "dev:ct:composables": "cd packages/commercetools/composables && yarn dev",
     "dev:ps:composables": "cd packages/prestashop/composables && yarn dev",
+    "dev:storyblok": "cd packages/storyblok && yarn dev",
     "dev:ayc": "cd packages/about-you/theme && yarn dev",
     "dev:bp": "cd packages/boilerplate/theme && yarn dev",
     "dev:ct": "cd packages/commercetools/theme && yarn dev",
@@ -86,7 +91,8 @@
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*",
-      "packages/prestashop/*"
+      "packages/prestashop/*",
+      "packages/storyblok"
     ],
     "nohoist": [
       "**/**/**"
