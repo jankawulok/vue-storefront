@@ -1,7 +1,7 @@
 import { CheckoutGetters} from '@vue-storefront/core';
-import { ShippingMethod } from '@vue-storefront/boilerplate-api/src/types';
+// import { ShippingMethod } from '@vue-storefront/boilerplate-api/src/types';
 import { createFormatPrice } from './_utils';
-
+type ShippingMethod = {}
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getShippingMethodId = (shippingMethod: ShippingMethod): string => '';
 
