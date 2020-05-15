@@ -1,4 +1,4 @@
-import { useStory } from './composables';
+import { useStory, useSettings } from './composables';
 import StoryblokClient from 'storyblok-js-client';
 import { StoryblokConfig } from 'storyblok-js-client';
 
@@ -12,5 +12,6 @@ const setup = (setupConfig: StoryblokConfig) => {
 export {
   setup,
   client,
-  useStory
+  useStory,
+  useSettings
 };
