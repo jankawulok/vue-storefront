@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@jkawulok/prestashop-api": "^0.0.1",
+    "@jkawulok/prestashop-api": "https://gitpkg.now.sh/jankawulok/vue-storefront/packages/prestashop/api-client?ps",
     "@vue-storefront/core": "^2.0.1-prealpha.429",
     "@vue/composition-api": "^0.3.4",
     "vue": "^2.6.x"
