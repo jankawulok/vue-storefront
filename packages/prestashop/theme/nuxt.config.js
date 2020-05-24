@@ -17,21 +17,46 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  router: {
+    extendRoutes (routes, resolve) {
+      routes.unshift({
+        name: 'product',
+        path: '/:slug/',
+        component: resolve( 'pages/Product.vue')
+      });
+      routes.unshift({
+        name: 'category',
+        path: '/:slug',
+        component: resolve( 'pages/Category.vue')
+      });
+      routes.unshift({
+        name: 'urlresolver',
+        path: '/:slug',
+        component: resolve('pages/UrlResolver.vue')
+      });
+    }
+  },
+  css: ['@/assets/scss/main.scss'],
   loading: { color: '#fff' },
-  router: {},
   buildModules: [
     // to core
     '@nuxt/typescript-build',
+    '@nuxtjs/router-extras',
+    // '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
       coreDevelopment: true,
       useRawSource: {
         dev: [
           '@jkawulok/prestashop-composables',
-          '@vue-storefront/core'
+          '@jkawulok/storyblok',
+          '@vue-storefront/core',
+          '@marvinrudolph/vue-storyblok-rich-text-renderer'
         ],
         prod: [
           '@jkawulok/prestashop-composables',
-          '@vue-storefront/core'
+          '@jkawulok/storyblok',
+          '@vue-storefront/core',
+          '@marvinrudolph/vue-storyblok-rich-text-renderer'
         ]
       }
     }],
@@ -43,10 +68,13 @@ export default {
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt'
+    'vue-scrollto/nuxt',
+    ['storyblok-nuxt', {accessToken: 'LUoRLQRAKwVwhczfHBwtrQtt', cacheProvider: 'memory'}]
   ],
   plugins: [
-    './plugins/prestashop.js'
+    './plugins/prestashop.js',
+    './plugins/storyblok.js',
+    './plugins/rich-text-renderer.js'
   ],
   build: {
     transpile: [

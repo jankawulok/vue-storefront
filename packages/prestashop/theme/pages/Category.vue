@@ -4,6 +4,13 @@
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
     />
+    <div class="header section">
+      <SfLoader :loading="sbLoading">
+        <div>
+          <Render v-for="child in top" :item="child" :key="child.uuid" />
+        </div>
+      </SfLoader>
+    </div>
     <div class="navbar section">
       <div class="navbar__aside desktop-only">
         <h1 class="navbar__title">{{ categoryGetters.getName(category) }}</h1>
@@ -40,69 +47,53 @@
               </g>
             </svg>
           </SfIcon>
-          Filters
+          {{ $t('Filters') }}
         </SfButton>
         <div class="navbar__sort desktop-only">
-          <span class="navbar__label">Sort by:</span>
-          <SfSelect class="sort-by" v-model="sortBy">
+          <span class="navbar__label">{{ $t('Sort by') }}:</span>
+          <SfSelect  v-model="sortBy">
             <SfSelectOption
               v-for="option in sortByOptions"
               :key="option.value"
               :value="option.value"
-              class="sort-by__option"
+              class="sort__option"
               >{{ option.label }}</SfSelectOption
             >
           </SfSelect>
         </div>
         <div class="navbar__counter">
-          <span class="navbar__label desktop-only">Products found: </span>
+          <span class="navbar__label desktop-only">{{ $t('Products found') }}: </span>
           <strong class="desktop-only">{{ totalProducts }}</strong>
           <span class="navbar__label mobile-only">{{ totalProducts }} Items</span>
         </div>
         <div class="navbar__view desktop-only">
-          <span>View </span>
+          <span class="navbar__view-label">View</span>
           <SfIcon
             class="navbar__view-icon"
             :color="isGridView ? '#1D1F22' : '#BEBFC4'"
-            size="10px"
+            icon="tiles"
+            size="32px"
             role="button"
             aria-label="Change to grid view"
             :aria-pressed="isGridView"
             @click="isGridView = true"
-          >
-            <svg viewBox="0 0 10 10">
-              <rect width="2" height="2" />
-              <rect y="4" width="2" height="2" />
-              <rect y="8" width="2" height="2" />
-              <rect x="4" width="2" height="2" />
-              <rect x="4" y="4" width="2" height="2" />
-              <rect x="4" y="8" width="2" height="2" />
-              <rect x="8" width="2" height="2" />
-              <rect x="8" y="4" width="2" height="2" />
-              <rect x="8" y="8" width="2" height="2" />
-            </svg>
-          </SfIcon>
+          />
           <SfIcon
             class="navbar__view-icon"
             :color="!isGridView ? '#1D1F22' : '#BEBFC4'"
-            size="11px"
+            icon="list"
+            size="32px"
             role="button"
             aria-label="Change to list view"
             :aria-pressed="!isGridView"
             @click="isGridView = false"
-          >
-            <svg viewBox="0 0 11 10">
-              <rect width="11" height="2" />
-              <rect y="8" width="11" height="2" />
-              <rect y="4" width="7" height="2" />
-            </svg>
-          </SfIcon>
+          />
         </div>
         <SfButton
           class="sf-button--text navbar__filters-button mobile-only"
           @click="isFilterSidebarOpen = true"
         >
-          Sort by
+          {{ $t('Sort by') }}
           <SfIcon size="15px" style="margin-left: 10px;">
             <svg viewBox="0 0 12 16" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -116,33 +107,35 @@
     <div class="main section">
       <div class="sidebar desktop-only">
         <SfLoader :class="{ loading }" :loading="loading">
-          <SfAccordion :firstOpen="true" :showChevron="false">
-            <SfAccordionItem
-              v-for="(cat, i) in categoryTree && categoryTree.items"
-              :key="i"
-              :header="cat.label"
-            >
-              <template>
-                <SfList>
-                  <SfListItem>
-                    <SfMenuItem :label="cat.label" :count="cat.productCount">
-                      <template #label>
-                        <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">Wszystkie</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                  <SfListItem v-for="(subCat, j) in cat.items" :key="j">
-                    <SfMenuItem :label="subCat.label" :count="subCat.productCount">
-                      <template #label="{ label }">
-                        <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
-                      </template>
-                    </SfMenuItem>
-                  </SfListItem>
-                </SfList>
-              </template>
-            </SfAccordionItem>
-          </SfAccordion>
-
+          <div>
+            <SfAccordion :firstOpen="true" :showChevron="false">
+              <SfAccordionItem
+                v-for="(cat, i) in categoryTree && categoryTree.items"
+                :key="i"
+                :header="cat.label"
+              >
+                <template>
+                  <SfList>
+                    <SfListItem>
+                      <SfMenuItem :label="cat.label" :count="cat.productCount">
+                        <template #label>
+                          <nuxt-link :to="getCategoryUrl(cat.slug)" :class="isCategorySelected(cat.slug) ? 'sidebar--cat-selected' : ''">Wszystkie</nuxt-link>
+                        </template>
+                      </SfMenuItem>
+                    </SfListItem>
+                    <SfListItem v-for="(subCat, j) in cat.items" :key="j">
+                      <SfMenuItem :label="subCat.label" :count="subCat.productCount">
+                        <template #label="{ label }">
+                          <nuxt-link :to="getCategoryUrl(subCat.slug)" :class="isCategorySelected(subCat.slug) ? 'sidebar--cat-selected' : ''">{{ label }}</nuxt-link>
+                        </template>
+                      </SfMenuItem>
+                    </SfListItem>
+                  </SfList>
+                </template>
+              </SfAccordionItem>
+            </SfAccordion>
+              <Render v-for="child in sidebar" :item="child" :key="child.uuid" />
+          </div>
         </SfLoader>
       </div>
       <div class="products">
@@ -157,6 +150,8 @@
               v-for="(product, i) in products"
               :key="productGetters.getSlug(product)"
               :style="{ '--index': i }"
+              :imageHeight="300"
+              :imageWidth="300"
               :title="productGetters.getName(product)"
               :image="productGetters.getCoverImage(product)"
               :regular-price="productGetters.getFormattedPrice(productGetters.getPrice(product).regular)"
@@ -165,7 +160,7 @@
               :score-rating="productGetters.getRating(product)"
               :isOnWishlist="false"
               @click:wishlist="toggleWishlist(i)"
-              :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+              :link="{ name: 'product', params: { slug: productGetters.getSlug(product)}, path: `/${productGetters.getSlug(product)}`}"
               class="products__product-card"
             />
           </div>
@@ -189,7 +184,7 @@
               :is-on-wishlist="false"
               class="products__product-card-horizontal"
               @click:wishlist="toggleWishlist(i)"
-              :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+              :link="`/${productGetters.getSlug(product)}`"
             />
           </div>
         </SfLoader>
@@ -275,51 +270,20 @@ import {
   SfLoader,
   SfColor
 } from '@storefront-ui/vue';
+import Render from '~/components/storyblok/Render';
 import { computed, ref, watch } from '@vue/composition-api';
 import { useCategory, productGetters, categoryGetters } from '@jkawulok/prestashop-composables';
+import { useStory, useSettings } from '@jkawulok/storyblok';
 import { getCategorySearchParameters } from '~/helpers/category/getCategorySearchParameters';
 import { onSSR } from '@vue-storefront/core';
-
+import FiltersBar from '~/components/organisms/FiltersBar';
 const perPageOptions = [40, 80, 100];
 
 const sortByOptions = [
-  { value: '{"updated_at":"DESC"}', label: 'Best match' },
-  { value: '{"price":"ASC"}', label: 'Price from low to high' },
-  { value: '{"price":"DESC"}', label: 'Price from high to low' }
+  { value: '_score', label: 'Best match' },
+  { value: 'price_ASC', label: 'Price from low to high' },
+  { value: 'price_DESC', label: 'Price from high to low' }
 ];
-
-// TODO: to be implemented in https://github.com/DivanteLtd/next/issues/200
-const filters = {
-  collection: [
-    { label: 'Summer fly', value: 'summer-fly', count: '10', selected: false },
-    { label: 'Best 2018', value: 'best-2018', count: '23', selected: false },
-    { label: 'Your choice', value: 'your-choice', count: '54', selected: false }
-  ],
-  color: [
-    { label: 'Red', value: 'red', color: '#990611', selected: false },
-    { label: 'Black', value: 'black', color: '#000000', selected: false },
-    { label: 'Yellow', value: 'yellow', color: '#DCA742', selected: false },
-    { label: 'Blue', value: 'blue', color: '#004F97', selected: false },
-    { label: 'Navy', value: 'navy', color: '#656466', selected: false }
-  ],
-  size: [
-    { label: 'Size 2 (XXS)', value: 'xxs', count: '10', selected: false },
-    { label: 'Size 4-6 (XS)', value: 'xs', count: '23', selected: false },
-    { label: 'Size 8-10 (S)', value: 's', count: '54', selected: false },
-    { label: 'Size 12-14 (M)', value: 'm', count: '109', selected: false },
-    { label: 'Size 16-18 (L)', value: 'l', count: '23', selected: false },
-    { label: 'Size 20-22(XL)', value: 'xl', count: '12', selected: false },
-    { label: 'Size 24-26 (XXL)', value: 'xxl', count: '2', selected: false }
-  ],
-  price: [
-    { label: 'Under $200', value: 'under-200', count: '23', selected: false },
-    { label: 'Under $300', value: 'under-300', count: '54', selected: false }
-  ],
-  material: [
-    { label: 'Cotton', value: 'coton', count: '33', selected: false },
-    { label: 'Silk', value: 'silk', count: '73', selected: false }
-  ]
-};
 
 function updateFilter() {}
 
@@ -336,7 +300,7 @@ export default {
   transition: 'fade',
   setup(props, context) {
     const { query } = context.root.$route;
-
+    const { loading: sbLoading, error: sbError, story, search: sbSearch } = useStory('sb-category');
     const { categories, search, loading } = useCategory('categories');
     const category = computed(() => categoryGetters.getFiltered(categories.value[0] ? categories.value[0] : []));
     const products = computed(() => productGetters.getFiltered(categories.value[0] ? categories.value[0].products.items : [], { master: true}));
@@ -344,11 +308,17 @@ export default {
     const categoryTree = computed(() => categoryGetters.getTree(categories.value[0] ? categories.value[0] : []));
     const currentPage = ref(parseInt(query.page, 10) || 1);
     const itemsPerPage = ref(parseInt(query.items, 10) || perPageOptions[0]);
-    const sortBy = ref(query.sort || sortByOptions[0]);
+    const sortBy = ref(query.sort ? query.sort : sortByOptions[0].value );
     const availableFilters = computed(() => categoryGetters.getFilters(category.value));
+    const { path } = context.root.$route;
+    const slug = path.replace(/^\/c\//, '');
+    const top = computed(() => story.value.content ? story.value.content.top : null );
+    const sidebar = computed(() => story.value.content ? story.value.content.sidebar : null );
+    sbSearch({slug: 'c/' + slug});
     onSSR(async () => {
       await search({
         ...getCategorySearchParameters(context),
+        productsFilter: {in_stock: {eq: true}},
         productsResultPage: currentPage.value,
         productsResultSize: itemsPerPage.value
       });
@@ -365,13 +335,13 @@ export default {
         context.root.$router.push({ query: {
           items: itemsPerPage.value !== perPageOptions[0] ? itemsPerPage.value : undefined,
           page: currentPage.value !== 1 ? currentPage.value : undefined,
-          sort: sortBy.value !== sortByOptions[0] ? sortBy.value : undefined
+          sort: sortBy.value !== sortByOptions[0].value ? sortBy.value : undefined
         }});
       }
     });
 
     // const categoryTree  = [];
-    const getCategoryUrl = (slug) => `/c/${slug}`;
+    const getCategoryUrl = (slug) => {return { name: 'category', params: { slug: slug}, path: slug}};
     const isCategorySelected = (slug) => slug === (categories.value && categories.value[0].slug);
 
     // todo: calculate breadcrumbs server side
@@ -387,7 +357,7 @@ export default {
 
     const goToPage = (pageNumber) => {
       currentPage.value = pageNumber;
-      context.root.$scrollTo(context.root.$el, 2000);
+      context.root.$scrollTo(context.root.$el, 200);
     };
 
     return {
@@ -407,14 +377,17 @@ export default {
       sortBy,
       isFilterSidebarOpen,
       sortByOptions: computed(() => sortByOptions),
-      filters: ref(filters),
       breadcrumbs: breadcrumbs,
       updateFilter,
       clearAllFilters,
       toggleWishlist,
       isGridView,
       goToPage,
-      availableFilters
+      availableFilters,
+      story,
+      sbLoading,
+      top,
+      sidebar
     };
   },
   components: {
@@ -431,7 +404,21 @@ export default {
     SfSelect,
     SfBreadcrumbs,
     SfLoader,
-    SfColor
+    SfColor,
+    Render,
+    FiltersBar
+  },
+  mounted () {
+    this.$storybridge.on(['input', 'published', 'change'], (event) => {
+      if (event.action == 'input') {
+        if (event.story.id === this.story.id) {
+          console.log(event.story.content);
+          this.story.content = event.story.content
+        }
+      } else if (!event.slugChanged) {
+        window.location.reload()
+      }
+    })
   }
 };
 </script>
@@ -492,7 +479,7 @@ export default {
   }
   &__title {
     --heading-title-font-weight: var(--font-light);
-    --heading-title-font-size: var(--font-xl);
+    --heading-title-font-size: 1rem;
   }
   &__filters-button {
     display: flex;

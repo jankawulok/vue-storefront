@@ -5,78 +5,87 @@
       :button="false"
       title="My Cart"
       @close="toggleCartSidebar"
-      class="sidebar sf-sidebar--right"
+      class="sidebar sf-sidebar--right sf-sidebar--icon"
     >
-      <template #title>
-        <div class="heading__wrapper">
-          <SfHeading :level="3" title="My cart" class="sf-heading--left"/>
-          <button class="heading__close-button" aria-label="Cart sidebar close button" @click="toggleCartSidebar">
-            <SfIcon icon="cross" size="14px" color="gray-primary"/>
-          </button>
-        </div>
+      <template v-if="totalItems" #content-top>
+        <SfProperty
+          class="sf-property--large"
+          name="Total items"
+          :value="totalItems"
+        />
       </template>
-      <template #content-bottom>
-        <transition name="fade" mode="out-in">
-          <div v-if="totalItems" class="my-cart" key="my-cart">
-            <div class="my-cart__total-items">Total items: <strong>{{ totalItems }}</strong></div>
-            <div class="collected-product-list">
-              <transition-group name="fade" tag="div">
-                <SfCollectedProduct
-                  v-for="product in products"
-                  :key="cartGetters.getItemSku(product)"
-                  :image="cartGetters.getItemImage(product)"
-                  :title="cartGetters.getItemName(product)"
-                  :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
-                  :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
-                  :stock="99999"
-                  image-width="180"
-                  image-height="200"
-                  :qty="cartGetters.getItemQty(product)"
-                  @input="updateQuantity(product, $event)"
-                  @click:remove="removeFromCart(product)"
-                  class="collected-product"
-                >
-                <template #configuration>
-                  <div class="collected-product__properties">
-                    <SfProperty name="Size" :value="cartGetters.getItemAttributes(product).size"/>
-                    <SfProperty name="Color" :value="cartGetters.getItemAttributes(product).color"/>
-                  </div>
-                </template>
-                <template #actions>
-                    <SfButton class="sf-button--text desktop-only">Save for later</SfButton>
-                </template>
-                </SfCollectedProduct>
-              </transition-group>
-            </div>
-            <div class="sidebar-bottom">
-            <SfProperty class="sf-property--full-width my-cart__total-price">
-              <template #name>
-                <span class="my-cart__total-price-label">Total price:</span>
+      <transition name="fade" mode="out-in">
+        <div v-if="totalItems" class="my-cart" key="my-cart">
+          <div class="collected-product-list">
+            <transition-group name="fade" tag="div">
+              <SfCollectedProduct
+                data-cy="collected-product-cart-sidebar"
+                v-for="product in products"
+                :key="cartGetters.getItemSku(product)"
+                :image="cartGetters.getItemImage(product)"
+                :title="cartGetters.getItemName(product)"
+                :regular-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).regular)"
+                :special-price="cartGetters.getFormattedPrice(cartGetters.getItemPrice(product).special)"
+                :stock="99999"
+                image-width="180"
+                image-height="200"
+                :qty="cartGetters.getItemQty(product)"
+                @input="updateQuantity(product, $event)"
+                @click:remove="removeFromCart(product)"
+                class="collected-product"
+              >
+               <template #configuration>
+                <div class="collected-product__properties">
+                  <SfProperty name="Size" :value="cartGetters.getItemAttributes(product).size"/>
+                  <SfProperty name="Color" :value="cartGetters.getItemAttributes(product).color"/>
+                </div>
               </template>
-              <template #value>
-                <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
+              <template #actions>
+                  <SfButton data-cy="cart-sidebar-btn_save-later" class="sf-button--text desktop-only">Save for later</SfButton>
               </template>
-            </SfProperty>
-            <nuxt-link to="/checkout/personal-details">
-              <SfButton class="sf-button--full-width color-secondary">Go to checkout</SfButton>
-            </nuxt-link>
-            </div>
+              </SfCollectedProduct>
+            </transition-group>
           </div>
-          <div v-else class="empty-cart" key="empty-cart">
-            <div class="empty-cart__banner">
-              <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-cart__icon" />
-              <h3 class="empty-cart__label">Your bag is empty</h3>
-              <p class="empty-cart__description">
-                Looks like you haven’t added any items to the bag yet. Start
-                shopping to fill it in.
-              </p>
-            </div>
-            <SfButton class="sf-button--full-width color-secondary">Start shopping</SfButton>
-            <SfButton class="sf-button--full-width color-secondary" @click="refreshCart()">Load cart</SfButton>
+          <div class="sidebar-bottom">
+          
+          
+          </div>
+        </div>
+        <div v-else class="empty-cart" key="empty-cart">
+          <div class="empty-cart__banner">
+            <img src="@storefront-ui/shared/icons/empty_cart.svg" alt class="empty-cart__icon" />
+            <h3 class="empty-cart__label">Your bag is empty</h3>
+            <p class="empty-cart__description">
+              Looks like you haven’t added any items to the bag yet. Start
+              shopping to fill it in.
+            </p>
+          </div>
+          <SfButton data-cy="cart-sidebar-btn_start-shopping" class="sf-button--full-width color-secondary">Start shopping</SfButton>
+          <SfButton class="sf-button--full-width color-secondary" @click="refreshCart()">Load cart</SfButton>
+        </div>
+      </transition>
+      <template #content-bottom>
+        <transition name="fade">
+          <div v-if="totalItems">
+            <SfProperty class="sf-property--full-width my-cart__total-price">
+            <template #name>
+              <span class="my-cart__total-price-label">Total price:</span>
+            </template>
+            <template #value>
+              <SfPrice :regular="cartGetters.getFormattedPrice(totals.subtotal)" />
+            </template>
+          </SfProperty>
+            <nuxt-link to="/checkout/personal-details">
+              <SfButton data-cy="cart-sidebar-btn_checkout" class="sf-button--full-width color-secondary">Go to checkout</SfButton>
+          </nuxt-link>
+          </div>
+          <div v-else>
+            <SfButton class="sf-button--full-width color-primary"
+              >Start shopping</SfButton
+            >
           </div>
         </transition>
       </template>
-
     </SfSidebar>
   </div>
 </template>

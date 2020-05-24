@@ -1,0 +1,6 @@
+@import "~@storefront-ui/vue/styles";
+#__nuxt {
+    @include generate-color-variants(--_c-blue-primary, #5e7bce);
+    @include assign-color-variants(--c-primary, --_c-blue-primary);
+    @include assign-color-variants(--button-background, --_c-blue-primary);
+}

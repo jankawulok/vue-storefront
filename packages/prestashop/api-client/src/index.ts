@@ -12,6 +12,7 @@ import customerLogin from './api/customerLogin';
 import customerCreate from './api/customerCreate';
 import customerLogout from './api/customerLogout';
 import getCart from './api/getCart';
+import getUrlResolver from './api/getUrlResolver';
 import fetch from 'isomorphic-fetch';
 
 let catalogClient: ApolloClient<any> = null;
@@ -69,5 +70,6 @@ export {
   country,
   countries,
   currency,
-  currencies
+  currencies,
+  getUrlResolver
 };

@@ -3,31 +3,22 @@
     <SfBreadcrumbs
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
-      @click="redirectTo"
-    />
+    >
+      <template #link="{breadcrumb}">
+        <SfLink :link="{ name: 'category', params: { slug: breadcrumb.route.link}, path: `/${breadcrumb.route.link}`}" class="sf-breadcrumbs__breadcrumb"
+          >{{ breadcrumb.text }}
+        </SfLink>
+      </template>
+    </SfBreadcrumbs>
     <div class="product">
       <div class="product__gallery">
         <!-- TODO: replace example images with the getter, wait for SfGallery fix by SFUI team: https://github.com/DivanteLtd/storefront-ui/issues/1074 -->
-        <!-- <SfGallery
-          class="gallery-mobile mobile-only"
-          :images="[
-            {
-              mobile: { url: '/productpage/productM.jpg' },
-              desktop: { url: '/productpage/productM.jpg' },
-              big: { url: '/productpage/productM.jpg' }
-            },
-            {
-              mobile: { url: '/productpage/productM.jpg' },
-              desktop: { url: '/productpage/productM.jpg' },
-              big: { url: '/productpage/productM.jpg' }
-            }
-          ]"
-        /> -->
-        <SfImage
-          v-for="(image, i) in productGetters.getGallery(product).splice(0, 2)" :key="i"
-          :src="image.big"
-          :width="590"
-          :height="700"
+        <SfGallery
+          class="gallery-mobile"
+          :enable-zoom="false"
+          :imageHeight="600"
+          :imageWidth="600"
+          :images="gallery"
         />
       </div>
       <div class="product__description">
@@ -53,9 +44,6 @@
             </div>
           </div>
           <p class="product-details__description desktop-only">
-            Find stunning women cocktail and party dresses. Stand out in lace
-            and metallic cocktail dresses and party dresses from all your
-            favorite brands.
           </p>
           <div class="product-details__action desktop-only">
             <SfButton class="sf-button--text color-secondary"
@@ -64,21 +52,26 @@
           </div>
           <!-- TODO: add size selector after design is added -->
           <div class="product-details__section desktop-only" >
-            <SfSelect
-              v-if="options.size"
-              :selected="configuration.size"
-              @change="size => updateFilter({ size })"
-              label="Size"
-              class="sf-select--underlined product-details__attribute"
-            >
-              <SfSelectOption
-                v-for="size in options.size"
-                :key="size.value"
-                :value="size.value"
+            <template v-for="attributes in configuration">
+              <SfSelect
+                v-if="attributes.values.length"
+                :label="attributes.name"
+                :key="attributes.name"
+                :selected="attributes.values[0].id_attribute"
+                class="sf-select--underlined product-details__attribute"
               >
-                <SfProductOption :label="size.label" />
-              </SfSelectOption>
-            </SfSelect>
+                <SfSelectOption
+                  v-for="option in attributes.values"
+                  :key="option.id_attribute"
+                  :value="option.id_attribute"
+                >
+                <slot v-bind="option">
+                  <SfProductOption :label="option.name" />
+                </slot>
+                </SfSelectOption>
+              </SfSelect>
+            </template>
+            
             <!-- TODO: add color picker after PR done by SFUI team -->
             <div v-if="options.color" class="product-details__colors desktop-only">
             <p class="product-details__color-label">Color:</p>
@@ -94,13 +87,14 @@
           </div>
           <div class="product-details__section desktop-only">
             <SfAddToCart
-              :stock="stock"
+              :qty="qty"
               v-model="qty"
               :disabled="loading"
-              :canAddToCart="stock > 0"
+              :canAddToCart="qty > 0"
               @click="addToCart(product, parseInt(qty))"
               class="product-details__add-to-cart"
-            />
+            >
+            </SfAddToCart>
             <div class="product-details__action">
               <SfButton class="sf-button--text color-secondary"
                 >Save for later</SfButton
@@ -112,8 +106,13 @@
               >
             </div>
           </div>
-          <SfTabs class="product-details__tabs" :openTab="2">
-            <SfTab title="Description">
+          
+        </SfSticky>
+      </div>
+    </div>
+    <div class="product__details">
+      <SfTabs class="product-details__tabs" :openTab="1">
+            <SfTab title="Szczegóły">
               <div v-html="productGetters.getDescription(product)" />
               <div class="product-details__properties">
                 <SfProperty
@@ -125,7 +124,7 @@
                 />
               </div>
             </SfTab>
-            <SfTab title="Read reviews">
+            <SfTab title="Opinie">
               <SfReview
                 class="product-details__review"
                 v-for="(review, i) in productGetters.getReviews(product)"
@@ -137,7 +136,19 @@
                 :max-rating="5"
               />
             </SfTab>
-            <SfTab title="Additional Information">
+            <SfTab title="Przesyłka">
+              <div v-html="productGetters.getDescription(product)" />
+              <div class="product-details__properties">
+                <SfProperty
+                  v-for="(property, i) in properties"
+                  :key="i"
+                  :name="property.name"
+                  :value="property.value"
+                  class="product-property"
+                />
+              </div>
+            </SfTab>
+            <SfTab title="Dodatkowe informacje">
               <SfHeading
                 title="Brand"
                 :level="3"
@@ -151,8 +162,6 @@
               </p>
             </SfTab>
           </SfTabs>
-        </SfSticky>
-      </div>
     </div>
     <!-- <RelatedProducts
       :products="relatedProducts"
@@ -205,36 +214,45 @@ import {
   SfReview,
   SfBreadcrumbs,
   SfButton,
-  SfColor
+  SfColor,
+  SfLink
 } from '@storefront-ui/vue';
 
 import InstagramFeed from '~/components/InstagramFeed.vue';
 // import RelatedProducts from '~/components/RelatedProducts.vue';
-import { computed } from '@vue/composition-api';
+import { computed, ref } from '@vue/composition-api';
 import { useProduct, useCart, productGetters } from '@jkawulok/prestashop-composables';
 import { onSSR } from '@vue-storefront/core';
 
 export default {
   name: 'Product',
   transition: 'fade',
+  scrollToTop: true,
   setup(props, context) {
     const { products, search } = useProduct('products');
     const product = computed(() => productGetters.getFiltered(products.value, { master: true, attributes: context.root.$route.query })[0]);
-    const qty = computed(() => productGetters.getStock(product.value));
-    const { id } = context.root.$route.params;
+    // const qty = computed(() => productGetters.getStock(product.value));
+    const qty = ref(1);
+    const { slug } = context.root.$route.params;
 
     // const { products: relatedProducts, search: searchRelatedProducts, loading: relatedLoading } = useProduct('relatedProducts');
     const { addToCart, loading } = useCart();
 
     // const stock = computed(() => productGetters.getStock(product.value));
-    // const stock = ref(10);
+    // 
     const properties = computed(() => productGetters.getProperties(product.value));
     const options = computed(() => productGetters.getAttributes(products.value, ['color', 'size']));
-    const configuration = computed(() => productGetters.getAttributes(product.value, ['color', 'size']));
+    const configuration = computed(() => product.value ? product.value.configurable_options : []);
     // const categories = computed(() => productGetters.getCategoryIds(product.value));
     const breadcrumbs = computed(() => productGetters.getBreadcrumbs(product.value));
+    const gallery = computed(() => productGetters.getGallery(product.value).map(image => ({
+      alt: '',
+      mobile: { url: image.small},
+      desktop: { url: image.normal},
+      zoom: { url: image.big},
+    })));
     onSSR(async () => {
-      await search({filter: { id: { eq: id } }});
+      await search({filter: { url_key: { eq: slug } }});
     });
 
     const updateFilter = (filter) => {
@@ -255,6 +273,7 @@ export default {
       addToCart,
       loading,
       productGetters,
+      gallery,
       properties
     };
   },
@@ -276,10 +295,12 @@ export default {
     SfReview,
     SfBreadcrumbs,
     SfButton,
+    SfLink,
     InstagramFeed
   },
   methods: {
     redirectTo(route) {
+      console.log(route);
       return this.$router.push(route.link);
     }
   },
@@ -320,7 +341,7 @@ export default {
     padding: 0 var(--spacer-sm);
     @include for-desktop {
       padding: 0;
-      margin: 0 0 0 calc(var(--spacer-xl) * 5);
+      margin: 0 0 0 calc(var(--spacer-xl));
     }
   }
 }
@@ -329,6 +350,7 @@ export default {
 }
 .product-details {
   &__heading {
+    --heading-title-font-size: 1.3rem;
     margin: var(--spacer-lg) 0 0 0;
     @include for-desktop {
       margin: var(--spacer-base) 0;

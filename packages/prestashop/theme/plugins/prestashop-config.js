@@ -1,6 +1,6 @@
 export const config = {
   api: {
-    catalogUri: 'https:/catalog.maleomi.pl/graphql',
+    catalogUri: 'https://catalog.maleomi.pl/graphql',
     storefrontUri: 'https://maleomi.pl/graphql'
   }
 };
