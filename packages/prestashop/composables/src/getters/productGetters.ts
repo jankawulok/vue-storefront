@@ -20,7 +20,7 @@ type AgnosticBreadcrumbsItem = {
 // Product
 export const getProductName = (product: Product): string => product ? (product as any).name : '';
 
-export const getProductSlug = (product: Product): string => product ? (product as any).id : '';
+export const getProductSlug = (product: Product): string => product ? (product as any).url_key : '';
 
 export const getProductPrice = (product: Product): AgnosticPrice => {
   const price = product ? product.original_price_incl_tax : null;
@@ -42,7 +42,7 @@ export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumbsItem
     .map((item) => ({
       text: item.name,
       route: {
-        link: '/c/' + item.slug
+        link: item.slug
       }
     }));
 

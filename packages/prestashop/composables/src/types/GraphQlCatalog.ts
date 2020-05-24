@@ -1,6 +1,5 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
-
 export type Maybe<T> = T | null;
 
 /** All built-in and custom scalars, mapped to their actual values */
@@ -16,7 +15,7 @@ export type Scalars = {
 };
 
 export type Attribute = {
-   __typename?: 'Attribute';
+  __typename?: 'Attribute';
   attribute_code?: Maybe<Scalars['String']>;
   entity_type?: Maybe<Scalars['String']>;
   attribute_type?: Maybe<Scalars['String']>;
@@ -34,7 +33,7 @@ export type Attribute = {
 };
 
 export type AttributeCombination = {
-   __typename?: 'AttributeCombination';
+  __typename?: 'AttributeCombination';
   id_attribute_group?: Maybe<Scalars['Int']>;
   is_color_group?: Maybe<Scalars['Int']>;
   public_group_name?: Maybe<Scalars['String']>;
@@ -65,13 +64,13 @@ export type AttributeInput = {
 };
 
 export type AttributeOption = {
-   __typename?: 'AttributeOption';
+  __typename?: 'AttributeOption';
   value?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
 };
 
 export type BundleOption = {
-   __typename?: 'BundleOption';
+  __typename?: 'BundleOption';
   option_id?: Maybe<Scalars['Int']>;
   position?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
@@ -82,7 +81,7 @@ export type BundleOption = {
 };
 
 export type BundleOptionLink = {
-   __typename?: 'BundleOptionLink';
+  __typename?: 'BundleOptionLink';
   price?: Maybe<Scalars['Float']>;
   qty?: Maybe<Scalars['Float']>;
   can_change_quantity?: Maybe<Scalars['Boolean']>;
@@ -99,7 +98,7 @@ export enum CacheControlScope {
 }
 
 export type Categories = EsResponseInterface & {
-   __typename?: 'Categories';
+  __typename?: 'Categories';
   items?: Maybe<Array<Maybe<Category>>>;
   page_info?: Maybe<SearchResultPageInfo>;
   total_count?: Maybe<Scalars['Int']>;
@@ -109,7 +108,7 @@ export type Categories = EsResponseInterface & {
 };
 
 export type Category = {
-   __typename?: 'Category';
+  __typename?: 'Category';
   id?: Maybe<Scalars['ID']>;
   parent_id?: Maybe<Scalars['ID']>;
   parent?: Maybe<Category>;
@@ -150,7 +149,7 @@ export type CategoryProductsArgs = {
 };
 
 export type CategoryBinding = {
-   __typename?: 'CategoryBinding';
+  __typename?: 'CategoryBinding';
   category_id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   slug?: Maybe<Scalars['ID']>;
@@ -194,7 +193,7 @@ export type CategorySortInput = {
 };
 
 export type CmsBlock = {
-   __typename?: 'CmsBlock';
+  __typename?: 'CmsBlock';
   identifier?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
@@ -204,7 +203,7 @@ export type CmsBlock = {
 };
 
 export type CmsBlocks = EsResponseInterface & {
-   __typename?: 'CmsBlocks';
+  __typename?: 'CmsBlocks';
   items?: Maybe<Array<Maybe<CmsBlock>>>;
   hits?: Maybe<Scalars['JSON']>;
   suggest?: Maybe<Scalars['JSON']>;
@@ -212,7 +211,7 @@ export type CmsBlocks = EsResponseInterface & {
 };
 
 export type CmsHierarchies = EsResponseInterface & {
-   __typename?: 'CmsHierarchies';
+  __typename?: 'CmsHierarchies';
   items?: Maybe<Array<Maybe<CmsHierarchy>>>;
   hits?: Maybe<Scalars['JSON']>;
   suggest?: Maybe<Scalars['JSON']>;
@@ -220,7 +219,7 @@ export type CmsHierarchies = EsResponseInterface & {
 };
 
 export type CmsHierarchy = {
-   __typename?: 'CmsHierarchy';
+  __typename?: 'CmsHierarchy';
   node_id?: Maybe<Scalars['Int']>;
   parent_node_id?: Maybe<Scalars['Int']>;
   page_id?: Maybe<Scalars['Int']>;
@@ -240,7 +239,7 @@ export type CmsInput = {
 };
 
 export type CmsPage = {
-   __typename?: 'CmsPage';
+  __typename?: 'CmsPage';
   page_id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
   identifier?: Maybe<Scalars['String']>;
@@ -253,7 +252,7 @@ export type CmsPage = {
 };
 
 export type CmsPages = EsResponseInterface & {
-   __typename?: 'CmsPages';
+  __typename?: 'CmsPages';
   items?: Maybe<Array<Maybe<CmsPage>>>;
   hits?: Maybe<Scalars['JSON']>;
   suggest?: Maybe<Scalars['JSON']>;
@@ -261,19 +260,19 @@ export type CmsPages = EsResponseInterface & {
 };
 
 export type ConfigurableOption = {
-   __typename?: 'ConfigurableOption';
+  __typename?: 'ConfigurableOption';
   name?: Maybe<Scalars['String']>;
   values?: Maybe<Array<Maybe<ConfigurableOptionValue>>>;
 };
 
 export type ConfigurableOptionValue = {
-   __typename?: 'ConfigurableOptionValue';
+  __typename?: 'ConfigurableOptionValue';
   name?: Maybe<Scalars['String']>;
   id_attribute?: Maybe<Scalars['String']>;
 };
 
 export type CustomAttributeMetadata = EsResponseInterface & {
-   __typename?: 'CustomAttributeMetadata';
+  __typename?: 'CustomAttributeMetadata';
   items?: Maybe<Array<Maybe<Attribute>>>;
   total_count?: Maybe<Scalars['Int']>;
   hits?: Maybe<Scalars['JSON']>;
@@ -282,7 +281,7 @@ export type CustomAttributeMetadata = EsResponseInterface & {
 };
 
 export type CustomOption = {
-   __typename?: 'CustomOption';
+  __typename?: 'CustomOption';
   image_size_x?: Maybe<Scalars['Int']>;
   image_size_y?: Maybe<Scalars['Int']>;
   max_characters?: Maybe<Scalars['Int']>;
@@ -294,7 +293,7 @@ export type CustomOption = {
 };
 
 export type CustomOptionValue = {
-   __typename?: 'CustomOptionValue';
+  __typename?: 'CustomOptionValue';
   price?: Maybe<Scalars['Float']>;
   price_type?: Maybe<Scalars['String']>;
   option_type_id?: Maybe<Scalars['ID']>;
@@ -302,8 +301,13 @@ export type CustomOptionValue = {
   sort_order?: Maybe<Scalars['Int']>;
 };
 
+export type EntityUrl = {
+  __typename?: 'EntityUrl';
+  type?: Maybe<UrlRewriteEntityTypeEnum>;
+};
+
 export type EsResponse = EsResponseInterface & {
-   __typename?: 'ESResponse';
+  __typename?: 'ESResponse';
   hits?: Maybe<Scalars['JSON']>;
   suggest?: Maybe<Scalars['JSON']>;
   aggregations?: Maybe<Scalars['JSON']>;
@@ -316,13 +320,13 @@ export type EsResponseInterface = {
 };
 
 export type Feature = {
-   __typename?: 'Feature';
+  __typename?: 'Feature';
   name?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
 };
 
 export type Filter = {
-   __typename?: 'Filter';
+  __typename?: 'Filter';
   type?: Maybe<Scalars['String']>;
   field?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
@@ -349,8 +353,54 @@ export type FilterTypeInput = {
   scope?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export type Manufacturer = {
+  __typename?: 'Manufacturer';
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  short_description?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['String']>;
+  products?: Maybe<Products>;
+};
+
+export type ManufacturerAggregationInput = {
+  field?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type ManufacturerFilterInput = {
+  id?: Maybe<FilterTypeInput>;
+  name?: Maybe<FilterTypeInput>;
+  description?: Maybe<FilterTypeInput>;
+  short_description?: Maybe<FilterTypeInput>;
+  image?: Maybe<FilterTypeInput>;
+  created_at?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['String']>;
+};
+
+export type Manufacturers = EsResponseInterface & {
+  __typename?: 'Manufacturers';
+  items?: Maybe<Array<Maybe<Manufacturer>>>;
+  page_info?: Maybe<SearchResultPageInfo>;
+  total_count?: Maybe<TotalCountInfo>;
+  aggregations?: Maybe<Scalars['JSON']>;
+  attribute_metadata?: Maybe<Array<Maybe<Attribute>>>;
+  sort_fields?: Maybe<SortFields>;
+  hits?: Maybe<Scalars['JSON']>;
+  suggest?: Maybe<Scalars['JSON']>;
+};
+
+export type ManufacturerSortInput = {
+  best_match?: Maybe<SortEnum>;
+  score?: Maybe<SortEnum>;
+  name?: Maybe<SortEnum>;
+  created_at?: Maybe<SortEnum>;
+  updated_at?: Maybe<SortEnum>;
+};
+
 export type MediaGalleryItem = {
-   __typename?: 'MediaGalleryItem';
+  __typename?: 'MediaGalleryItem';
   image?: Maybe<Scalars['String']>;
   pos?: Maybe<Scalars['Int']>;
   typ?: Maybe<Scalars['String']>;
@@ -363,7 +413,7 @@ export type MediaGalleryItem = {
 };
 
 export type Product = {
-   __typename?: 'Product';
+  __typename?: 'Product';
   id?: Maybe<Scalars['Int']>;
   url_key?: Maybe<Scalars['String']>;
   url_path?: Maybe<Scalars['String']>;
@@ -425,7 +475,7 @@ export type Product = {
   minimal_quantity?: Maybe<Scalars['Int']>;
   quantity_increment?: Maybe<Scalars['Int']>;
   features?: Maybe<Array<Maybe<Feature>>>;
-  is_in_stock?: Maybe<Scalars['Boolean']>;
+  in_stock?: Maybe<Scalars['Boolean']>;
   keyword?: Maybe<Scalars['String']>;
   media_gallery?: Maybe<Array<Maybe<MediaGalleryItem>>>;
   configurable_options?: Maybe<Array<Maybe<ConfigurableOption>>>;
@@ -454,6 +504,7 @@ export type ProductAggregationInput = {
 
 export type ProductFilterInput = {
   id?: Maybe<FilterTypeInput>;
+  url_key?: Maybe<FilterTypeInput>;
   name?: Maybe<FilterTypeInput>;
   sku?: Maybe<FilterTypeInput>;
   description?: Maybe<FilterTypeInput>;
@@ -491,18 +542,21 @@ export type ProductFilterInput = {
   gift_message_available?: Maybe<FilterTypeInput>;
   visibility?: Maybe<FilterTypeInput>;
   type_id?: Maybe<FilterTypeInput>;
-  is_in_stock?: Maybe<FilterTypeInput>;
+  in_stock?: Maybe<FilterTypeInput>;
   stock?: Maybe<StockFilterInput>;
   status?: Maybe<FilterTypeInput>;
   size?: Maybe<FilterTypeInput>;
   size_options?: Maybe<FilterTypeInput>;
-  color?: Maybe<FilterTypeInput>;
+  kolor?: Maybe<FilterTypeInput>;
+  seria?: Maybe<FilterTypeInput>;
+  wiek?: Maybe<FilterTypeInput>;
   color_options?: Maybe<FilterTypeInput>;
+  categories_without_path?: Maybe<FilterTypeInput>;
   or?: Maybe<ProductFilterInput>;
 };
 
 export type Products = EsResponseInterface & {
-   __typename?: 'Products';
+  __typename?: 'Products';
   items?: Maybe<Array<Maybe<Product>>>;
   page_info?: Maybe<SearchResultPageInfo>;
   total_count?: Maybe<TotalCountInfo>;
@@ -551,7 +605,7 @@ export type ProductSortInput = {
 };
 
 export type ProductTierPrice = {
-   __typename?: 'ProductTierPrice';
+  __typename?: 'ProductTierPrice';
   customer_group_id?: Maybe<Scalars['String']>;
   qty?: Maybe<Scalars['Float']>;
   value?: Maybe<Scalars['Float']>;
@@ -560,7 +614,7 @@ export type ProductTierPrice = {
 };
 
 export type Query = {
-   __typename?: 'Query';
+  __typename?: 'Query';
   version?: Maybe<Scalars['String']>;
   customAttributeMetadata?: Maybe<CustomAttributeMetadata>;
   attribute?: Maybe<Attribute>;
@@ -569,10 +623,13 @@ export type Query = {
   cmsPages?: Maybe<CmsPages>;
   cmsBlocks?: Maybe<CmsBlocks>;
   cmsHierarchies?: Maybe<CmsHierarchies>;
+  manufacturers?: Maybe<Manufacturers>;
+  manufacturer?: Maybe<Manufacturer>;
   products?: Maybe<Products>;
   product?: Maybe<Product>;
   reviews?: Maybe<Reviews>;
   taxrule?: Maybe<TaxRules>;
+  urlResolver?: Maybe<EntityUrl>;
   sayHello?: Maybe<Scalars['String']>;
   testElastic?: Maybe<Product>;
 };
@@ -618,6 +675,24 @@ export type QueryCmsHierarchiesArgs = {
   filter?: Maybe<CmsInput>;
 };
 
+export type QueryManufacturersArgs = {
+  search?: Maybe<Scalars['String']>;
+  filter?: Maybe<ManufacturerFilterInput>;
+  aggregation?: Maybe<Array<Maybe<ManufacturerAggregationInput>>>;
+  pageSize?: Maybe<Scalars['Int']>;
+  currentPage?: Maybe<Scalars['Int']>;
+  sort?: Maybe<ManufacturerSortInput>;
+  _sourceIncludes?: Maybe<Array<Maybe<Scalars['String']>>>;
+  _sourceExcludes?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type QueryManufacturerArgs = {
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  _sourceIncludes?: Maybe<Array<Maybe<Scalars['String']>>>;
+  _sourceExcludes?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type QueryProductsArgs = {
   search?: Maybe<Scalars['String']>;
   filter?: Maybe<ProductFilterInput>;
@@ -650,6 +725,10 @@ export type QueryTaxruleArgs = {
   filter?: Maybe<TaxRuleInput>;
 };
 
+export type QueryUrlResolverArgs = {
+  url: Scalars['String'];
+};
+
 export type QuerySayHelloArgs = {
   name?: Maybe<Scalars['String']>;
 };
@@ -659,7 +738,7 @@ export type QueryTestElasticArgs = {
 };
 
 export type Review = {
-   __typename?: 'Review';
+  __typename?: 'Review';
   id?: Maybe<Scalars['ID']>;
   title?: Maybe<Scalars['String']>;
   detail?: Maybe<Scalars['String']>;
@@ -676,7 +755,7 @@ export type ReviewFilterInput = {
 };
 
 export type Reviews = EsResponseInterface & {
-   __typename?: 'Reviews';
+  __typename?: 'Reviews';
   page_info?: Maybe<SearchResultPageInfo>;
   total_count?: Maybe<Scalars['Int']>;
   items?: Maybe<Array<Maybe<Review>>>;
@@ -686,7 +765,7 @@ export type Reviews = EsResponseInterface & {
 };
 
 export type SearchResultPageInfo = {
-   __typename?: 'SearchResultPageInfo';
+  __typename?: 'SearchResultPageInfo';
   page_size?: Maybe<Scalars['Int']>;
   current_page?: Maybe<Scalars['Int']>;
 };
@@ -697,13 +776,13 @@ export enum SortEnum {
 }
 
 export type SortField = {
-   __typename?: 'SortField';
+  __typename?: 'SortField';
   value?: Maybe<Scalars['String']>;
   label?: Maybe<Scalars['String']>;
 };
 
 export type SortFields = {
-   __typename?: 'SortFields';
+  __typename?: 'SortFields';
   default?: Maybe<Scalars['String']>;
   options?: Maybe<Array<Maybe<SortField>>>;
 };
@@ -714,7 +793,7 @@ export type StockFilterInput = {
 };
 
 export type StockItem = {
-   __typename?: 'StockItem';
+  __typename?: 'StockItem';
   item_id?: Maybe<Scalars['ID']>;
   product_id?: Maybe<Scalars['ID']>;
   stock_id?: Maybe<Scalars['ID']>;
@@ -728,7 +807,7 @@ export type StockItem = {
 };
 
 export type TaxRate = {
-   __typename?: 'TaxRate';
+  __typename?: 'TaxRate';
   tax_region_id?: Maybe<Scalars['Int']>;
   tax_country_id?: Maybe<Scalars['Int']>;
   titles?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -739,7 +818,7 @@ export type TaxRate = {
 };
 
 export type TaxRule = {
-   __typename?: 'TaxRule';
+  __typename?: 'TaxRule';
   id?: Maybe<Scalars['ID']>;
   code?: Maybe<Scalars['String']>;
   rates?: Maybe<Array<Maybe<TaxRate>>>;
@@ -757,7 +836,7 @@ export type TaxRuleInput = {
 };
 
 export type TaxRules = EsResponseInterface & {
-   __typename?: 'TaxRules';
+  __typename?: 'TaxRules';
   total_count?: Maybe<Scalars['Int']>;
   items?: Maybe<Array<Maybe<TaxRule>>>;
   hits?: Maybe<Scalars['JSON']>;
@@ -766,8 +845,12 @@ export type TaxRules = EsResponseInterface & {
 };
 
 export type TotalCountInfo = {
-   __typename?: 'TotalCountInfo';
+  __typename?: 'TotalCountInfo';
   value?: Maybe<Scalars['Int']>;
   relation?: Maybe<Scalars['String']>;
 };
 
+export enum UrlRewriteEntityTypeEnum {
+  Category = 'CATEGORY',
+  Product = 'PRODUCT'
+}

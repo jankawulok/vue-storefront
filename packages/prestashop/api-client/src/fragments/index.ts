@@ -9,6 +9,7 @@ export const ProductTileFragment = `
     image
     minimal_quantity
     quantity_increment
+    url_key
     media_gallery {
       image
       label
@@ -23,6 +24,7 @@ export const ProductTileFragment = `
 export const ProductFragment = `
   fragment ProductFragment on Product {
     id
+    url_key
     sku
     description
     breadcrumbs {
@@ -40,6 +42,7 @@ export const ProductFragment = `
     meta_title
     meta_keyword
     meta_description
+    image
     minimal_quantity
     quantity_increment
     media_gallery {

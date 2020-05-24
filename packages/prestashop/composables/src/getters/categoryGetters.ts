@@ -5,6 +5,8 @@ export const getCategoryName = (category: Category): string => category ? (categ
 
 export const getCategoryDescription = (category: Category): string => category ? (category as any).description : '';
 
+export const getCategorySlug = (category: Category): string => category ? (category as any).url_key : '';
+
 export const getCategoryTree = (category: Category): AgnosticCategoryTree | null => {
   if (!category) {
     return null;
@@ -50,7 +52,8 @@ const categoryGetters: CategoryGetters<Category> = {
   getTree: getCategoryTree,
   getName: getCategoryName,
   getDescription: getCategoryDescription,
-  getFilters: getCategoryAvailableFilters
+  getFilters: getCategoryAvailableFilters,
+  getSlug: getCategorySlug
 };
 
 export default categoryGetters;

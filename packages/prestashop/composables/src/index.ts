@@ -5,6 +5,8 @@ import useUser from './useUser';
 import useContent from './useContent';
 import useCheckout from './useCheckout';
 import useLocale from './useLocale';
+import useUrlResolver from './useUrlResolver';
+
 import {
   cartGetters,
   categoryGetters,
@@ -25,5 +27,6 @@ export {
   categoryGetters,
   checkoutGetters,
   productGetters,
-  userGetters
+  userGetters,
+  useUrlResolver
 };
