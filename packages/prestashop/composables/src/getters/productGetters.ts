@@ -2,19 +2,13 @@ import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
   AgnosticPrice,
-  ProductGetters
+  ProductGetters,
+  AgnosticBreadcrumb
 } from '@vue-storefront/core';
 import { createFormatPrice, createFormatDate } from './_utils';
 import { Product, MediaGalleryItem } from './../types/GraphQlCatalog';
 
 type ProductVariantFilters = any
-
-type AgnosticBreadcrumbsItem = {
-  text: string;
-  route: {
-    link: string;
-  };
-}
 
 // TODO: Add interfaces for some of the methods in core
 // Product
@@ -37,13 +31,11 @@ export const getProductRating = (product: Product): number => product && (produc
 
 export const getProductProperties = (product: Product): any => product && product.features ? product.features : [];
 
-export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumbsItem[] =>
+export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] =>
   (product ? product.breadcrumbs : [])
     .map((item) => ({
       text: item.name,
-      route: {
-        link: item.slug
-      }
+      link: item.slug
     }));
 
 export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] =>

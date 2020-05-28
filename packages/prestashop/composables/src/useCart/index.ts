@@ -7,7 +7,6 @@ import { ref, Ref } from '@vue/composition-api';
 export const cart: Ref<Cart> = ref(null);
 
 const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
-  cart,
   loadCart: async () => {
     const cartResponse = await getCart();
     console.log('loadCart', cartResponse);
@@ -56,5 +55,6 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
   }
 };
 
-const useCart: () => UseCart<Cart, CartItem, Product, any> = useCartFactory<Cart, CartItem, Product, any>(params);
-export default useCart;
+const { useCart, setCart } = useCartFactory<Cart, CartItem, Product, any>(params);
+
+export { useCart, setCart };

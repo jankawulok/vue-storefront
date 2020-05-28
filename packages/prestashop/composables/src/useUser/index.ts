@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 
-import { UseUser, useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
+import { useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
 import { customerLogin } from '@jkawulok/prestashop-api';
+import { Customer } from '../types/GraphQlStorefront';
 
 // @todo useUser
 
@@ -35,6 +36,6 @@ const params: UseUserFactoryParams<any, any, any> = {
   }
 };
 
-const useUser: () => UseUser<any, any> = useUserFactory<any, any, any>(params);
+const { useUser, setUser } = useUserFactory<Customer, any, any>(params);
 
-export default useUser;
+export { useUser, setUser };
