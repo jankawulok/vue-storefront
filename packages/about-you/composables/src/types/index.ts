@@ -1,5 +1,4 @@
 import { UseCategory } from '@vue-storefront/core';
-import { UseProduct } from '@vue-storefront/core';
 import { ComputedProperty } from '@vue-storefront/core';
 
 // Backbone types
@@ -11,6 +10,7 @@ import { WishlistItem, WishlistWith, WishlistResponseData } from '@aboutyou/back
 import { ProductSearchQuery } from '@aboutyou/backbone/types/ProductSearchQuery';
 import { ProductsSearchEndpointParameters, ProductSortConfig } from '@aboutyou/backbone/endpoints/products/products';
 import { CategoryBySlugEndpointParameters } from '@aboutyou/backbone/endpoints/categories/categoryBySlug';
+import { SearchSuggestionsEndpointParameters } from '@aboutyou/backbone/endpoints/search/suggestions';
 
 // @todo: replace with real BapiUser type when AYC publishes that part of api
 type BapiUser = {
@@ -46,6 +46,13 @@ type BapiShippingMethod = {
 
 }
 
+// @todo: fill missing types
+export type Filter = {
+  type: string;
+  key: string;
+  [x: string]: any;
+}
+
 export interface UseCompare<PRODUCT> {
   compare: ComputedProperty<PRODUCT[]>;
   addToCompare: (product: PRODUCT) => Promise<void>;
@@ -54,9 +61,30 @@ export interface UseCompare<PRODUCT> {
   loading: ComputedProperty<boolean>;
 }
 
+export interface UseSearch<SEARCH_RESULTS, SEARCH_PARAMS> {
+  search: (searchParams: SEARCH_PARAMS) => Promise<void>;
+  searchResults: ComputedProperty<SEARCH_RESULTS>;
+  loading: ComputedProperty<boolean>;
+}
+
+export interface SearchResults {
+  brands: {
+    id: number;
+    label: string;
+    value: string;
+  }[];
+  categories: BapiCategory[];
+  products: BapiProduct[];
+  suggestions: AgnosticSuggestion[];
+}
+
+export type AgnosticSuggestion = {
+  value: string;
+  [x: string]: any;
+}
+
 export {
   UseCategory,
-  UseProduct,
   BapiCoupon,
 
   // Mocked Types
@@ -80,5 +108,6 @@ export {
   ProductSearchQuery,
   ProductsSearchEndpointParameters,
   ProductSortConfig,
-  CategoryBySlugEndpointParameters
+  CategoryBySlugEndpointParameters,
+  SearchSuggestionsEndpointParameters
 };
