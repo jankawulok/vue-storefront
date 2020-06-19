@@ -1,9 +1,9 @@
 import { CartMutationResponse } from './../../types/Api';
-import { storefrontClient } from '../..';
+import { apolloClient } from '../..';
 import defaultMutation from './defaultMutatuion';
 
 const removeCoupon = async (): Promise<CartMutationResponse> => {
-  return await storefrontClient.mutate({
+  return await apolloClient.mutate({
     mutation: defaultMutation,
     fetchPolicy: 'no-cache'
   });

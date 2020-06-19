@@ -1,13 +1,13 @@
-import { storefrontClient } from '../../index';
-import { customerResponse } from '../../types/Api';
+import { apolloClient } from '../../index';
+import { CustomerResponse } from '../../types/Api';
 import defaultQuery from './defaultQuery';
 
-const getMe = async (): Promise<ProfileResponse> => {
-  return await storefrontClient.query({
+const getMe = async (): Promise<CustomerResponse> => {
+  return await apolloClient.query({
     query: defaultQuery,
     variables: {},
     fetchPolicy: 'no-cache'
   });
-}
+};
 
 export default getMe;

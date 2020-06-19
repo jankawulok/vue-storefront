@@ -1,11 +1,11 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { catalogClient } from './../../index';
+import { apolloClient } from './../../index';
 import { ProductSearch } from './../../types/Api';
 
 import {
   Products
-} from './../../types/GraphQlCatalog';
+} from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 
 interface ProductData {
@@ -18,12 +18,12 @@ const getProduct = async (
   if (search.customQuery) {
     const { query, variables } = search.customQuery;
 
-    return await catalogClient.query<ProductData>({
+    return await apolloClient.query<ProductData>({
       query: gql`${query}`,
       variables
     });
   }
-  return await catalogClient.query<ProductData>({
+  return await apolloClient.query<ProductData>({
     query: defaultQuery,
     variables: search
   });

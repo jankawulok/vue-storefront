@@ -1,11 +1,11 @@
 import { ApolloQueryResult } from 'apollo-client';
 import gql from 'graphql-tag';
-import { catalogClient } from './../../index';
+import { apolloClient } from './../../index';
 import { CategorySearch } from './../../types/Api';
 
 import {
   Categories
-} from './../../types/GraphQlCatalog';
+} from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 
 interface CategoryData {
@@ -16,19 +16,19 @@ const getCategory = async (
   search?: CategorySearch
 ): Promise<ApolloQueryResult<CategoryData>> => {
   if (!search) {
-    return await catalogClient.query<CategoryData>({
+    return await apolloClient.query<CategoryData>({
       query: defaultQuery
     });
   }
   if (search.customQuery) {
     const { query, variables } = search.customQuery;
 
-    return await catalogClient.query<CategoryData>({
+    return await apolloClient.query<CategoryData>({
       query: gql`${query}`,
       variables
     });
   }
-  return await catalogClient.query<CategoryData>({
+  return await apolloClient.query<CategoryData>({
     query: defaultQuery,
     variables: search
   });

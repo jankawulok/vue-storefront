@@ -1,7 +1,7 @@
 import ApolloClient from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { SetupConfig, SetupResponse } from './types/setup';
+import { SetupConfig } from './types/setup';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
 import addToCart from './api/addToCart';
@@ -15,8 +15,7 @@ import getCart from './api/getCart';
 import getUrlResolver from './api/getUrlResolver';
 import fetch from 'isomorphic-fetch';
 
-let catalogClient: ApolloClient<any> = null;
-let storefrontClient: ApolloClient<any> = null;
+let apolloClient: ApolloClient<any> = null;
 
 const locale = 'pl';
 const currency = 'PLN';
@@ -25,13 +24,9 @@ const countries = [];
 const currencies = [];
 const locales = [];
 
-const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): SetupResponse<TCacheShape> => {
-  catalogClient = new ApolloClient({
-    link: createHttpLink({ uri: setupConfig.api.catalogUri, fetch }),
-    cache: new InMemoryCache(),
-    ...setupConfig.customOptions
-  });
-  storefrontClient = new ApolloClient({
+const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): ApolloClient<TCacheShape> => {
+
+  apolloClient = new ApolloClient({
     link: createHttpLink({
       uri: setupConfig.api.storefrontUri,
       headers: {
@@ -48,12 +43,11 @@ const setup = <TCacheShape>(setupConfig?: SetupConfig<TCacheShape>): SetupRespon
     },
     ...setupConfig.customOptions
   });
-  return { catalogClient, storefrontClient };
+  return apolloClient;
 };
 
 export {
-  catalogClient,
-  storefrontClient,
+  apolloClient,
   getProduct,
   getCategory,
   getCart,

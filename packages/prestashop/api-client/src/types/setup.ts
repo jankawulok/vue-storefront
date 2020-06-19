@@ -1,4 +1,4 @@
-import { ApolloClientOptions, ApolloClient } from 'apollo-client';
+import { ApolloClientOptions } from 'apollo-client';
 
 export interface ApiConfig {
   catalogUri: string;
@@ -11,7 +11,3 @@ export interface SetupConfig<TCacheShape> {
   customOptions?: ApolloClientOptions<TCacheShape>;
 }
 
-export interface SetupResponse<TCacheShape> {
-    catalogClient: ApolloClient<TCacheShape>;
-    storefrontClient: ApolloClient<TCacheShape>;
-}

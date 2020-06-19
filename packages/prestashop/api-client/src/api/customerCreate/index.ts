@@ -1,10 +1,10 @@
 import { CustomerMutationResponse } from './../../types/Api';
-import { CustomerInput } from './../../types/GraphQlStorefront';
-import { storefrontClient } from '../..';
+import { CustomerInput } from './../../types/GraphQL';
+import { apolloClient } from '../..';
 import defaultMutation from './defaultMutation';
 
 const customerCreate = async (input: CustomerInput): Promise<CustomerMutationResponse> => {
-  return await storefrontClient.mutate({
+  return await apolloClient.mutate({
     mutation: defaultMutation,
     variables: {input: input},
     fetchPolicy: 'no-cache'
