@@ -1,0 +1,1 @@
+export { getProductPath } from './getProductPath';
