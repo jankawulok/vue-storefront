@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase, camelcase */
 import { UseCart, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { getCart, addToCart as apiAddToCart, removeFromCart as apiRemoveFromCart, applyCoupon as apiApplyCoupon, removeCoupon as apiRemoveCoupon} from '@jkawulok/prestashop-api';
-import { Product, Cart, CartItem, AddItemsToCartInput, RemoveItemFromCartInput } from './../types/GraphQlStorefront';
+import { Product, Cart, CartItem, AddItemsToCartInput, RemoveItemFromCartInput } from './../types/GraphQL';
 import { ref, Ref } from '@vue/composition-api';
 
 export const cart: Ref<Cart> = ref(null);
+export const error: Ref<any> = ref(null);
 
 const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
   loadCart: async () => {

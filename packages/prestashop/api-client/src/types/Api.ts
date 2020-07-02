@@ -29,6 +29,8 @@ export interface ProductSearch extends BaseSearch {
 export interface CategorySearch extends BaseSearch {
   filter?: CategoryFilterInput;
   sort?: CategorySortInput;
+  withProducts?: boolean;
+  navigation?: boolean;
 }
 export interface Filter {
   options: FilterOption[];

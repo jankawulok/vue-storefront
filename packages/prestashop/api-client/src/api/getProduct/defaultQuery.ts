@@ -6,11 +6,13 @@ export default gql`
   query products(
       $search: String
       $filter: ProductFilterInput
+      $postFilter: ProductFilterInput
       $pageSize: Int
       $currentPage: Int
       $sort: ProductSortInput
+      $aggregation:  ProductAggregationInput
     ){
-    products(search: $search, filter: $filter, sort: $sort, pageSize: $pageSize, currentPage: $currentPage, aggregation: $aggregation) {
+    products(search: $search, filter: $filter, postFilter: $postFilter, sort: $sort, pageSize: $pageSize, currentPage: $currentPage, aggregation: $aggregation) {
       total_count {
         value
         relation
@@ -18,13 +20,13 @@ export default gql`
       available_filters {
         count
         label
+        min
+        max
         attribute_code
         options {
           count
           label
           value
-          image
-          color
         }
       }
       items {

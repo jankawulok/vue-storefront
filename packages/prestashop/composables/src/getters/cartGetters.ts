@@ -1,5 +1,5 @@
 import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
-import { Cart, CartItem } from '../types/GraphQlStorefront';
+import { Cart, CartItem } from '../types/GraphQL';
 import { createFormatPrice } from './_utils';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars

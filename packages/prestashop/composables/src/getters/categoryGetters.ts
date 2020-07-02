@@ -1,11 +1,11 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { Category } from '../types/GraphQlCatalog';
+import { Category } from '../types/GraphQL';
 
 export const getCategoryName = (category: Category): string => category ? (category as any).name : '';
 
 export const getCategoryDescription = (category: Category): string => category ? (category as any).description : '';
 
-export const getCategorySlug = (category: Category): string => category ? (category as any).url_key : '';
+export const getCategorySlug = (category: Category): string => category ? (category as any).slug : '';
 
 export const getCategoryTree = (category: Category): AgnosticCategoryTree | null => {
   if (!category) {

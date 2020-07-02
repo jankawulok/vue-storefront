@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase, camelcase */
 
-import { CartItemInput } from '../../types/GraphQlStorefront';
+import { CartItemInput } from '../../types/GraphQL';
 
 export const createAddItemsToCartAction = (product: CartItemInput) => ({
   id: product.id,

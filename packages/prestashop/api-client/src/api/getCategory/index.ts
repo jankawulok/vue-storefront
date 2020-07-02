@@ -4,12 +4,16 @@ import { apolloClient } from './../../index';
 import { CategorySearch } from './../../types/Api';
 
 import {
-  Categories
+  Categories,
+  Category
 } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
+import withProducts from './withProducts';
+import navigationQuery from './navigation';
 
 interface CategoryData {
-    categories: Categories;
+    categories?: Categories;
+    category?: Category;
   }
 
 const getCategory = async (
@@ -26,6 +30,18 @@ const getCategory = async (
     return await apolloClient.query<CategoryData>({
       query: gql`${query}`,
       variables
+    });
+  }
+  if (search.withProducts) {
+    return await apolloClient.query<CategoryData>({
+      query: gql`${withProducts}`,
+      variables: search
+    });
+  }
+  if (search.navigation) {
+    return await apolloClient.query<CategoryData>({
+      query: gql`${navigationQuery}`,
+      variables: search
     });
   }
   return await apolloClient.query<CategoryData>({

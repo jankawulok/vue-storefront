@@ -3,7 +3,7 @@ import { ref, Ref } from '@vue/composition-api';
 
 import { useSSR } from '@vue-storefront/core';
 
-import { EntityUrl } from './../types/GraphQlCatalog';
+import { EntityUrl } from './../types/GraphQL';
 
 type Search = (String) => Promise<void>;
 

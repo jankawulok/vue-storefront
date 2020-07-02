@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
@@ -6,7 +7,7 @@ import {
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
 import { createFormatPrice, createFormatDate } from './_utils';
-import { Product, MediaGalleryItem } from './../types/GraphQlCatalog';
+import { Product, MediaGalleryItem } from './../types/GraphQL';
 
 type ProductVariantFilters = any
 
@@ -17,19 +18,19 @@ export const getProductName = (product: Product): string => product ? (product a
 export const getProductSlug = (product: Product): string => product ? (product as any).url_key : '';
 
 export const getProductPrice = (product: Product): AgnosticPrice => {
-  const price = product ? product.original_price_incl_tax : null;
-  const special = product ? product.special_price_incl_tax : null;
+  const price = product ? product?.original_price_incl_tax : null;
+  const special = product ? product?.special_price_incl_tax : null;
   return {
     regular: price,
     special: (special !== 0) && (special !== price) ? special : null
   };
 };
 
-export const getProductStock = (product: Product): number => product && product.stock && product.stock.qty ? product.stock.qty : 0;
+export const getProductStock = (product: Product): number => product.stock?.qty ? product.stock.qty : 0;
 
 export const getProductRating = (product: Product): number => product && (product as any).rating && ((product as any).rating !== 0) ? (product as any).rating : null;
 
-export const getProductProperties = (product: Product): any => product && product.features ? product.features : [];
+export const getProductProperties = (product: Product): any => product?.features ? product.features : [];
 
 export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] =>
   (product ? product.breadcrumbs : [])

@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import { useWishlistFactory, UseWishlistFactoryParams } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
-import { Product } from './../types/GraphQlCatalog';
+import { Product } from './../types/GraphQL';
 
 type WishlistProduct = {
 

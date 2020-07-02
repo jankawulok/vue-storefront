@@ -1,9 +1,9 @@
 /* istanbul ignore file */
 
 import { useUserFactory, UseUserFactoryParams } from '@vue-storefront/core';
-import { customerLogin } from '@jkawulok/prestashop-api';
-import { Customer } from '../types/GraphQlStorefront';
-
+import { customerLogin, customerLogout } from '@jkawulok/prestashop-api';
+import { Customer } from '../types/GraphQL';
+import { setCart } from '../useCart'
 // @todo useUser
 
 const params: UseUserFactoryParams<any, any, any> = {
@@ -12,7 +12,8 @@ const params: UseUserFactoryParams<any, any, any> = {
     return {};
   },
   logOut: async () => {
-    // @todo
+    const user = await customerLogout();
+    // setCart()
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async ({currentUser, updatedUserData}): Promise<any> => {

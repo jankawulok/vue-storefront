@@ -1,8 +1,7 @@
 import { ApolloClientOptions } from 'apollo-client';
 
 export interface ApiConfig {
-  catalogUri: string;
-  storefrontUri: string;
+  endpoint: string;
   scopes: string[];
 }
 

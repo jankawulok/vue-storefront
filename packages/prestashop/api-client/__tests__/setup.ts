@@ -4,8 +4,7 @@ jest.mock('apollo-client');
 
 setup({
   api: {
-    catalogUri: 'http://catalog.maleomi.pl/graphql',
-    storefrontUri: 'https://maleomi.pl/graphql',
+    endpoint: 'http://catalog.maleomi.pl/graphql',
     scopes: ['']
   }
 });
