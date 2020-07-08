@@ -41,7 +41,7 @@
     "test:e2e":"./node_modules/.bin/cypress open",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
-    "start:ps": "cd packages/commercetools/theme && yarn start",
+    "start:ps": "cd packages/prestashop/theme && yarn start",
     "dev:ayc:api-client": "cd packages/about-you/api-client && yarn dev",
     "dev:ayc:composables": "cd packages/about-you/composables && yarn dev",
     "dev:ct:api-client": "cd packages/commercetools/api-client && yarn dev",
