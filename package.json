@@ -39,6 +39,7 @@
     "test:storyblok": "cd packages/storyblok && yarn test --coverage",
     "test:ct": "yarn test:ct:api-client && yarn test:ct:composables",
     "test:e2e":"./node_modules/.bin/cypress open",
+    "test:cli": "cd packages/core/cli && yarn test",
     "start:ayc": "cd packages/about-you/theme && yarn start",
     "start:ct": "cd packages/commercetools/theme && yarn start",
     "start:ps": "cd packages/commercetools/theme && yarn start",
