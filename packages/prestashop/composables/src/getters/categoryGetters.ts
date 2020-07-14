@@ -1,4 +1,4 @@
-import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
+import { CategoryGetters, AgnosticCategoryTree, AgnosticBreadcrumb } from '@vue-storefront/core';
 import { Category } from '../types/GraphQL';
 
 export const getCategoryName = (category: Category): string => category ? (category as any).name : '';
@@ -47,13 +47,21 @@ export const getCategoryFiltered = (categories: Category[]): Category[] => {
   return categories;
 };
 
+export const getCategoryBreadcrumbs = (category: Category): AgnosticBreadcrumb[] =>
+  (category ? category.breadcrumbs : [])
+    .map((item) => ({
+      text: item.name,
+      link: item.slug
+    }));
+
 const categoryGetters: CategoryGetters<Category> = {
   getFiltered: getCategoryFiltered,
   getTree: getCategoryTree,
   getName: getCategoryName,
   getDescription: getCategoryDescription,
   getFilters: getCategoryAvailableFilters,
-  getSlug: getCategorySlug
+  getSlug: getCategorySlug,
+  getBreadcrumbs: getCategoryBreadcrumbs
 };
 
 export default categoryGetters;

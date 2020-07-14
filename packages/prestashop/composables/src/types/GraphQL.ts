@@ -299,6 +299,7 @@ export type Category = {
   display_mode?: Maybe<Scalars['String']>;
   is_anchor?: Maybe<Scalars['Boolean']>;
   page_layout?: Maybe<Scalars['String']>;
+  breadcrumbs?: Maybe<Array<Maybe<CategoryBinding>>>;
   filters?: Maybe<Array<Maybe<Filter>>>;
   products?: Maybe<Products>;
 };

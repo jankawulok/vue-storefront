@@ -15,6 +15,11 @@ query categories(
       name
       product_count
       description
+      breadcrumbs {
+        category_id
+        name
+        slug
+      }
       children {
         id
         url_key
