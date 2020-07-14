@@ -299,6 +299,7 @@ export type Category = {
   display_mode?: Maybe<Scalars['String']>;
   is_anchor?: Maybe<Scalars['Boolean']>;
   page_layout?: Maybe<Scalars['String']>;
+  breadcrumbs?: Maybe<Array<Maybe<CategoryBinding>>>;
   filters?: Maybe<Array<Maybe<Filter>>>;
   products?: Maybe<Products>;
 };
@@ -482,6 +483,7 @@ export type CustomerLoginResponse = {
   isLoggedIn?: Maybe<Scalars['Boolean']>;
   token?: Maybe<Scalars['String']>;
   customer?: Maybe<Customer>;
+  cart?: Maybe<Cart>;
 };
 
 export type CustomerLogoutResponse = {
@@ -489,6 +491,7 @@ export type CustomerLogoutResponse = {
   message?: Maybe<Scalars['String']>;
   isLoggedIn?: Maybe<Scalars['Boolean']>;
   customer?: Maybe<Customer>;
+  cart?: Maybe<Cart>;
 };
 
 export type CustomerOutput = {
@@ -1070,6 +1073,7 @@ export type QueryCategoriesArgs = {
 export type QueryCategoryArgs = {
   id?: Maybe<Scalars['ID']>;
   url_path?: Maybe<Scalars['String']>;
+  root?: Maybe<Scalars['Boolean']>;
   _sourceIncludes?: Maybe<Array<Maybe<Scalars['String']>>>;
   _sourceExcludes?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
