@@ -7,6 +7,10 @@ import { ref, Ref } from '@vue/composition-api';
 export const cart: Ref<Cart> = ref(null);
 export const error: Ref<any> = ref(null);
 
+const getBasketItemByProduct = ({ currentCart, product }) => {
+  return currentCart ? currentCart.items.find(item => item.id_product === product.id) : false;
+};
+
 const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
   loadCart: async () => {
     const cartResponse = await getCart();
@@ -50,9 +54,8 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
     const updatedCart = await apiRemoveCoupon();
     return { updatedCart: updatedCart.data.cart, updatedCoupon: null };
   },
-  isOnCart: ({ currentCart }) => {
-    console.log('Mocked isOnCart', currentCart);
-    return true;
+  isOnCart: ({ currentCart, product }) => {
+    return Boolean(getBasketItemByProduct({currentCart, product }));
   }
 };
 
