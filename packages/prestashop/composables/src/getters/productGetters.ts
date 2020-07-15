@@ -8,7 +8,7 @@ import {
 } from '@vue-storefront/core';
 import { createFormatPrice, createFormatDate } from './_utils';
 import { Product, MediaGalleryItem } from './../types/GraphQL';
-
+import { getSettings } from '@jkawulok/prestashop-api';
 type ProductVariantFilters = any
 
 // TODO: Add interfaces for some of the methods in core
@@ -42,13 +42,13 @@ export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] =>
 export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] =>
   (product ? product.media_gallery : [])
     .map((image: MediaGalleryItem) => ({
-      small: 'https://catalog.maleomi.pl/img/300/300/resize' + image.image,
-      big: 'https://catalog.maleomi.pl/img/1000/1000/resize' + image.image,
-      normal: 'https://catalog.maleomi.pl/img/800/800/resize' + image.image
+      small: getSettings().api.imgEndpoint + '/300/300/resize' + image.image,
+      big: getSettings().api.imgEndpoint + '/1000/1000/resize' + image.image,
+      normal: getSettings().api.imgEndpoint + '/800/800/resize' + image.image
     }));
 
 export const getProductCoverImage = (product: Product): string =>
-  product ? 'https://catalog.maleomi.pl/img/300/300/resize' + (product as any).image : '';
+  product ? getSettings().api.imgEndpoint + '/300/300/resize' + (product as any).image : '';
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: Product[], filters: ProductVariantFilters | any = {}): Product[] => {
   return products;

@@ -1,6 +1,7 @@
 import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
 import { Cart, CartItem } from '../types/GraphQL';
 import { createFormatPrice } from './_utils';
+import { getSettings } from '@jkawulok/prestashop-api';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getCartItems = (cart: Cart): CartItem[] => cart ? cart.items : [];
@@ -9,7 +10,7 @@ export const getCartItems = (cart: Cart): CartItem[] => cart ? cart.items : [];
 export const getCartItemName = (product: CartItem): string => product ? product.name : '';
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-export const getCartItemImage = (product: CartItem): string => 'https://catalog.maleomi.pl/img/300/300/resize' + product.cover;
+export const getCartItemImage = (product: CartItem): string => getSettings().api.imgEndpoint + '/300/300/resize' + product.cover;
 
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getCartItemPrice = (product: CartItem): AgnosticPrice => {

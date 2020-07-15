@@ -1,10 +1,11 @@
-import { locale, currency, country } from '@jkawulok/prestashop-api';
+import { getSettings } from '@jkawulok/prestashop-api';
 
 export const createFormatPrice = (price: number) => {
   if (!price) {
     return null;
   }
-  return new Intl.NumberFormat(`${locale}-${country}`, { style: 'currency', currency }).format(price);
+  const currency = getSettings().currency;
+  return new Intl.NumberFormat(`${getSettings().locale}-${getSettings().country}`, { style: 'currency', currency }).format(price);
 };
 
 export const createFormatDate = (date: string) => {
@@ -12,5 +13,5 @@ export const createFormatDate = (date: string) => {
     return null;
   }
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  return new Intl.DateTimeFormat(`${locale}-${country}`, options).format(new Date(date));
+  return new Intl.DateTimeFormat(`${getSettings().locale}-${getSettings().country}`, options).format(new Date(date));
 };
