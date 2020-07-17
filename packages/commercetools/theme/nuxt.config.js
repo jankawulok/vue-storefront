@@ -20,6 +20,10 @@ export default {
       { rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico' }
+    ],
+    script: [
+      { src: 'https://cdn.checkout.com/js/framesv2.min.js' }
+      // { src: 'https://x.klarnacdn.net/kp/lib/v1/api.js' }
     ]
   },
   loading: { color: '#fff' },
