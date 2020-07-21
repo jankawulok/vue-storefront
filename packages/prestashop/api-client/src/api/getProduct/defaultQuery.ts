@@ -23,6 +23,7 @@ export default gql`
         min
         max
         attribute_code
+        type
         options {
           count
           label

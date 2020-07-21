@@ -21,27 +21,6 @@ export const getCategoryTree = (category: Category): AgnosticCategoryTree | null
   return buildTree(getParent(category));
 };
 
-export const getCategoryAvailableFilters = (category: Category): any => {
-  if (!category || !category.products || !category.products.aggregations) {
-    return [];
-  }
-  const buildFilters = (bucket: any) =>
-    (bucket ? bucket : [])
-      .map((item) => ({
-        text: item.key,
-        count: item.doc_count,
-        value: item.key,
-        selected: false
-      }));
-  const filtersTransformed = Object.entries(category.products.aggregations).map(
-    ([filterCode, buckets]) => ({
-      label: filterCode,
-      values: (buckets as any).buckets ? buildFilters((buckets as any).buckets) : []
-    })
-  );
-  return filtersTransformed;
-};
-
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getCategoryFiltered = (categories: Category[]): Category[] => {
   return categories;
@@ -59,7 +38,6 @@ const categoryGetters: CategoryGetters<Category> = {
   getTree: getCategoryTree,
   getName: getCategoryName,
   getDescription: getCategoryDescription,
-  getFilters: getCategoryAvailableFilters,
   getSlug: getCategorySlug,
   getBreadcrumbs: getCategoryBreadcrumbs
 };

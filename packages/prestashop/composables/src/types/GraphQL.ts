@@ -62,6 +62,7 @@ export type Aggregation = {
   count?: Maybe<Scalars['Int']>;
   label?: Maybe<Scalars['String']>;
   attribute_code: Scalars['String'];
+  type: Scalars['String'];
   min?: Maybe<Scalars['Float']>;
   max?: Maybe<Scalars['Float']>;
   avg?: Maybe<Scalars['Float']>;

@@ -14,6 +14,7 @@ export interface ProductsSearchParams {
   search?: string;
   term?: Record<string, any>;
   filter?: Record<string, any>;
+  postFilter?: Record<string, any>;
   aggregation?: ProductAggregationInput,
   sort?: ProductSortInput;
   pageSize?: number;

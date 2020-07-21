@@ -7,34 +7,29 @@ const mapProductSearchByQueryParams = (params) => {
   const searchQuery: ProductsSearchParams = {};
   console.log(params);
   searchQuery.filter = {};
-  // let filters;
-  // if (params.filters) {
-  //   filters = Object.keys(params.filters).map(filter => {
-  //     const options = params.filters[filter].options.filter(option => option.selected);
-  //     return {
-  //       [filter]: {
-  //         in: options.map(option => option.key)
-  //       }
-  //     };
-  //   });
-  // }
-  // searchQuery.filter = params.filters
   if (params.term) {
     searchQuery.filter = params.term;
   }
-  let filters;
+  const filters = {};
   if (params.filters) {
-    filters = Object.keys(params.filters).map(filter => {
-      const options = params.filters[filter].buckets.filter(option => option.selected);
-      return {
-        in: options.map(option => option.id)
-      };
+    Object.keys(params.filters).map(filter => {
+      const options = params.filters[filter].options.filter(option => option.selected);
+      console.log(filter);
+      console.log(options);
+      if (options.length > 0) {
+        filters[filter] = {
+          in: options.map(option => option.value)
+        }
+      }
     });
   }
   if (params.catId) {
     searchQuery.filter = Object.assign({}, searchQuery.filter,  { category_with_parents: { in: params.catId} })
   }
-
+  console.log(filters);
+  if (filters) {
+    searchQuery.postFilter = filters;
+  }
   if (params.sort) {
     const [option, direction] = params.sort.split('-');
     const sortOptions: ProductSortInput = {
