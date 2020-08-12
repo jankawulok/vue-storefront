@@ -67,13 +67,14 @@ export type Aggregation = {
   max?: Maybe<Scalars['Float']>;
   avg?: Maybe<Scalars['Float']>;
   sum?: Maybe<Scalars['Float']>;
-  options?: Maybe<Array<Maybe<AggregationOption>>>;
+  options: Array<Maybe<AggregationOption>>;
 };
 
 export type AggregationOption = {
   __typename?: 'AggregationOption';
   count?: Maybe<Scalars['Int']>;
   label?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
   value: Scalars['String'];
   image?: Maybe<Scalars['String']>;
   color?: Maybe<Scalars['String']>;
@@ -263,6 +264,15 @@ export type CartRule = {
   description?: Maybe<Scalars['String']>;
 };
 
+export type CartUpdateAction = {
+  setDeliveryAddress?: Maybe<DeliveryAddressInput>;
+  setInvoiceAddress?: Maybe<InvoiceAddressInput>;
+  applyCoupon?: Maybe<Scalars['String']>;
+  removeCoupon?: Maybe<Scalars['Boolean']>;
+  setCarrier?: Maybe<CarrierInput>;
+  removeUnavailableItems?: Maybe<Scalars['Boolean']>;
+};
+
 export type Categories = EsResponseInterface & {
   __typename?: 'Categories';
   items?: Maybe<Array<Maybe<Category>>>;
@@ -307,8 +317,10 @@ export type Category = {
 
 
 export type CategoryProductsArgs = {
-  filter?: Maybe<ProductFilterInput>;
   search?: Maybe<Scalars['String']>;
+  filter?: Maybe<ProductFilterInput>;
+  postFilter?: Maybe<ProductFilterInput>;
+  aggregation?: Maybe<ProductAggregationInput>;
   pageSize?: Maybe<Scalars['Int']>;
   currentPage?: Maybe<Scalars['Int']>;
   sort?: Maybe<ProductSortInput>;
@@ -530,6 +542,7 @@ export type DeliveryAddressInput = {
 export type EntityUrl = {
   __typename?: 'EntityUrl';
   type?: Maybe<UrlRewriteEntityTypeEnum>;
+  result?: Maybe<Result>;
 };
 
 export type EsResponse = EsResponseInterface & {
@@ -664,6 +677,7 @@ export type Mutation = {
   setInvoiceAddress: Cart;
   placeOrder?: Maybe<PlaceOrderOutput>;
   removeUnavailableItems?: Maybe<RemoveUnavailableItemsResponse>;
+  cartUpdate: Cart;
   customerLogin?: Maybe<CustomerLoginResponse>;
   customerRegister?: Maybe<CustomerOutput>;
   customerLogout?: Maybe<CustomerLogoutResponse>;
@@ -711,6 +725,11 @@ export type MutationSetInvoiceAddressArgs = {
 
 export type MutationPlaceOrderArgs = {
   input?: Maybe<PlaceOrderInput>;
+};
+
+
+export type MutationCartUpdateArgs = {
+  actions?: Maybe<CartUpdateAction>;
 };
 
 
@@ -1182,6 +1201,8 @@ export type RemoveUnavailableItemsResponse = {
   cart: Cart;
   messages: Array<Maybe<Scalars['String']>>;
 };
+
+export type Result = Category | Product;
 
 export type Review = {
   __typename?: 'Review';

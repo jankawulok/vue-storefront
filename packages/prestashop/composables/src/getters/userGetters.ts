@@ -7,10 +7,13 @@ export const getUserLastName = (user: Customer): string => user ? user.lastname 
 
 export const getUserFullName = (user: Customer): string => user ? `${user.firstname} ${user.lastname}` : '';
 
+export const getUserEmail = (user: Customer): string => user ? user.email : '';
+
 const userGetters: UserGetters<Customer> = {
   getFirstName: getUserFirstName,
   getLastName: getUserLastName,
-  getFullName: getUserFullName
+  getFullName: getUserFullName,
+  getEmail: getUserEmail
 };
 
 export default userGetters;

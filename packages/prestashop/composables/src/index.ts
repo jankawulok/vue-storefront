@@ -2,6 +2,7 @@ import useProduct from './useProduct';
 import useCategory from './useCategory';
 import { setCart, useCart } from './useCart';
 import { useUser, setUser } from './useUser';
+import useUserOrders from './useUserOrders';
 import useContent from './useContent';
 import useCheckout from './useCheckout';
 import useLocale from './useLocale';
@@ -24,6 +25,7 @@ export {
   setCart,
   useUser,
   setUser,
+  useUserOrders,
   useContent,
   useCheckout,
   useLocale,
