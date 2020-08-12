@@ -33,6 +33,11 @@
     "build:ct:tools": "yarn build:core && yarn build:ct:api-client && yarn build:ct:composables",
     "build:ct:theme": "cd packages/commercetools/theme && yarn build",
     "build:ct": "yarn build:core && yarn build:ct:tools && yarn build:ct:theme",
+    "build:sp:api-client": "cd packages/shopify/api-client && yarn build",
+    "build:sp:composables": "cd packages/shopify/composables && yarn build",
+    "build:sp:tools": "yarn build:core && yarn build:sp:api-client && yarn build:sp:composables",
+    "build:sp:theme": "cd packages/shopify/theme && yarn build",
+    "build:sp": "yarn build:core && yarn build:sp:tools && yarn build:sp:theme",
     "build:ps:api-client": "cd packages/prestashop/api-client && yarn build",
     "build:ps:composables": "cd packages/prestashop/composables && yarn build",
     "build:ps:theme": "cd packages/prestashop/theme && yarn build",
@@ -67,8 +72,6 @@
     "lint": "eslint . --ext .js,.ts,.vue"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@rollup/plugin-babel": "^5.1.0",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^2.20.0",
@@ -108,6 +111,8 @@
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*",
+      "packages/about-you/*",
+      "packages/shopify/*",
       "packages/prestashop/*",
       "packages/storyblok"
     ],
