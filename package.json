@@ -61,6 +61,16 @@
     "dev:sp": "cd packages/shopify/theme && yarn dev",
     "link-packages": "lerna link --force-local",
     "lint": "eslint . --ext .js,.ts,.vue",
+    "build:ps:api-client": "cd packages/prestashop/api-client && yarn build",
+    "build:ps:composables": "cd packages/prestashop/composables && yarn build",
+    "build:ps:theme": "cd packages/prestashop/theme && yarn build",
+    "build:ps": "yarn build:core && yarn build:ps:api-client && yarn build:ps:composables && yarn build:ps:theme",
+    "build:storyblok": "cd packages/storyblok && yarn build",
+    "test:ps:api-client": "cd packages/prestashop/api-client && yarn test --coverage",
+    "test:ps:composables": "cd packages/prestashop/composables && yarn test --coverage",
+    "start:ps": "cd packages/prestashop/theme && yarn start",
+    "dev:ps:composables": "cd packages/prestashop/composables && yarn dev",
+    "dev:ps": "cd packages/prestashop/theme && yarn dev",
     "release": "cd scripts && yarn release"
   },
   "devDependencies": {
@@ -102,6 +112,9 @@
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*",
+      "packages/shopify/*",
+      "packages/prestashop/*",
+      "packages/storyblok",
       "packages/shopify/*"
     ],
     "nohoist": [
