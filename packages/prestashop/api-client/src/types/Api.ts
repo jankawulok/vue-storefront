@@ -6,6 +6,7 @@ import { ProductFilterInput,
   CategorySortInput,
   Cart,
   Customer,
+
   CustomerLoginResponse as ApiCustomerLoginResponse
 } from './GraphQL';
 
@@ -32,6 +33,12 @@ export interface CategorySearch extends BaseSearch {
   withProducts?: boolean;
   navigation?: boolean;
 }
+
+export interface CustomerParams {
+  customQuery?: CustomQuery;
+  withOrders?: boolean;
+}
+
 export interface Filter {
   options: FilterOption[];
   type: string;
@@ -46,7 +53,10 @@ export interface FilterOption {
 export type QueryResponse <K extends string, V> = ApolloQueryResult<Record<K, V>>
 export type CartQueryResponse = QueryResponse<'cart', Cart>
 export type MutationResponse <K extends string, V> = FetchResult<Record<K, V>>
-export type CartMutationResponse = MutationResponse<'cart', Cart>
+export type CartMutationResponse = MutationResponse<'cartUpdate', Cart>
+export type SetShippingAddressOnCartResponse = MutationResponse<'setShippingAddress', Cart>
+export type SetInvoiceAddressOnCartResponse = MutationResponse<'setInvoiceAddress', Cart>
 export type CustomerMutationResponse = MutationResponse<'customer', Customer>
-export type CustomerLoginResponse = MutationResponse<'customer', ApiCustomerLoginResponse>
+export type CustomerLoginResponse = MutationResponse<'customerLogin', ApiCustomerLoginResponse>
 export type CustomerResponse = QueryResponse<'customer', Customer>
+export type CustomerChangePasswordResponse = MutationResponse<'customerChangePassword', boolean>

@@ -12,8 +12,8 @@ export interface SetupConfig<TCacheShape> {
   currency?: string;
   locale?: string;
   country?: string;
-  countries?: LocaleItem[];
-  currencies?: LocaleItem[];
-  locales?: LocaleItem[];
+  countries?: string[];
+  currencies?: string[];
+  locales?: string[];
 }
 

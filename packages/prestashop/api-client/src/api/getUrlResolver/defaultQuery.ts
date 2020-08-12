@@ -6,6 +6,30 @@ query urlResolver(
   ) {
     urlResolver(url: $url) {
     type
+    result {
+      ... on Category {
+        id
+        url_key
+        name
+        product_count
+        description
+        breadcrumbs {
+          category_id
+          name
+          slug
+        }
+        children {
+          id
+          url_key
+          name
+          product_count
+        }
+      }
+      ... on Product {
+        name
+        url_key
+      }
+    }
   }
 }
 `;

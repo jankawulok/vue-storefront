@@ -12,14 +12,16 @@ import removeCoupon from './api/removeCoupon';
 import customerLogin from './api/customerLogin';
 import customerCreate from './api/customerCreate';
 import customerLogout from './api/customerLogout';
+import updateCart from './api/updateCart';
+import getMe from './api/getMe';
 import getCart from './api/getCart';
 import getUrlResolver from './api/getUrlResolver';
 import fetch from 'isomorphic-fetch';
+import * as cartActions from './helpers/cart/actions';
 
 let apolloClient: ApolloClient<any> = null;
 
-
-const { setup, override, update, getSettings } = apiClientFactory<any, any>({
+const { setup, getSettings } = apiClientFactory<any, any>({
   defaultSettings: {},
   onSetup: <TCacheShape>(setupConfig: SetupConfig<TCacheShape>) => {
     // todo: add possibility to override
@@ -57,6 +59,8 @@ export {
   getProduct,
   getCategory,
   getCart,
+  updateCart,
+  cartActions,
   addToCart,
   removeFromCart,
   applyCoupon,
@@ -64,6 +68,7 @@ export {
   customerLogin,
   customerLogout,
   customerCreate,
+  getMe,
   setup,
   getUrlResolver
 };

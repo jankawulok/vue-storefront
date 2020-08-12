@@ -1,1 +1,6 @@
-**/GraphQL*.ts
+**/node_modules/**/*
+**/lib/*
+**/GraphQL.ts
+!**/.vuepress/**/*
+packages/about-you/composables/nuxt/plugin.js
+packages/commercetools/composables/nuxt/plugin.js
