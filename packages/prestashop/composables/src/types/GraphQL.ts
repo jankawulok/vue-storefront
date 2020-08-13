@@ -1331,3 +1331,5 @@ export enum UrlRewriteEntityTypeEnum {
   Category = 'CATEGORY',
   Product = 'PRODUCT'
 }
+
+export type ProductVariant = Product & AttributeCombination;

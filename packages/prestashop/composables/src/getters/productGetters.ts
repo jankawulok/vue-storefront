@@ -7,12 +7,15 @@ import {
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
 import { createFormatPrice, createFormatDate } from './_utils';
-import { Product, MediaGalleryItem } from './../types/GraphQL';
+import { Product, MediaGalleryItem, ProductVariant } from './../types/GraphQL';
 import { getSettings } from '@jkawulok/prestashop-api';
-type ProductVariantFilters = any
 
-// TODO: Add interfaces for some of the methods in core
-// Product
+interface ProductVariantFilters {
+  idProductAttribute?: number;
+  master?: boolean;
+  attributes?: Record<string, string>;
+}
+
 export const getProductName = (product: Product): string => product ? (product as any).name : '';
 
 export const getProductSlug = (product: Product): string => product ? (product as any).url_key : '';
@@ -26,20 +29,20 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
   };
 };
 
-export const getProductStock = (product: Product): number => product.stock?.qty ? product.stock.qty : 0;
+export const getProductStock = (product: ProductVariant): number => product.stock?.qty ? product.stock.qty : 0;
 
-export const getProductRating = (product: Product): number => product && (product as any).rating && ((product as any).rating !== 0) ? (product as any).rating : null;
+export const getProductRating = (product: ProductVariant): number => product && (product as any).rating && ((product as any).rating !== 0) ? (product as any).rating : null;
 
-export const getProductProperties = (product: Product): any => product?.features ? product.features : [];
+export const getProductProperties = (product: ProductVariant): any => product?.features ? product.features : [];
 
-export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] =>
+export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcrumb[] =>
   (product ? product.breadcrumbs : [])
     .map((item) => ({
       text: item.name,
       link: item.slug
     }));
 
-export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] =>
+export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] =>
   (product ? product.media_gallery : [])
     .map((image: MediaGalleryItem) => ({
       small: getSettings().api.imgEndpoint + '/300/300/resize' + image.image,
@@ -49,26 +52,37 @@ export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] 
 
 export const getProductCoverImage = (product: Product): string =>
   product ? getSettings().api.imgEndpoint + '/300/300/resize' + (product as any).image : '';
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: Product[], filters: ProductVariantFilters | any = {}): Product[] => {
-  return products;
+
+export const getProductFiltered = (products: Product[], filters: ProductVariantFilters): ProductVariant[] => {
+  if (!products) {
+    return [];
+  }
+  if (filters.idProductAttribute) {
+    const attribute = products[0].attributes_combinations.find((variant) => variant.id_product_attribute === filters.idProductAttribute);
+    return [{...products[0], ...attribute} as ProductVariant];
+  }
+  if (filters.master) {
+    const attribute = products[0].attributes_combinations.find((variant) => variant.default_on === 1);
+    return [{...products[0], ...attribute} as ProductVariant];
+  }
+  return products as ProductVariant[];
 };
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
   return {};
 };
 
-export const getProductDescription = (product: Product): any => product ? (product as any).description : '';
+export const getProductDescription = (product: ProductVariant): any => product?.description ? product.description : '';
 
-export const getProductCategoryIds = (product: Product): string[] => (product as any).category_ids;
+export const getProductCategoryIds = (product: ProductVariant): string[] => product?.category_ids;
 
-export const getProductId = (product: Product): string => (product as any).id;
+export const getProductId = (product: ProductVariant): string => product?.id.toString();
 
 export const getFormattedPrice = (price: number) => createFormatPrice(price);
 
-export const getProductMinSaleQty = (product: Product): number => product ? (product as any).minimal_quantity : 1;
+export const getProductMinSaleQty = (product: ProductVariant): number => product?.minimal_quantity ? product.minimal_quantity : 1;
 
-export const getProductReviews = (product: Product) =>
+export const getProductReviews = (product: ProductVariant) =>
   (product ? product.reviews.items : [])
     .map((item) => ({
       author: item.nickname,
@@ -77,7 +91,7 @@ export const getProductReviews = (product: Product) =>
       rating: 4
     }));
 
-const productGetters: ProductGetters<Product, ProductVariantFilters> = {
+const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,
