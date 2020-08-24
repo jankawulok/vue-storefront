@@ -1,6 +1,6 @@
 import { UseProduct } from '../types';
-import { ref, Ref, computed } from '@vue/composition-api';
-import { useSSR } from '../utils';
+import { Ref, computed } from '@vue/composition-api';
+import { sharedRef } from '../utils';
 
 type SearchParams = {
   perPage?: number;
@@ -10,37 +10,36 @@ type SearchParams = {
   filters?: any;
 }
 
-export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS> {
+export interface ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
   data: PRODUCT[];
   total: number;
   availableFilters?: PRODUCT_FILTERS;
+  availableSortingOptions?: SORTING_OPTIONS;
 }
 
-export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS> = {
-  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS>>;
+export type UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS extends SearchParams, PRODUCT_FILTERS, SORTING_OPTIONS> = {
+  productsSearch: (searchParams: PRODUCT_SEARCH_PARAMS) => Promise<ProductsSearchResult<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS>>;
 };
 
-export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS>(
-  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS>
+export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>(
+  factoryParams: UseProductFactoryParams<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS>
 ) {
-  return function useProduct(cacheId: string): UseProduct<PRODUCT, PRODUCT_FILTERS> {
-    const { initialState, saveToInitialState } = useSSR(cacheId);
-    const products: Ref<PRODUCT[]> = ref(initialState?.data || []);
-    const totalProducts: Ref<number> = ref(initialState?.total || 0);
-    const filters: Ref<PRODUCT_FILTERS> = ref(initialState?.availableFilters || null);
-    const loading = ref(false);
+  return function useProduct(id: string): UseProduct<PRODUCT, PRODUCT_FILTERS, SORTING_OPTIONS> {
+    const products: Ref<PRODUCT[]> = sharedRef([], `useProduct-products-${id}`);
+    const totalProducts: Ref<number> = sharedRef(0, `useProduct-totalProducts-${id}`);
+    const filters: Ref<PRODUCT_FILTERS> = sharedRef(null, `useProduct-filters-${id}`);
+    const sortingOptions: Ref<SORTING_OPTIONS> = sharedRef(null, `useProduct-sortingOptions-${id}`);
+    const loading = sharedRef(false, `useProduct-loading-${id}`);
 
     const search = async (params: PRODUCT_SEARCH_PARAMS) => {
-      if (!initialState) {
-        loading.value = true;
-      }
+      loading.value = true;
       filters.value = null;
       try {
-        const { data, total, availableFilters } = await factoryParams.productsSearch(params);
+        const { data, total, availableFilters, availableSortingOptions } = await factoryParams.productsSearch(params);
         products.value = data;
         totalProducts.value = total;
         filters.value = availableFilters || null;
-        saveToInitialState({ data, total, availableFilters });
+        sortingOptions.value = availableSortingOptions || null;
       } finally {
         loading.value = false;
       }
@@ -48,9 +47,10 @@ export function useProductFactory<PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTER
 
     return {
       products: computed(() => products.value),
-      totalProducts: computed(() => totalProducts.value),
       availableFilters: computed(() => filters.value),
+      totalProducts: computed(() => totalProducts.value),
       search,
+      availableSortingOptions: computed(() => sortingOptions.value),
       loading: computed(() => loading.value)
     };
   };

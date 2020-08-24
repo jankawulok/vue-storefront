@@ -1,29 +1,33 @@
-import { ref, Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@vue/composition-api';
 import { UseUser } from '../types';
-import { useSSR, onSSR } from '../../src/utils';
+import { sharedRef, onSSR } from '../utils';
 
-export type UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> = {
+export interface UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS> {
   loadUser: () => Promise<USER>;
   logOut: (params?: {currentUser?: USER}) => Promise<void>;
   updateUser: (params: {currentUser: USER; updatedUserData: UPDATE_USER_PARAMS}) => Promise<USER>;
   register: (params: REGISTER_USER_PARAMS) => Promise<USER>;
   logIn: (params: { username: string; password: string }) => Promise<USER>;
   changePassword: (params: {currentUser: USER; currentPassword: string; newPassword: string}) => Promise<USER>;
-};
+}
 
-export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
+interface UseUserFactory<USER, UPDATE_USER_PARAMS> {
+  useUser: () => UseUser<USER, UPDATE_USER_PARAMS>;
+  setUser: (user: USER) => void;
+}
+
+export const useUserFactory = <USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS extends { email: string; password: string }>(
   factoryParams: UseUserFactoryParams<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS>
-) {
-  const user: Ref<USER> = ref(null);
-  const loading: Ref<boolean> = ref(false);
-  const isAuthenticated = computed(
-    () => user.value && Object.keys(user.value).length > 0
-  );
+): UseUserFactory<USER, UPDATE_USER_PARAMS> => {
 
-  return function useUser(): UseUser<USER, UPDATE_USER_PARAMS> {
-    const { initialState, saveToInitialState } = useSSR('vsf-user');
+  const setUser = (newUser: USER) => {
+    sharedRef('useUser-user').value = newUser;
+  };
 
-    user.value = initialState || null;
+  const useUser = (): UseUser<USER, UPDATE_USER_PARAMS> => {
+    const user: Ref<USER> = sharedRef(null, 'useUser-user');
+    const loading: Ref<boolean> = sharedRef(false, 'useUser-loading');
+    const isAuthenticated = computed(() => Boolean(user.value));
 
     const updateUser = async (params: UPDATE_USER_PARAMS) => {
       loading.value = true;
@@ -64,7 +68,7 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
     const logout = async () => {
       try {
         await factoryParams.logOut();
-        user.value = {} as USER;
+        user.value = null;
       } catch (err) {
         throw new Error(err);
       }
@@ -85,7 +89,6 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading.value = true;
       try {
         user.value = await factoryParams.loadUser();
-        saveToInitialState(user.value);
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -112,4 +115,6 @@ export function useUserFactory<USER, UPDATE_USER_PARAMS, REGISTER_USER_PARAMS ex
       loading: computed(() => loading.value)
     };
   };
-}
+
+  return { useUser, setUser };
+};
