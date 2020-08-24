@@ -1,0 +1,65 @@
+/* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase, camelcase */
+import { UseCart, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { getCart, addToCart as apiAddToCart, removeFromCart as apiRemoveFromCart, applyCoupon as apiApplyCoupon, removeCoupon as apiRemoveCoupon} from '@jkawulok/prestashop-api';
+import { Product, Cart, CartItem, AddItemsToCartInput, RemoveItemFromCartInput, ProductVariant } from './../types/GraphQL';
+import { ref, Ref } from '@vue/composition-api';
+
+export const cart: Ref<Cart> = ref(null);
+export const error: Ref<any> = ref(null);
+
+const getBasketItemByProduct = ({ currentCart, product }) => {
+  return currentCart ? currentCart.items.find(item => item.id_product === product.id) : false;
+};
+
+const params: UseCartFactoryParams<Cart, CartItem, ProductVariant, any> = {
+  loadCart: async () => {
+    const cartResponse = await getCart();
+    console.log('loadCart', cartResponse);
+    return cartResponse.data.cart;
+  },
+  addToCart: async ({ product, quantity }) => {
+    const updatedCart = await apiAddToCart({
+      cart_items: [
+        {
+          id: product.id.toString(),
+          id_product_attribute: product.id_product_attribute ? product.id_product_attribute: 0,
+          quantity: quantity
+        }
+      ]
+    } as AddItemsToCartInput);
+    console.log('addToCart', updatedCart);
+    return updatedCart.data.cart;
+  },
+  removeFromCart: async ({ product }) => {
+    const updateResponse = await apiRemoveFromCart({
+      idProduct: product.id_product,
+      idProductAttribute: product.id_product_attribute ? product.id_product_attribute: 0
+    } as RemoveItemFromCartInput);
+    return updateResponse.data.cart;
+  },
+  updateQuantity: async ({ currentCart, product, quantity }) => {
+    // const updatedCart = await apiUpdateCartQuantity(product, quantity);
+    // return updatedCart.data.cart;
+    console.log('Mocked updateQuantity', currentCart);
+    return currentCart;
+  },
+  clearCart: async ({ currentCart }) => {
+    console.log('Mocked clearCart', currentCart);
+    return currentCart;
+  },
+  applyCoupon: async ({ coupon }) => {
+    const updatedCart = await apiApplyCoupon(coupon);
+    return { updatedCart: updatedCart.data.cart, updatedCoupon: coupon };
+  },
+  removeCoupon: async () => {
+    const updatedCart = await apiRemoveCoupon();
+    return { updatedCart: updatedCart.data.cart, updatedCoupon: null };
+  },
+  isOnCart: ({ currentCart, product }) => {
+    return Boolean(getBasketItemByProduct({currentCart, product }));
+  }
+};
+
+const { useCart, setCart } = useCartFactory<Cart, CartItem, ProductVariant, any>(params);
+
+export { useCart, setCart };

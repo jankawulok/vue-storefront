@@ -105,7 +105,13 @@
       "packages/core/*",
       "packages/prismic",
       "packages/about-you/*",
-      "packages/shopify/*"
+      "packages/shopify/*",
+      "packages/core/core",
+      "packages/core/nuxt-module",
+      "packages/core/nuxt-theme-module",
+      "packages/core/theme-module",
+      "packages/prestashop/*",
+      "packages/storyblok"
     ],
     "nohoist": [
       "**/**/**"

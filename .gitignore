@@ -6,3 +6,5 @@ lerna-debug.log
 .idea
 .vscode
 .npmrc
+
+.vercel

@@ -1,0 +1,25 @@
+{
+  "name": "@jkawulok/recombee",
+  "descrition": "Recombee integration for VueStorefront Next",
+  "author": "Jan Kawulok",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.es.js",
+  "types": "lib/index.d.ts",
+  "version": "0.0.1",
+  "sideEffect": false,
+  "dependencies": {
+    "@vue-storefront/core": "^2.0.1-prealpha.429",
+    "@vue/composition-api": "^0.3.4",
+    "recombee-js-api-client": "^3.0.0"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest"
+  },
+  "files": [
+    "lib/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
