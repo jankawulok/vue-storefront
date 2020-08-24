@@ -71,7 +71,8 @@
     "start:ps": "cd packages/prestashop/theme && yarn start",
     "dev:ps:composables": "cd packages/prestashop/composables && yarn dev",
     "dev:ps": "cd packages/prestashop/theme && yarn dev",
-    "release": "cd scripts && yarn release"
+    "release": "cd scripts && yarn release",
+    "cli": "cd packages/core/cli && yarn cli"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
