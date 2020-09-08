@@ -20,12 +20,24 @@ query categories(
         name
         slug
       }
+      parent {
+        id
+        url_key
+        name
+        product_count
+        children {
+          id
+          url_key
+          name
+          product_count
+        }
+      }
       children {
         id
         url_key
         name
         product_count
-      }
+      } 
     }
   }
 }

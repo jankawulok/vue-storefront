@@ -1,23 +1,37 @@
 export const ProductTileFragment = `
-  fragment ProductTile on Product {
+  fragment ProductTileFragment on Product {
     id
-    name
+    url_key
+    sku
+    description
     price
     price_incl_tax
     original_price_incl_tax
     special_price_incl_tax
+    name
+    manufacturer
+    meta_title
+    meta_keyword
     image
-    minimal_quantity
-    quantity_increment
-    url_key
     media_gallery {
       image
       label
     }
     stock {
+      is_in_stock
       qty
+      max_sale_qty
     }
     rating
+    attributes_combinations {
+      id_attribute_group
+      id_attribute
+      id_product_attribute
+      price
+      price_wt
+      special_price
+      special_price_wt
+    }
   }
 `;
 

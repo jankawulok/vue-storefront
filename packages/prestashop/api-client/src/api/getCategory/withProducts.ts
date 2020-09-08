@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
-import { ProductFragment } from './../../fragments';
+import { ProductTileFragment } from './../../fragments';
 
 export default gql`
-${ProductFragment}
+${ProductTileFragment}
 query categories(
   $search: String, 
   $filter: CategoryFilterInput, 
@@ -29,6 +29,36 @@ query categories(
         name
         slug
       }
+      parent {
+        id
+        url_key
+        name
+        product_count
+        children {
+          id
+          url_key
+          name
+          product_count
+          children {
+            id
+            url_key
+            name
+            product_count
+          } 
+        }
+      }
+      children {
+        id
+        url_key
+        name
+        product_count
+        children {
+          id
+          url_key
+          name
+          product_count
+        } 
+      } 
       products(search: $productSearch, filter: $productFilter, postFilter: $productPostFilter, sort: $productSort, pageSize: $productPageSize, currentPage: $productCurrentPage, aggregation: $productAggregation) {
       total_count {
         value
@@ -48,15 +78,10 @@ query categories(
         }
       }
       items {
-        ...ProductFragment
+        ...ProductTileFragment
       }
     }
-      children {
-        id
-        url_key
-        name
-        product_count
-      }
+     
 
     }
   }
