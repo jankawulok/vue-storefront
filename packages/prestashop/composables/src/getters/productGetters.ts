@@ -1,4 +1,8 @@
 /* eslint-disable camelcase */
+/* istanbul ignore file */
+/* eslint-disable */
+
+
 import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
@@ -57,14 +61,14 @@ export const getProductFiltered = (products: Product[], filters: ProductVariantF
   if (!products) {
     return [];
   }
-  if (filters.idProductAttribute) {
-    const attribute = products[0].attributes_combinations.find((variant) => variant.id_product_attribute === filters.idProductAttribute);
-    return [{...products[0], ...attribute} as ProductVariant];
-  }
-  if (filters.master) {
-    const attribute = products[0].attributes_combinations.find((variant) => variant.default_on === 1);
-    return [{...products[0], ...attribute} as ProductVariant];
-  }
+  // if (filters.idProductAttribute) {
+  //   const attribute = products[0].attributes_combinations?.find((variant) => variant.id_product_attribute === filters.idProductAttribute);
+  //   return [{...products[0], ...attribute} as ProductVariant];
+  // }
+  // if (filters.master) {
+  //   const attribute = products[0].attributes_combinations?.find((variant) => variant.default_on === 1);
+  //   return [{...products[0], ...attribute} as ProductVariant];
+  // }
   return products as ProductVariant[];
 };
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -83,7 +87,7 @@ export const getFormattedPrice = (price: number) => createFormatPrice(price);
 export const getProductMinSaleQty = (product: ProductVariant): number => product?.minimal_quantity ? product.minimal_quantity : 1;
 
 export const getProductReviews = (product: ProductVariant) =>
-  (product ? product.reviews.items : [])
+  (product?.reviews?.items ? product.reviews.items : [])
     .map((item) => ({
       author: item.nickname,
       date: createFormatDate(item.created_at),

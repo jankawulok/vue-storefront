@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
-import { ProductSortInput, ProductAggregationInput } from '../types/GraphQL'
+import { ProductSortInput, ProductAggregationInput } from '../types/GraphQL';
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 export type OrderSearchParams = {
   id?: string;
@@ -10,12 +10,30 @@ export type OrderSearchParams = {
   perPage?: number;
 };
 
+export interface CategorySearchParams {
+  withProducts?: boolean;
+  customQuery?: string;
+  navigation?: boolean;
+  search?: string;
+  filter?: Record<string, any>;
+  sort?: ProductSortInput;
+  pageSize?: number;
+  currentPage?: number;
+  productSearch?: string;
+  productFilter?: Record<string, any>;
+  productPostFilter?: Record<string, any>;
+  productAggregation?: ProductAggregationInput;
+  productSort?: ProductSortInput;
+  productPageSize?: number;
+  productCurrentPage?: number;
+}
+
 export interface ProductsSearchParams {
   search?: string;
   term?: Record<string, any>;
   filter?: Record<string, any>;
   postFilter?: Record<string, any>;
-  aggregation?: ProductAggregationInput,
+  aggregation?: ProductAggregationInput;
   sort?: ProductSortInput;
   pageSize?: number;
   currentPage?: number;

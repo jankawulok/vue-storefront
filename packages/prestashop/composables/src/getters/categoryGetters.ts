@@ -11,7 +11,7 @@ export const getCategoryTree = (category: Category): AgnosticCategoryTree | null
   if (!category) {
     return null;
   }
-  const getParent = (category: Category): Category => (category.parent ? getParent(category.parent) : category);
+  const getParent = (category: Category): Category => (category.parent && !category.children?.length ? getParent(category.parent) : category);
   const buildTree = (category: Category) => ({
     label: category.name,
     slug: category.url_key,
