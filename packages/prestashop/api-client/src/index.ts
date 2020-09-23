@@ -16,6 +16,7 @@ import updateCart from './api/updateCart';
 import getMe from './api/getMe';
 import getCart from './api/getCart';
 import getUrlResolver from './api/getUrlResolver';
+import getSearchSuggestion from './api/getSearchSuggestion';
 import fetch from 'isomorphic-fetch';
 import * as cartActions from './helpers/cart/actions';
 
@@ -70,5 +71,6 @@ export {
   customerCreate,
   getMe,
   setup,
+  getSearchSuggestion,
   getUrlResolver
 };

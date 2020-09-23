@@ -5,8 +5,8 @@ import { useUser, setUser } from './useUser';
 import useUserOrders from './useUserOrders';
 import useContent from './useContent';
 import useCheckout from './useCheckout';
-import useLocale from './useLocale';
 import useUrlResolver from './useUrlResolver';
+import useSearch from './useSearch';
 import { useWishlist, setWishlist } from './useWishlist';
 
 import {
@@ -28,7 +28,6 @@ export {
   useUserOrders,
   useContent,
   useCheckout,
-  useLocale,
   cartGetters,
   categoryGetters,
   checkoutGetters,
@@ -36,6 +35,7 @@ export {
   userGetters,
   wishlistGetters,
   useUrlResolver,
+  useSearch,
   useWishlist,
   setWishlist
 };

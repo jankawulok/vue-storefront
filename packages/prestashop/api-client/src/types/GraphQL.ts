@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -254,8 +254,8 @@ export type CartItemInput = {
 };
 
 export type CartItemOption = {
-  id?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type CartRule = {
@@ -370,6 +370,12 @@ export type CategorySortInput = {
   updated_at?: Maybe<SortEnum>;
   product_count?: Maybe<SortEnum>;
   include_in_menu?: Maybe<SortEnum>;
+};
+
+export type CategorySuggestionResult = {
+  __typename?: 'CategorySuggestionResult';
+  key?: Maybe<Scalars['String']>;
+  doc_count?: Maybe<Scalars['Int']>;
 };
 
 export type CmsBlock = {
@@ -609,6 +615,8 @@ export type Manufacturer = {
   __typename?: 'Manufacturer';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  url_key?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   short_description?: Maybe<Scalars['String']>;
   created_at?: Maybe<Scalars['String']>;
@@ -829,6 +837,11 @@ export type PlaceOrderInput = {
 
 export type PlaceOrderOutput = {
   __typename?: 'PlaceOrderOutput';
+  order: Order;
+};
+
+export type PlaceOrderResponse = {
+  __typename?: 'PlaceOrderResponse';
   order: Order;
 };
 
@@ -1054,6 +1067,7 @@ export type Query = {
   products?: Maybe<Products>;
   product?: Maybe<Product>;
   reviews?: Maybe<Reviews>;
+  searchSuggestion?: Maybe<SearchSuggestionResult>;
   taxrule?: Maybe<TaxRules>;
   urlResolver?: Maybe<EntityUrl>;
   sayHello?: Maybe<Scalars['String']>;
@@ -1166,6 +1180,11 @@ export type QueryReviewsArgs = {
 };
 
 
+export type QuerySearchSuggestionArgs = {
+  query: Scalars['String'];
+};
+
+
 export type QueryTaxruleArgs = {
   filter?: Maybe<TaxRuleInput>;
 };
@@ -1235,6 +1254,16 @@ export type SearchResultPageInfo = {
   __typename?: 'SearchResultPageInfo';
   page_size?: Maybe<Scalars['Int']>;
   current_page?: Maybe<Scalars['Int']>;
+};
+
+export type SearchSuggestionResult = {
+  __typename?: 'SearchSuggestionResult';
+  rawResults?: Maybe<Scalars['JSON']>;
+  categoriesAgg?: Maybe<Array<Maybe<CategorySuggestionResult>>>;
+  categories?: Maybe<Array<Maybe<Category>>>;
+  manufacturers?: Maybe<Array<Maybe<Manufacturer>>>;
+  products?: Maybe<Array<Maybe<Product>>>;
+  query?: Maybe<Scalars['String']>;
 };
 
 export type ShippingMethod = {
@@ -1331,3 +1360,5 @@ export enum UrlRewriteEntityTypeEnum {
   Category = 'CATEGORY',
   Product = 'PRODUCT'
 }
+
+export type ProductVariant = Product & AttributeCombination;
