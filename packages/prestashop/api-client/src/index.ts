@@ -18,7 +18,6 @@ import getCart from './api/getCart';
 import getUrlResolver from './api/getUrlResolver';
 import getSearchSuggestion from './api/getSearchSuggestion';
 import fetch from 'isomorphic-fetch';
-import * as cartActions from './helpers/cart/actions';
 
 let apolloClient: ApolloClient<any> = null;
 
@@ -61,7 +60,6 @@ export {
   getCategory,
   getCart,
   updateCart,
-  cartActions,
   addToCart,
   removeFromCart,
   applyCoupon,
@@ -74,3 +72,8 @@ export {
   getSearchSuggestion,
   getUrlResolver
 };
+
+export * from './types/Api';
+export * from './types/GraphQL';
+export * from './types/setup';
+export * as cartActions from './helpers/cart/actions';

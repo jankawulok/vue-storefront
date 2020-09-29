@@ -12,17 +12,22 @@ const availableSortingOptions: AgnosticSortByOption[] = [
   { value: 'price-desc', label: 'Price from high to low' }
 ];
   // PRODUCT, PRODUCT_SEARCH_PARAMS, PRODUCT_FILTERS, SORTING_OPTIONS
-export const params: UseProductFactoryParams<Product, ProductsSearchParams, Record<string, Aggregation>, AgnosticSortByOption[]> = {
-  productsSearch: async ({...params}) => {
+export const params: UseProductFactoryParams<
+  Product,
+  ProductsSearchParams,
+  Record<string, Aggregation>,
+  AgnosticSortByOption[]
+> = {
+  productsSearch: async (params: ProductsSearchParams) => {
     const productsQuery = mapProductSearchByQueryParams(params);
     const productResponse = await getProduct(productsQuery);
     const filtersResult = productResponse.data.products.available_filters;
     const filters = {};
-    filtersResult.forEach(filter => {
+    filtersResult.forEach((filter) => {
       const { options, ...rest } = filter;
       filters[filter.attribute_code] = {
         ...rest,
-        options: options.map(value => ({...value, selected: false }))
+        options: options.map((value) => ({ ...value, selected: false }))
       };
     });
     return {

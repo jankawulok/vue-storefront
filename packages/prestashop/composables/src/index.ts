@@ -8,6 +8,7 @@ import useCheckout from './useCheckout';
 import useUrlResolver from './useUrlResolver';
 import useSearch from './useSearch';
 import { useWishlist, setWishlist } from './useWishlist';
+import { track } from '@vue-storefront/core';
 
 import {
   cartGetters,
@@ -17,6 +18,8 @@ import {
   userGetters,
   wishlistGetters
 } from './getters';
+
+track('VSFPrestashop');
 
 export {
   useCategory,
@@ -39,3 +42,5 @@ export {
   useWishlist,
   setWishlist
 };
+
+export * from './types/GraphQL';
