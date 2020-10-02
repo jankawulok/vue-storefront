@@ -3,6 +3,7 @@
 
 import { Ref } from '@vue/composition-api';
 import { ProductSortInput, ProductAggregationInput } from '../types/GraphQL';
+import { Product, Category } from '@jkawulok/prestashop-api';
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 export type OrderSearchParams = {
   id?: string;
@@ -41,6 +42,15 @@ export interface ProductsSearchParams {
   skus?: string[];
   slug?: string;
   id?: string;
+}
+
+export interface FacetResultsData {
+  products: Product[];
+  categories: Category[];
+  facets: Record<string, Filter>;
+  total: number;
+  perPageOptions: number[];
+  itemsPerPage: number;
 }
 
 export interface Filter {
