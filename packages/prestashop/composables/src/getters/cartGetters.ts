@@ -1,4 +1,9 @@
-import { CartGetters, AgnosticPrice, AgnosticTotals } from '@vue-storefront/core';
+import {
+  CartGetters,
+  AgnosticPrice,
+  AgnosticTotals,
+  AgnosticCoupon
+} from '@vue-storefront/core';
 import { Cart, CartItem } from '../types/GraphQL';
 import { createFormatPrice } from './_utils';
 import { getSettings } from '@jkawulok/prestashop-api';
@@ -47,6 +52,11 @@ export const getCartTotalItems = (cart: Cart): number => cart ? cart.nbProducts 
 
 export const getFormattedPrice = (price: number) => createFormatPrice(price);
 
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+export const getCoupons = (cart: Cart): AgnosticCoupon[] => {
+  return [];
+};
+
 const cartGetters: CartGetters<Cart, CartItem> = {
   getTotals: getCartTotals,
   getShippingPrice: getCartShippingPrice,
@@ -58,7 +68,8 @@ const cartGetters: CartGetters<Cart, CartItem> = {
   getItemAttributes: getCartItemAttributes,
   getItemSku: getCartItemSku,
   getTotalItems: getCartTotalItems,
-  getFormattedPrice
+  getFormattedPrice,
+  getCoupons
 };
 
 export default cartGetters;

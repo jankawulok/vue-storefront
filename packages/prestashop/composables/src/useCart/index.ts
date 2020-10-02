@@ -35,23 +35,22 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
   updateQuantity: async ({ currentCart, product, quantity }) => {
     // const updatedCart = await apiUpdateCartQuantity(product, quantity);
     // return updatedCart.data.cart;
-    console.log('Mocked updateQuantity', currentCart);
     return currentCart;
   },
   clearCart: async ({ currentCart }) => {
     console.log('Mocked clearCart', currentCart);
     return currentCart;
   },
-  applyCoupon: async ({ coupon }) => {
-    const updatedCart = await apiApplyCoupon(coupon);
-    return { updatedCart: updatedCart.data.cart, updatedCoupon: coupon };
+  applyCoupon: async ({ currentCart, couponCode }) => {
+    const updatedCart = await apiApplyCoupon(couponCode);
+    return { updatedCart: updatedCart.data.cart, updatedCoupon: couponCode };
   },
   removeCoupon: async () => {
     const updatedCart = await apiRemoveCoupon();
-    return { updatedCart: updatedCart.data.cart, updatedCoupon: null };
+    return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
-    return Boolean(getBasketItemByProduct({currentCart, product }));
+    return Boolean(getBasketItemByProduct({ currentCart, product }));
   }
 };
 
