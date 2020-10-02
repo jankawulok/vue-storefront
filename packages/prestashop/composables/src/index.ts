@@ -7,6 +7,7 @@ import useContent from './useContent';
 import useCheckout from './useCheckout';
 import useUrlResolver from './useUrlResolver';
 import useSearch from './useSearch';
+import useFacet from './useFacet';
 import { useWishlist, setWishlist } from './useWishlist';
 import { track } from '@vue-storefront/core';
 
@@ -31,6 +32,7 @@ export {
   useUserOrders,
   useContent,
   useCheckout,
+  useFacet,
   cartGetters,
   categoryGetters,
   checkoutGetters,
