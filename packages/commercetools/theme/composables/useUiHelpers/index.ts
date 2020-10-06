@@ -2,7 +2,7 @@ import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
 
-const nonFilters = ['page', 'sort', 'phase', 'itemsPerPage'];
+const nonFilters = ['page', 'sort', 'term', 'itemsPerPage'];
 
 const getContext = () => {
   const vm = getCurrentInstance();
@@ -39,8 +39,8 @@ const useUiHelpers = () => {
       page: parseInt(query.page, 10) || 1,
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(context, true),
-      itemsPerPage: parseInt(query.itemsPerPage, 10),
-      phase: query.phase
+      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
+      term: query.term
     };
   };
 
@@ -71,11 +71,11 @@ const useUiHelpers = () => {
     });
   };
 
-  const changeSearchPhase = (phase: string) => {
+  const changeSearchTerm = (term: string) => {
     context.$router.push({
       query: {
         ...getFiltersDataFromUrl(context, false),
-        phase: phase || undefined
+        term: term || undefined
       }
     });
   };
@@ -90,7 +90,7 @@ const useUiHelpers = () => {
     changeSorting,
     changeFilters,
     changeItemsPerPage,
-    changeSearchPhase,
+    changeSearchTerm,
     isFacetColor,
     isFacetCheckbox
   };
