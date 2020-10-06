@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from './../../index';
 import { EntityUrl } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';

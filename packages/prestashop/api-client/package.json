@@ -11,21 +11,13 @@
     "test": "jest"
   },
   "dependencies": {
-    "@vue-storefront/core": "^2.0.0",
-    "apollo-cache-inmemory": "^1.6.3",
-    "apollo-client": "^2.6.4",
-    "apollo-link": "^1.2.13",
-    "apollo-link-context": "^1.0.19",
-    "apollo-link-http": "^1.5.16",
-    "graphql": "^14.5.8",
-    "graphql-tag": "^2.10.1",
+    "@apollo/client": "^3.2.2",
+    "@vue-storefront/core": "^2.0.8",
     "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
-    "apollo-link-schema": "^1.2.4",
     "graphql-tools": "^4.0.6",
-    "jest-transform-graphql": "^2.1.0",
-    "rollup-plugin-graphql": "^0.1.0"
+    "jest-transform-graphql": "^2.1.0"
   },
   "files": [
     "lib/**/*"

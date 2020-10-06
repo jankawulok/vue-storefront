@@ -1,9 +1,8 @@
-import { ApolloClientOptions } from 'apollo-client';
+import { ApolloClientOptions } from '@apollo/client';
 
 export interface ApiConfig {
-  endpoint: string;
-  scopes: string[];
-  imgEndpoint: string;
+  uri: string;
+  imgUri: string;
 }
 
 export interface SetupConfig<TCacheShape> {

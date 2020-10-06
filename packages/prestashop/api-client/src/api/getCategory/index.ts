@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import gql from 'graphql-tag';
 import { apolloClient } from './../../index';
 import { CategorySearch } from './../../types/Api';

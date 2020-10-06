@@ -1,7 +1,7 @@
 import { apolloClient } from '../../index';
 import gql from 'graphql-tag';
 import { CustomerResponse } from '../../types/Api';
-import { ApolloQueryResult } from 'apollo-client';
+import { ApolloQueryResult } from '@apollo/client';
 import { CustomerParams } from './../../types/Api';
 import defaultQuery from './defaultQuery';
 import withOrders from './withOrders';

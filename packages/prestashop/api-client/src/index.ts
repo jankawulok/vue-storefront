@@ -1,7 +1,10 @@
 import { apiClientFactory } from '@vue-storefront/core';
-import ApolloClient from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
-import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory';
+import {
+  ApolloClient,
+  InMemoryCache,
+  defaultDataIdFromObject,
+} from '@apollo/client';
+import { createHttpLink } from '@apollo/client';
 import { SetupConfig } from './types/setup';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
@@ -27,28 +30,31 @@ const { setup, getSettings } = apiClientFactory<any, any>({
     // todo: add possibility to override
     apolloClient = new ApolloClient({
       link: createHttpLink({
-        uri: setupConfig.api.endpoint,
+        uri: setupConfig.api.uri,
         headers: {
-          credentials: 'include'
+          credentials: 'include',
         },
         credentials: 'include',
-        fetch
+        fetch,
       }),
       cache: new InMemoryCache({
-        dataIdFromObject: object => {
+        dataIdFromObject: (object) => {
           switch (object.__typename) {
-            case 'Product': return `Product:${(object as any).url_key}`;
-            case 'Category': return `Category:${(object as any).url_key}`;
-            default: defaultDataIdFromObject(object);
+            case 'Product':
+              return `Product:${(object as any).url_key}`;
+            case 'Category':
+              return `Category:${(object as any).url_key}`;
+            default:
+              defaultDataIdFromObject(object);
           }
-        }
+        },
       }),
       defaultOptions: {
         watchQuery: {
-          fetchPolicy: 'network-only'
-        }
+          fetchPolicy: 'network-only',
+        },
       },
-      ...setupConfig.customOptions
+      ...setupConfig.customOptions,
     });
   }
 });

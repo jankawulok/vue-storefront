@@ -1,5 +1,4 @@
-import { ApolloQueryResult } from 'apollo-client';
-import { FetchResult } from 'apollo-link';
+import { ApolloQueryResult, FetchResult } from '@apollo/client';
 import {
   ProductFilterInput,
   ProductSortInput,
