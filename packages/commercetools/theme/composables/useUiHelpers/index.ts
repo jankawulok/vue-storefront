@@ -2,7 +2,7 @@ import { getCurrentInstance } from '@vue/composition-api';
 import { Category } from '@vue-storefront/commercetools-api';
 import { AgnosticFacet } from '@vue-storefront/core';
 
-const nonFilters = ['page', 'sort', 'itemsPerPage'];
+const nonFilters = ['page', 'sort', 'phase', 'itemsPerPage'];
 
 const getContext = () => {
   const vm = getCurrentInstance();
@@ -31,15 +31,16 @@ const useUiHelpers = () => {
 
   const getFacetsFromURL = () => {
     const { query, params } = context.$router.history.current;
-
     const categorySlug = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
 
     return {
+      rootCatSlug: params.slug_1,
       categorySlug,
       page: parseInt(query.page, 10) || 1,
       sort: query.sort || 'latest',
       filters: getFiltersDataFromUrl(context, true),
-      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20
+      itemsPerPage: parseInt(query.itemsPerPage, 10),
+      phase: query.phase
     };
   };
 
@@ -47,12 +48,12 @@ const useUiHelpers = () => {
     return `/c/${context.$route.params.slug_1}/${category.slug}`;
   };
 
-  const switchSorting = (sort: string) => {
+  const changeSorting = (sort: string) => {
     const { query } = context.$router.history.current;
     context.$router.push({ query: { ...query, sort } });
   };
 
-  const switchFilters = (filters: any) => {
+  const changeFilters = (filters: any) => {
     context.$router.push({
       query: {
         ...getFiltersDataFromUrl(context, false),
@@ -61,11 +62,20 @@ const useUiHelpers = () => {
     });
   };
 
-  const switchItemsPerPage = (itemsPerPage: number) => {
+  const changeItemsPerPage = (itemsPerPage: number) => {
     context.$router.push({
       query: {
         ...getFiltersDataFromUrl(context, false),
         itemsPerPage
+      }
+    });
+  };
+
+  const changeSearchPhase = (phase: string) => {
+    context.$router.push({
+      query: {
+        ...getFiltersDataFromUrl(context, false),
+        phase: phase || undefined
       }
     });
   };
@@ -77,9 +87,10 @@ const useUiHelpers = () => {
   return {
     getFacetsFromURL,
     getCatLink,
-    switchSorting,
-    switchFilters,
-    switchItemsPerPage,
+    changeSorting,
+    changeFilters,
+    changeItemsPerPage,
+    changeSearchPhase,
     isFacetColor,
     isFacetCheckbox
   };
