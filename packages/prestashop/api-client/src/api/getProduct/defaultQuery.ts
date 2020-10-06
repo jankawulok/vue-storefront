@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 import { ProductFragment } from './../../fragments';
 
 export default gql`

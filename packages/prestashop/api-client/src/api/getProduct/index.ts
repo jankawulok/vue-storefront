@@ -1,5 +1,5 @@
 import { ApolloQueryResult } from '@apollo/client';
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client/core';
 import { apolloClient } from './../../index';
 import { ProductSearch } from './../../types/Api';
 

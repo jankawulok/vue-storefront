@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client/core';
 import { CartFragment } from './../../fragments';
 
 export default gql`

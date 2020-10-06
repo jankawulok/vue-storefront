@@ -1,10 +1,11 @@
 import { apiClientFactory } from '@vue-storefront/core';
 import {
   ApolloClient,
-  InMemoryCache,
   defaultDataIdFromObject,
-} from '@apollo/client';
-import { createHttpLink } from '@apollo/client';
+  createHttpLink,
+  InMemoryCache,
+} from '@apollo/client/core';
+// import { InMemoryCache } from '@apollo/client/cache';
 import { SetupConfig } from './types/setup';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
