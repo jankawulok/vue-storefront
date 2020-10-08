@@ -29,9 +29,7 @@ export default {
     ]
   },
   loading: { color: '#fff' },
-  plugins: [
-    './plugins/prestashop.js'
-  ],
+  plugins: [],
   buildModules: [
     // to core
     '@nuxt/typescript-build',
@@ -63,7 +61,12 @@ export default {
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@jkawulok/prestashop-composables/nuxt', {}]
+    ['@jkawulok/prestashop-composables/nuxt', {
+      api: {
+        uri: 'https://api.maleomi.pl/gateway',
+        imgUri: 'https://api.maleomi.pl/img'
+      }
+    }]
   ],
   modules: [
     'nuxt-i18n',
