@@ -1,4 +1,4 @@
-import { ApolloClientOptions } from '@apollo/client';
+import { ApolloClientOptions } from '@apollo/client/core';
 
 export interface ApiConfig {
   uri: string;
