@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import getCategory from '../../../src/api/getCategory';
-import { catalogClient } from '../../../src/index';
+import { apolloClient } from '../../../src/index';
 import defaultQuery from '../../../src/api/getCategory/defaultQuery';
 
 describe('[prestashop-api-client] getCategory', () => {
@@ -8,7 +8,7 @@ describe('[prestashop-api-client] getCategory', () => {
   it('fetches categories without search parameters', async () => {
     const givenVariables = {};
 
-    (catalogClient.query as any).mockImplementation(({ variables, query }) => {
+    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables);
       expect(query).toEqual(defaultQuery);
 
@@ -29,7 +29,7 @@ describe('[prestashop-api-client] getCategory', () => {
       }
     };
 
-    (catalogClient.query as any).mockImplementation(({ variables, query }) => {
+    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables);
       expect(query).toEqual(defaultQuery);
 
@@ -72,10 +72,14 @@ describe('[prestashop-api-client] getCategory', () => {
       }
       `;
 
-    (catalogClient.query as any).mockImplementation(({ variables, query }) => {
+    (apolloClient.query as any).mockImplementation(({ variables, query }) => {
       expect(variables).toEqual(givenVariables);
       expect(query).not.toEqual(defaultQuery);
-      expect(query).toEqual(gql`${givenQuery}`);
+      expect(query).toEqual(
+        gql`
+          ${givenQuery}
+        `
+      );
 
       return { data: 'category response' };
     });
