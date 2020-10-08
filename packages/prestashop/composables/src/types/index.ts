@@ -4,6 +4,8 @@
 import { Ref } from '@vue/composition-api';
 import { ProductSortInput, ProductAggregationInput } from '../types/GraphQL';
 import { Product, Category } from '@jkawulok/prestashop-api';
+import { FacetSearchResult } from '@vue-storefront/core';
+
 export type ComputedProperty<T> = Readonly<Ref<Readonly<T>>>;
 export type OrderSearchParams = {
   id?: string;
@@ -74,3 +76,5 @@ export interface UseCategory
   }) => Promise<void>;
   loading: ComputedProperty<boolean>;
 }
+
+export type SearchData = FacetSearchResult<FacetResultsData>;

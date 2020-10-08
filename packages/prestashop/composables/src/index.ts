@@ -15,6 +15,7 @@ import {
   cartGetters,
   categoryGetters,
   checkoutGetters,
+  facetGetters,
   productGetters,
   userGetters,
   wishlistGetters
@@ -36,6 +37,7 @@ export {
   cartGetters,
   categoryGetters,
   checkoutGetters,
+  facetGetters,
   productGetters,
   userGetters,
   wishlistGetters,
