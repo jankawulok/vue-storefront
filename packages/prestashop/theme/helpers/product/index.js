@@ -1,1 +1,0 @@
-export { getProductPath } from './getProductPath';

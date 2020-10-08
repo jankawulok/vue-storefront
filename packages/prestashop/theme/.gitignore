@@ -68,6 +68,9 @@ typings/
 # nuxt.js build output
 .nuxt
 
+# theme
+_theme
+
 # Nuxt generate
 dist
 
@@ -89,11 +92,4 @@ sw.*
 # Vim swap files
 *.swp
 
-# storefront theme output
-.theme
-
-
 version
-
-.now
-.vercel

@@ -7,75 +7,85 @@ export default {
     host: '0.0.0.0'
   },
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Vue Storefront',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: process.env.npm_package_description || ''
+      }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      }
     ]
   },
-  router: {
-    extendRoutes (routes, resolve) {
-      routes.unshift({
-        name: 'product',
-        path: '/:slug/',
-        component: resolve( 'pages/Product.vue')
-      });
-      routes.unshift({
-        name: 'category',
-        path: '/:slug',
-        component: resolve( 'pages/Category.vue')
-      });
-      routes.unshift({
-        name: 'urlresolver',
-        path: '/:slug',
-        component: resolve('pages/UrlResolver.vue')
-      });
-    }
-  },
-  css: ['@/assets/scss/main.scss'],
   loading: { color: '#fff' },
+  plugins: [
+    './plugins/prestashop.js'
+  ],
   buildModules: [
     // to core
     '@nuxt/typescript-build',
-    '@nuxtjs/router-extras',
-    // '@nuxtjs/pwa',
     ['@vue-storefront/nuxt', {
+      // @core-development-only-start
       coreDevelopment: true,
+      // @core-development-only-end
       useRawSource: {
         dev: [
           '@jkawulok/prestashop-composables',
-          '@jkawulok/storyblok',
-          '@vue-storefront/core',
-          '@marvinrudolph/vue-storyblok-rich-text-renderer'
+          '@vue-storefront/core'
         ],
         prod: [
           '@jkawulok/prestashop-composables',
-          '@jkawulok/storyblok',
-          '@vue-storefront/core',
-          '@marvinrudolph/vue-storyblok-rich-text-renderer'
+          '@vue-storefront/core'
         ]
       }
     }],
+    // @core-development-only-start
     ['@vue-storefront/nuxt-theme', {
-      apiClient: '@jkawulok/prestashop-api',
-      composables: '@jkawulok/prestashop-composables'
-    }]
+      generate: {
+        replace: {
+          apiClient: '@jkawulok/prestashop-api',
+          composables: '@jkawulok/prestashop-composables'
+        }
+      }
+    }],
+    // @core-development-only-end
+    /* project-only-start
+    ['@vue-storefront/nuxt-theme'],
+    project-only-end */
+    ['@jkawulok/prestashop-composables/nuxt', {}]
   ],
   modules: [
     'nuxt-i18n',
     'cookie-universal-nuxt',
-    'vue-scrollto/nuxt',
-    ['storyblok-nuxt', {accessToken: 'LUoRLQRAKwVwhczfHBwtrQtt', cacheProvider: 'memory'}]
+    'vue-scrollto/nuxt'
   ],
-  plugins: [
-    './plugins/prestashop.js',
-    './plugins/storyblok.js',
-    './plugins/rich-text-renderer.js'
-  ],
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    strategy: 'no_prefix',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: {
+        en: {
+          welcome: 'Welcome 1'
+        },
+        de: {
+          welcome: 'Welcome 2'
+        }
+      }
+    }
+  },
   build: {
     transpile: [
       'vee-validate/dist/rules'
