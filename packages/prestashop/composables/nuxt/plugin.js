@@ -1,7 +1,7 @@
-import { setup } from '@vue-storefront/boilerplate-api';
+import { setup } from '@jkawulok/prestashop-api';
+
+const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
 
 export default function init() {
-  // const moduleOptions = JSON.parse('<%= JSON.stringify(options) %>');
-
-  setup({});
+  setup(moduleOptions);
 }
