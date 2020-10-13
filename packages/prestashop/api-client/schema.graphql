@@ -1,0 +1,1127 @@
+directive @resolve(
+  module: String = ""
+  method: String = ""
+) on QUERY | MUTATION | FIELD | FRAGMENT_DEFINITION | FRAGMENT_SPREAD | INLINE_FRAGMENT
+input AddItemsToCartInput {
+  cart_items: [CartItemInput!]!
+}
+
+type Address {
+  id: Int
+  id_country: String
+  country_code: String
+  id_state: String
+  alias: String
+  firstname: String
+  lastname: String
+  address1: String
+  address2: String
+  postcode: String
+  city: String
+  other: String
+  phone: String
+  phone_mobile: String
+  vat_number: String
+  dni: String
+  country: String
+  state: String
+  state_iso: String
+}
+
+input AddressInput {
+  alias: String
+  firstname: String!
+  lastname: String!
+  company: String
+  address1: String!
+  address2: String
+  city: String!
+  region: String
+  postcode: String!
+  country_code: String!
+  phone: String!
+  vat_number: String
+  dni: String
+}
+
+type Aggregation {
+  count: Int
+  label: String
+  attribute_code: String!
+  type: String!
+  min: Float
+  max: Float
+  avg: Float
+  sum: Float
+  options: [AggregationOption]!
+}
+
+type AggregationOption {
+  count: Int
+  label: String
+  type: String
+  value: String!
+  image: String
+  color: String
+  selected: Boolean
+}
+
+input AggregationTypeInput {
+  type: AggTypeEnum
+  label: String
+  size: Int
+}
+
+enum AggTypeEnum {
+  range
+  terms
+}
+
+type Attribute {
+  attribute_code: String
+  entity_type: String
+  attribute_type: String
+  apply_to: [String]
+  position: Int
+  is_searchable: Boolean
+  is_comparable: Boolean
+  is_user_defined: Boolean
+  is_visible: Boolean
+  is_filterable: Boolean
+  is_filterable_in_search: Boolean
+  frontend_input: String
+  frontend_label: String
+  options: [AttributeOption]
+}
+
+type AttributeCombination {
+  id_attribute_group: Int
+  is_color_group: Int
+  public_group_name: String
+  id_attribute: Int
+  attribute_name: String
+  attribute_color: String
+  id_product_attribute: Int
+  quantity: Int
+  price: Float
+  price_wt: Float
+  special_price: Float
+  special_price_wt: Float
+  ecotax: Float
+  weight: Float
+  default_on: Int
+  reference: String
+  minimal_quantity: Int
+  available_date: String
+  group_type: String
+  id_image: String
+}
+
+input AttributeInput {
+  attribute_code: FilterTypeInput
+  entity_type: String
+  attribute_id: FilterTypeInput
+  is_user_defined: FilterTypeInput
+}
+
+type AttributeOption {
+  value: String
+  label: String
+}
+
+type BundleOption {
+  option_id: Int
+  position: Int
+  title: String
+  type: String
+  sku: String
+  required: Boolean
+  product_links: [BundleOptionLink]
+}
+
+type BundleOptionLink {
+  price: Float
+  qty: Float
+  can_change_quantity: Boolean
+  option_id: Int
+  id: Int
+  sku: String
+  product: Product
+  position: Int
+}
+
+input CarrierInput {
+  idCarrier: Int!
+}
+
+type Cart {
+  id: Int
+  id_customer: String
+  id_guest: String
+  nbProducts: Int
+  items: [CartItem]!
+  total: Float
+  totalProducts: Float
+  totalProductsTaxIncluded: Float
+  shippingCost: Float
+  cartRules: [CartRule]!
+  deliveryAddressId: Int
+  invoiceAddressId: Int
+  paymentMethods: [PaymentMethod]!
+  shippingMethods: [ShippingMethod]!
+  selectedShippingMethod: ShippingMethod
+  deliveryAddress: Address
+  invoiceAddress: Address
+  isAllProductsInStock: Boolean
+}
+
+input CartAddressInput {
+  firstname: String!
+  lastname: String!
+  company: String
+  address1: String!
+  address2: String
+  alias: String
+  city: String!
+  region: String
+  postcode: String
+  country_code: String!
+  phone: String!
+  vat_number: String
+  dni: String
+}
+
+type CartItem {
+  unique_id: String
+  id_product: Int!
+  id_product_attribute: Int!
+  cart_quantity: Int!
+  name: String
+  is_virtual: Int
+  description_short: String
+  available_now: String
+  available_later: String
+  id_category_default: Int
+  id_manufacturer: Int
+  on_sale: Int
+  ecotax: Int
+  additional_shipping_cost: String
+  available_for_order: Int
+  unity: String
+  unit_price_ratio: String
+  price: Float
+  price_wt: Float
+  price_without_reduction: Float
+  price_with_reduction: Float
+  total: Float
+  total_wt: Float
+  reduction_applies: String
+  quantity_discount_applies: String
+  quantity: Int
+  quantity_available: Int
+  link_rewrite: String
+  id_image: String
+  cover: String
+}
+
+input CartItemInput {
+  id: String!
+  quantity: Int = 1
+  id_product_attribute: Int = 0
+  options: [CartItemOption] = []
+}
+
+input CartItemOption {
+  id: String!
+  value: String!
+}
+
+type CartRule {
+  code: String
+  description: String
+}
+
+input CartUpdateAction {
+  setDeliveryAddress: DeliveryAddressInput
+  setInvoiceAddress: InvoiceAddressInput
+  applyCoupon: String
+  removeCoupon: Boolean
+  setCarrier: CarrierInput
+  removeUnavailableItems: Boolean
+}
+
+type Categories implements ESResponseInterface {
+  items: [Category]
+  page_info: SearchResultPageInfo
+  total_count: Int
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type Category {
+  id: ID
+  parent_id: ID
+  parent: Category
+  description: String
+  name: String
+  is_active: Boolean
+  is_root: Boolean
+  path: String
+  path_in_store: String
+  url_key: String
+  url_path: String
+  position: Int
+  level: Int
+  created_at: DateTime
+  updated_at: DateTime
+  product_count: Int
+  default_sort_by: String
+  children_data: [Category]
+  children: [Category]
+  children_count: Int
+  available_sort_by: [String]
+  include_in_menu: Boolean
+  display_mode: String
+  is_anchor: Boolean
+  page_layout: String
+  breadcrumbs: [CategoryBinding]
+  filters: [Filter]
+  products(
+    search: String
+    filter: ProductFilterInput
+    postFilter: ProductFilterInput
+    aggregation: ProductAggregationInput
+    pageSize: Int = 20
+    currentPage: Int = 1
+    sort: ProductSortInput
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Products
+}
+
+type CategoryBinding {
+  category_id: ID
+  name: String
+  slug: ID
+  path: ID
+}
+
+input CategoryBindingFilterInput {
+  category_id: FilterTypeInput
+  name: FilterTypeInput
+}
+
+input CategoryFilterInput {
+  id: FilterTypeInput
+  parent_id: FilterTypeInput
+  is_active: FilterTypeInput
+  is_root: FilterTypeInput
+  url_key: FilterTypeInput
+  url_path: FilterTypeInput
+  position: FilterTypeInput
+  level: FilterTypeInput
+  created_at: FilterTypeInput
+  updated_at: FilterTypeInput
+  product_count: FilterTypeInput
+  children_data: CategoryFilterInput
+  children_count: FilterTypeInput
+  include_in_menu: FilterTypeInput
+}
+
+input CategorySortInput {
+  id: SortEnum
+  parent_id: SortEnum
+  is_active: SortEnum
+  url_key: SortEnum
+  url_path: SortEnum
+  position: SortEnum
+  level: SortEnum
+  created_at: SortEnum
+  updated_at: SortEnum
+  product_count: SortEnum
+  include_in_menu: SortEnum
+}
+
+type CategorySuggestionResult {
+  key: String
+  doc_count: Int
+}
+
+type CmsBlock {
+  identifier: String
+  id: ID
+  title: String
+  content: String
+  creation_time: String
+  store_id: Int
+}
+
+type CmsBlocks implements ESResponseInterface {
+  items: [CmsBlock]
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type CmsHierarchies implements ESResponseInterface {
+  items: [CmsHierarchy]
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type CmsHierarchy {
+  node_id: Int
+  parent_node_id: Int
+  page_id: Int
+  identifier: String
+  label: String
+  level: Int
+  request_url: String
+  xpath: String
+  store_id: Int
+}
+
+input CmsInput {
+  id: FilterTypeInput
+  identifier: FilterTypeInput
+  store_id: FilterTypeInput
+  url_path: FilterTypeInput
+}
+
+type CmsPage {
+  page_id: ID
+  title: String
+  identifier: String
+  content: String
+  content_heading: String
+  meta_description: String
+  meta_keywords: String
+  store_id: Int
+  url_path: String
+}
+
+type CmsPages implements ESResponseInterface {
+  items: [CmsPage]
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type ConfigurableOption {
+  name: String
+  values: [ConfigurableOptionValue]
+}
+
+type ConfigurableOptionValue {
+  name: String
+  id_attribute: String
+}
+
+type CustomAttributeMetadata implements ESResponseInterface {
+  items: [Attribute]
+  total_count: Int
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type Customer {
+  isAuthenticated: Boolean
+  isGuest: Boolean
+  id: String
+  firstname: String
+  lastname: String
+  email: String
+  company: String
+  newsletter: Boolean
+  orders(reference: String): OrderQueryResult
+  addresses: [Address]!
+}
+
+input CustomerInput {
+  firstname: String
+  lastname: String
+  email: String!
+  company: String
+  siret: String
+  ape: String
+  password: String!
+  newsletter: Boolean
+  optin: Boolean
+}
+
+type CustomerLoginResponse {
+  isLoggedIn: Boolean
+  token: String
+  customer: Customer
+  cart: Cart
+}
+
+type customerLogoutResponse {
+  message: String
+  isLoggedIn: Boolean
+  customer: Customer
+  cart: Cart
+}
+
+type CustomerOutput {
+  customer: Customer!
+}
+
+type CustomOption {
+  image_size_x: Int
+  image_size_y: Int
+  max_characters: Int
+  values: [CustomOptionValue]
+  option_id: ID
+  is_require: Boolean
+  title: String
+  type: String
+}
+
+type CustomOptionValue {
+  price: Float
+  price_type: String
+  option_type_id: ID
+  title: String
+  sort_order: Int
+}
+
+scalar DateTime
+
+input DeliveryAddressInput {
+  idAddress: Int
+  address: CartAddressInput
+}
+
+type EntityUrl {
+  type: UrlRewriteEntityTypeEnum
+  result: Result
+}
+
+type ESResponse implements ESResponseInterface {
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+interface ESResponseInterface {
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type exampleModuleResponse1 {
+  name: String
+  version: String
+  author: String
+}
+
+type Feature {
+  name: String
+  value: String
+}
+
+type Filter {
+  type: String
+  field: String
+  label: String
+}
+
+input FilterTypeInput {
+  eq: JSON
+  finset: [String]
+  from: String
+  gt: String
+  gte: String
+  gteq: String
+  in: [JSON]
+  like: String
+  lt: String
+  lte: String
+  lteq: String
+  moreq: String
+  neq: JSON
+  notnull: String
+  null: String
+  to: String
+  nin: [String]
+  scope: [String]
+}
+
+input InvoiceAddressInput {
+  idAddress: Int
+  address: CartAddressInput
+}
+
+# The `JSON` scalar type
+ represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+scalar JSON
+
+type Manufacturer {
+  id: Int
+  name: String
+  url_key: String
+  image: String
+  description: String
+  short_description: String
+  created_at: String
+  updated_at: String
+  products: Products
+}
+
+input ManufacturerAggregationInput {
+  field: String
+  type: String
+}
+
+input ManufacturerFilterInput {
+  id: FilterTypeInput
+  name: FilterTypeInput
+  description: FilterTypeInput
+  short_description: FilterTypeInput
+  image: FilterTypeInput
+  created_at: String
+  updated_at: String
+}
+
+type Manufacturers implements ESResponseInterface {
+  items: [Manufacturer]
+  page_info: SearchResultPageInfo
+  total_count: TotalCountInfo
+  aggregations: JSON
+  attribute_metadata: [Attribute]
+  sort_fields: SortFields
+  hits: JSON
+  suggest: JSON
+}
+
+input ManufacturerSortInput {
+  best_match: SortEnum
+  score: SortEnum
+  name: SortEnum
+  created_at: SortEnum
+  updated_at: SortEnum
+}
+
+type MediaGalleryItem {
+  image: String
+  pos: Int
+  typ: String
+  type: String
+  url: String
+  lab: String
+  label: String
+  vid: JSON
+  video: JSON
+}
+
+type Mutation {
+  hello(name: String): String
+  addItemsToCart(input: AddItemsToCartInput): Cart!
+  removeItemFromCart(input: RemoveItemFromCartInput): Cart!
+  clearCart: Cart!
+  applyCoupon(coupon: String): Cart!
+  removeCoupon: Cart!
+  setCarrier(input: CarrierInput): Cart!
+  setDeliveryAddress(input: DeliveryAddressInput): Cart!
+  setInvoiceAddress(input: InvoiceAddressInput): Cart!
+  placeOrder(input: PlaceOrderInput): PlaceOrderOutput
+  removeUnavailableItems: RemoveUnavailableItemsResponse
+  cartUpdate(actions: CartUpdateAction): Cart!
+  customerLogin(email: String, password: String): CustomerLoginResponse
+  customerRegister(input: CustomerInput!): CustomerOutput
+  customerLogout: customerLogoutResponse
+  customerChangePassword(currentPassword: String, newPassword: String): Boolean
+  customerDeleteAddress(id: Int!): Boolean
+  customerCreateAddress(input: AddressInput): Address
+  customerUpdateAddress(id: Int!, input: AddressInput): Address
+}
+
+type Order {
+  id_order: Int
+  reference: String
+  payment: String
+  id_carrier: Int
+  id_currency: Int
+  id_cart: Int
+  current_state: String
+  total_discounts: Float
+  total_discounts_tax_inc: Float
+  total_discounts_tax_excl: Float
+  total_paid: Float
+  total_paid_tax_inc: Float
+  total_paid_tax_excl: Float
+  total_paid_real: Float
+  total_products: Float
+  total_products_wt: Float
+  total_shipping: Float
+  total_shipping_tax_incl: Float
+  products: [OrderedProduct!]!
+  deliveryAddress: Address
+  invoiceAddress: Address
+}
+
+type OrderedProduct {
+  product_id: Int
+  product_attribute_id: Int
+  product_name: String
+  product_quantity: Int
+  product_quantity_in_stock: Int
+  product_quantity_refunded: Int
+  product_quantity_return: Int
+  product_quantity_reinjected: Int
+  product_price: Float
+  product_ean13: String
+  product_reference: String
+  tax_rate: Float
+}
+
+type OrderQueryResult {
+  total: Int!
+  result: [Order]!
+}
+
+type OrderState {
+  id: String
+}
+
+type PaymentMethod {
+  name: String
+  title: String
+}
+
+input PlaceOrderInput {
+  paymentMethod: String!
+}
+
+type PlaceOrderOutput {
+  order: Order!
+}
+
+type PlaceOrderResponse {
+  order: Order!
+}
+
+type Product {
+  id: Int
+  url_key: String
+  url_path: String
+  breadcrumbs: [CategoryBinding]
+  type_id: String
+  visibility: Int
+  status: Int
+  name: String
+  sku: String
+  ean13: String
+  description: String
+  short_description: String
+  price: Float
+  price_incl_tax: Float
+  price_tax: Float
+  final_price: Float
+  final_price_incl_tax: Float
+  final_price_tax: Float
+  original_price: Float
+  original_price_incl_tax: Float
+  original_price_tax: Float
+  min_price: Float
+  max_price: Float
+  special_price: Float
+  special_price_incl_tax: Float
+  special_price_tax: Float
+  special_from_date: String
+  special_to_date: String
+  weight: Float
+  manufacturer: String
+  meta_title: String
+  meta_keyword: String
+  meta_description: String
+  image: String
+  small_image: String
+  thumbnail: String
+  tier_price: Float
+  tier_prices: [ProductTierPrice]
+  news_from_date: String
+  news_to_date: String
+  required_options: Boolean
+  has_options: Boolean
+  image_label: String
+  small_image_label: String
+  thumbnail_label: String
+  country_of_manufacture: String
+  gift_message_available: Boolean
+  created_at: String
+  updated_at: String
+  size: String
+  size_options: [String]
+  color: String
+  kolor: [String]
+  color_options: [String]
+  category_ids: [String]
+  categories: [Category]
+  category: [CategoryBinding]
+  configurable_children: [Product]
+  stock: StockItem
+  minimal_quantity: Int
+  quantity_increment: Int
+  features: [Feature]
+  in_stock: Boolean
+  keyword: String
+  media_gallery: [MediaGalleryItem]
+  configurable_options: [ConfigurableOption]
+  attributes_combinations: [AttributeCombination]
+  custom_options: [CustomOption]
+  bundle_options: [BundleOption]
+  aggs: JSON
+  accesories: Products
+  rating: Float
+  reviews(
+    search: String
+    filter: ReviewFilterInput
+    pageSize: Int = 20
+    currentPage: Int = 1
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Reviews
+}
+
+input ProductAggregationInput {
+  price: AggregationTypeInput
+  manufacturer: AggregationTypeInput
+  kolor: AggregationTypeInput
+  kolekcja: AggregationTypeInput
+}
+
+input ProductFilterInput {
+  id: FilterTypeInput
+  url_key: FilterTypeInput
+  name: FilterTypeInput
+  sku: FilterTypeInput
+  description: FilterTypeInput
+  short_description: FilterTypeInput
+  price: FilterTypeInput
+  special_price: FilterTypeInput
+  special_from_date: FilterTypeInput
+  special_to_date: FilterTypeInput
+  weight: FilterTypeInput
+  category: CategoryBindingFilterInput
+  category_with_parents: FilterTypeInput
+  manufacturer: FilterTypeInput
+  meta_title: FilterTypeInput
+  meta_keyword: FilterTypeInput
+  meta_description: FilterTypeInput
+  image: FilterTypeInput
+  small_image: FilterTypeInput
+  thumbnail: FilterTypeInput
+  tier_price: FilterTypeInput
+  news_from_date: FilterTypeInput
+  news_to_date: FilterTypeInput
+  custom_layout_update: FilterTypeInput
+  min_price: FilterTypeInput
+  max_price: FilterTypeInput
+  category_ids: FilterTypeInput
+  options_container: FilterTypeInput
+  required_options: FilterTypeInput
+  has_options: FilterTypeInput
+  image_label: FilterTypeInput
+  small_image_label: FilterTypeInput
+  thumbnail_label: FilterTypeInput
+  created_at: FilterTypeInput
+  updated_at: FilterTypeInput
+  country_of_manufacture: FilterTypeInput
+  custom_layout: FilterTypeInput
+  gift_message_available: FilterTypeInput
+  visibility: FilterTypeInput
+  type_id: FilterTypeInput
+  in_stock: FilterTypeInput
+  stock: StockFilterInput
+  status: FilterTypeInput
+  size: FilterTypeInput
+  size_options: FilterTypeInput
+  kolor: FilterTypeInput
+  seria: FilterTypeInput
+  wiek: FilterTypeInput
+  color_options: FilterTypeInput
+  categories_without_path: FilterTypeInput
+  or: ProductFilterInput
+}
+
+type Products implements ESResponseInterface {
+  items: [Product]
+  page_info: SearchResultPageInfo
+  total_count: TotalCountInfo
+  aggregations: JSON
+  available_filters: [Aggregation]
+  attribute_metadata: [Attribute]
+  sort_fields: SortFields
+  hits: JSON
+  suggest: JSON
+}
+
+input ProductSortInput {
+  best_match: SortEnum
+  score: SortEnum
+  name: SortEnum
+  sku: SortEnum
+  description: SortEnum
+  short_description: SortEnum
+  price: SortEnum
+  final_price: SortEnum
+  special_price: SortEnum
+  special_from_date: SortEnum
+  special_to_date: SortEnum
+  weight: SortEnum
+  manufacturer: SortEnum
+  meta_title: SortEnum
+  meta_keyword: SortEnum
+  meta_description: SortEnum
+  image: SortEnum
+  small_image: SortEnum
+  thumbnail: SortEnum
+  tier_price: SortEnum
+  news_from_date: SortEnum
+  news_to_date: SortEnum
+  custom_layout_update: SortEnum
+  options_container: SortEnum
+  required_options: SortEnum
+  has_options: SortEnum
+  image_label: SortEnum
+  small_image_label: SortEnum
+  thumbnail_label: SortEnum
+  created_at: SortEnum
+  updated_at: SortEnum
+  country_of_manufacture: SortEnum
+  custom_layout: SortEnum
+  gift_message_available: SortEnum
+}
+
+type ProductTierPrice {
+  customer_group_id: String
+  qty: Float
+  value: Float
+  percentage_value: Float
+  website_id: Float
+}
+
+type Query {
+  version: String
+  customAttributeMetadata(
+    attributes: AttributeInput
+    filter: AttributeInput
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): CustomAttributeMetadata
+  attribute(attribute_code: String, attribute_id: String): Attribute
+  categories(
+    search: String
+    filter: CategoryFilterInput
+    pageSize: Int = 20
+    currentPage: Int = 1
+    sort: CategorySortInput
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Categories
+  category(
+    id: ID
+    url_path: String
+    root: Boolean
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Category
+  cmsPages(filter: CmsInput): CmsPages
+  cmsBlocks(filter: CmsInput): CmsBlocks
+  cmsHierarchies(filter: CmsInput): CmsHierarchies
+  manufacturers(
+    search: String
+    filter: ManufacturerFilterInput
+    aggregation: [ManufacturerAggregationInput]
+    pageSize: Int = 20
+    currentPage: Int = 1
+    sort: ManufacturerSortInput
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Manufacturers
+  manufacturer(
+    id: ID
+    name: String
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Manufacturer
+  products(
+    search: String
+    filter: ProductFilterInput
+    postFilter: ProductFilterInput
+    aggregation: ProductAggregationInput
+    pageSize: Int = 20
+    currentPage: Int = 1
+    sort: ProductSortInput
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Products
+  product(
+    sku: String
+    id: ID
+    url_path: String
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Product
+  reviews(
+    search: String
+    filter: ReviewFilterInput
+    pageSize: Int = 20
+    currentPage: Int = 1
+    _sourceIncludes: [String]
+    _sourceExcludes: [String]
+  ): Reviews
+  searchSuggestion(query: String!): SearchSuggestionResult
+  taxrule(filter: TaxRuleInput): TaxRules
+  urlResolver(url: String!): EntityUrl
+  sayHello(name: String): String
+  testElastic(sku: String): Product
+  hello(name: String): String
+  exampleModule1: exampleModuleResponse1
+  cart: Cart!
+  customer: Customer
+}
+
+input RemoveItemFromCartInput {
+  idProduct: Int!
+  idProductAttribute: Int!
+  idCustomization: Int
+}
+
+type RemoveUnavailableItemsResponse {
+  cart: Cart!
+  messages: [String]!
+}
+
+union Result = Category | Product
+type Review {
+  id: ID
+  title: String
+  detail: String
+  nickname: String
+  review_entity: String
+  review_type: Int
+  review_status: Int
+  created_at: DateTime
+}
+
+input ReviewFilterInput {
+  review_status: FilterTypeInput
+  product_id: FilterTypeInput
+}
+
+type Reviews implements ESResponseInterface {
+  page_info: SearchResultPageInfo
+  total_count: Int
+  items: [Review]
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type SearchResultPageInfo {
+  page_size: Int
+  current_page: Int
+}
+
+type SearchSuggestionResult {
+  rawResults: JSON
+  categoriesAgg: [CategorySuggestionResult]
+  categories: [Category]
+  manufacturers: [Manufacturer]
+  products: [Product]
+  query: String
+}
+
+type ShippingMethod {
+  id: String
+  name: String
+  logo: String
+  delay: String
+  totalPriceWithTax: Float
+  totalPriceWithoutTax: Float
+}
+
+enum SortEnum {
+  ASC
+  DESC
+}
+
+type SortField {
+  value: String
+  label: String
+}
+
+type SortFields {
+  default: String
+  options: [SortField]
+}
+
+input StockFilterInput {
+  is_in_stock: FilterTypeInput
+  qty: FilterTypeInput
+}
+
+type StockItem {
+  item_id: ID
+  product_id: ID
+  stock_id: ID
+  qty: Float
+  is_in_stock: Boolean
+  is_qty_decimal: Boolean
+  min_qty: Float
+  max_sale_qty: Float
+  backorders: Int
+  qty_increments: Float
+}
+
+type TaxRate {
+  tax_region_id: Int
+  tax_country_id: Int
+  titles: [String]
+  tax_postcode: String
+  code: String
+  rate: Int
+  id: ID
+}
+
+type TaxRule {
+  id: ID
+  code: String
+  rates: [TaxRate]
+  customer_tax_class_ids: [ID]
+  product_tax_class_ids: [ID]
+  tax_rate_ids: [ID]
+}
+
+input TaxRuleInput {
+  id: FilterTypeInput
+  code: FilterTypeInput
+  customer_tax_class_ids: FilterTypeInput
+  product_tax_class_ids: FilterTypeInput
+  tax_rate_ids: FilterTypeInput
+}
+
+type TaxRules implements ESResponseInterface {
+  total_count: Int
+  items: [TaxRule]
+  hits: JSON
+  suggest: JSON
+  aggregations: JSON
+}
+
+type TotalCountInfo {
+  value: Int
+  relation: String
+}
+
+enum UrlRewriteEntityTypeEnum {
+  CATEGORY
+  PRODUCT
+}
+

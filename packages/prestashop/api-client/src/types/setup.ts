@@ -5,9 +5,9 @@ export interface ApiConfig {
   imgUri: string;
 }
 
-export interface SetupConfig<TCacheShape> {
+export interface Config {
   api?: ApiConfig;
-  customOptions?: ApolloClientOptions<TCacheShape>;
+  customOptions?: ApolloClientOptions<any>;
   currency?: string;
   locale?: string;
   country?: string;
@@ -16,3 +16,13 @@ export interface SetupConfig<TCacheShape> {
   locales?: string[];
 }
 
+export interface ConfigurableConfig {
+  api?: ApiConfig;
+  customOptions?: ApolloClientOptions<any>;
+  currency?: string;
+  locale?: string;
+  country?: string;
+  countries?: string[];
+  currencies?: string[];
+  locales?: string[];
+}

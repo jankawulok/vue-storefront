@@ -4,7 +4,7 @@
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/prestashop/api-client-/src/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.2",
-    "@vue-storefront/core": "^2.0.8",
+    "@vue-storefront/core": "2.0.8",
     "isomorphic-fetch": "^2.2.1"
   },
   "devDependencies": {
     "graphql-tools": "^6.2.4",
+    "rollup-plugin-graphql": "^0.1.0",
     "jest-transform-graphql": "^2.1.0"
   },
   "files": [

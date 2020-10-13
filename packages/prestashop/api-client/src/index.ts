@@ -3,10 +3,10 @@ import {
   ApolloClient,
   defaultDataIdFromObject,
   createHttpLink,
-  InMemoryCache,
+  InMemoryCache
 } from '@apollo/client/core';
 // import { InMemoryCache } from '@apollo/client/cache';
-import { SetupConfig } from './types/setup';
+import { Config, ConfigurableConfig } from './types/setup';
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
 import addToCart from './api/addToCart';
@@ -25,18 +25,21 @@ import fetch from 'isomorphic-fetch';
 
 let apolloClient: ApolloClient<any> = null;
 
-const { setup, getSettings } = apiClientFactory<any, any>({
-  defaultSettings: {},
-  onSetup: <TCacheShape>(setupConfig: SetupConfig<TCacheShape>) => {
+const { setup, update, getSettings } = apiClientFactory<Config, ConfigurableConfig>({
+  defaultSettings: {
+    locale: 'pl',
+    acceptLanguage: ['pl']
+  },
+  onSetup: (config: Config) => {
     // todo: add possibility to override
     apolloClient = new ApolloClient({
       link: createHttpLink({
-        uri: setupConfig.api.uri,
+        uri: config.api.uri,
         headers: {
-          credentials: 'include',
+          credentials: 'include'
         },
         credentials: 'include',
-        fetch,
+        fetch
       }),
       cache: new InMemoryCache({
         dataIdFromObject: (object) => {
@@ -48,14 +51,14 @@ const { setup, getSettings } = apiClientFactory<any, any>({
             default:
               defaultDataIdFromObject(object);
           }
-        },
+        }
       }),
       defaultOptions: {
         watchQuery: {
-          fetchPolicy: 'network-only',
-        },
+          fetchPolicy: 'network-only'
+        }
       },
-      ...setupConfig.customOptions,
+      ...config.customOptions
     });
   }
 });
@@ -76,6 +79,7 @@ export {
   customerCreate,
   getMe,
   setup,
+  update,
   getSearchSuggestion,
   getUrlResolver
 };
