@@ -16,6 +16,7 @@ import removeCoupon from './api/removeCoupon';
 import customerLogin from './api/customerLogin';
 import customerCreate from './api/customerCreate';
 import customerLogout from './api/customerLogout';
+import customerChangePassword from './api/customerChangePassword';
 import updateCart from './api/updateCart';
 import getMe from './api/getMe';
 import getCart from './api/getCart';
@@ -77,6 +78,7 @@ export {
   customerLogin,
   customerLogout,
   customerCreate,
+  customerChangePassword,
   getMe,
   setup,
   update,
