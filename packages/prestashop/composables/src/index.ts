@@ -6,7 +6,7 @@ import useUserOrders from './useUserOrders';
 import useContent from './useContent';
 import useCheckout from './useCheckout';
 import useUrlResolver from './useUrlResolver';
-import useSearch from './useSearch';
+import useAutocomplete from './useAutocomplete';
 import useFacet from './useFacet';
 import { useWishlist, setWishlist } from './useWishlist';
 import { track } from '@vue-storefront/core';
@@ -42,7 +42,7 @@ export {
   userGetters,
   wishlistGetters,
   useUrlResolver,
-  useSearch,
+  useAutocomplete,
   useWishlist,
   setWishlist
 };
