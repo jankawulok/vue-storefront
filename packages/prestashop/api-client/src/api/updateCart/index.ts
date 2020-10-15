@@ -3,10 +3,14 @@ import { CartUpdateAction } from './../../types/GraphQL';
 import { apolloClient } from '../..';
 import defaultMutation from './defaultMutation';
 
-const updateCart = async (actions: CartUpdateAction): Promise<CartMutationResponse> => {
+interface UpdateCart {
+  actions: CartUpdateAction[];
+}
+
+const updateCart = async (params: UpdateCart): Promise<CartMutationResponse> => {
   return await apolloClient.mutate({
     mutation: defaultMutation,
-    variables: {actions: actions},
+    variables: { actions: params.actions },
     fetchPolicy: 'no-cache'
   });
 };

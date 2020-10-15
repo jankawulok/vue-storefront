@@ -9,6 +9,14 @@ import {
   Customer
 } from './GraphQL';
 
+export type CustomQueryFn<T = any> = (
+  query: any,
+  variables: T
+) => {
+  query?: any;
+  variables?: T;
+};
+
 export interface CustomQuery {
   query: string;
   variables: any;
@@ -57,5 +65,4 @@ export type ApiCustomerLoginResponse = MutationResponse<
   'customerLogin',
   CustomerLoginResponse
 >;
-export type CustomerResponse = QueryResponse<'customer', Customer>
 export type CustomerChangePasswordResponse = MutationResponse<'customerChangePassword', boolean>

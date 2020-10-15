@@ -1,18 +1,18 @@
 import { ApolloQueryResult } from '@apollo/client';
 import { apolloClient } from './../../index';
-import { EntityUrl } from './../../types/GraphQL';
+import { SearchSuggestionResult } from './../../types/GraphQL';
 import defaultQuery from './defaultQuery';
 
-interface UrlResolverData {
-  urlResolver: EntityUrl;
+interface SearchSuggestionData {
+  searchSuggestion: SearchSuggestionResult;
 }
 
 const getSearchSuggestion = async (
   query: string
-): Promise<ApolloQueryResult<UrlResolverData>> => {
-  return await apolloClient.query<UrlResolverData>({
+): Promise<ApolloQueryResult<SearchSuggestionData>> => {
+  return await apolloClient.query<SearchSuggestionData>({
     query: defaultQuery,
-    variables: {query: query}
+    variables: { query: query }
   });
 };
 

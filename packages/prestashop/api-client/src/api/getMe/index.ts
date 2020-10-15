@@ -1,37 +1,19 @@
 import { apolloClient } from '../../index';
-import { gql } from '@apollo/client/core';
-import { CustomerResponse } from '../../types/Api';
-import { ApolloQueryResult } from '@apollo/client';
-import { CustomerParams } from './../../types/Api';
 import defaultQuery from './defaultQuery';
-import withOrders from './withOrders';
+import { Customer } from './../../types/GraphQL';
 
-const getMe = async (
-  params: CustomerParams
-): Promise<ApolloQueryResult<CustomerResponse>> => {
-  if (!params) {
-    return await apolloClient.query({
-      query: defaultQuery,
-      variables: {},
-      fetchPolicy: 'no-cache'
-    });
-  }
-  if (params.customQuery) {
-    const { query, variables } = params.customQuery;
-    return await apolloClient.query({
-      query: gql`${query}`,
-      variables,
-      fetchPolicy: 'no-cache'
-    });
-  }
-  if (!params.withOrders) {
-    return await apolloClient.query({
-      query: withOrders,
-      variables: {},
-      fetchPolicy: 'no-cache'
-    });
-  }
+interface CustomerData {
+  customer: Customer;
+}
 
+const getMe = async () => {
+  const request = await apolloClient.query<CustomerData>({
+    query: defaultQuery,
+    variables: {},
+    fetchPolicy: 'no-cache'
+  });
+
+  return request;
 };
 
 export default getMe;
