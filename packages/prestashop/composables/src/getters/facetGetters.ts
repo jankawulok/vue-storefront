@@ -26,29 +26,29 @@ const getSortOptions = (searchData: SearchData): AgnosticSort => {
   const options = [
     {
       type: 'sort',
-      value: '_score',
-      id: '_score',
+      value: 'score-desc',
+      id: 'score-desc',
       label: 'Best match',
       count: null
     },
     {
       type: 'sort',
-      value: 'price_ASC',
-      id: 'price_ASC',
+      value: 'price_asc',
+      id: 'price_asc',
       label: 'Price from low to high',
       count: null
     },
     {
       type: 'sort',
-      value: 'price_DESC',
-      id: 'price_DESC',
+      value: 'price_desc',
+      id: 'price_desc',
       label: 'Price from high to low',
       count: null
     }
   ].map((o) => ({ ...o, selected: o.id === searchData.input.sort }));
 
   const selected =
-    options.find((o) => o.id === searchData.input.sort)?.id || '_score';
+    options.find((o) => o.id === searchData.input.sort)?.id || 'score-desc';
 
   return { options, selected };
 };

@@ -5,8 +5,10 @@ export const createFormatPrice = (price: number) => {
   if (!price) {
     return null;
   }
-  const currency = getSettings().currency;
-  return new Intl.NumberFormat(`${getSettings().locale}-${getSettings().country}`, { style: 'currency', currency }).format(price);
+  const { locale, currency } = getSettings();
+  return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(
+    price
+  );
 };
 
 export const createFormatDate = (date: string) => {

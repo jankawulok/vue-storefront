@@ -14,6 +14,7 @@ import { createFormatPrice, createFormatDate } from './_utils';
 import { Product, MediaGalleryItem, ProductVariant } from './../types/GraphQL';
 import { getSettings } from '@jkawulok/prestashop-api';
 
+const imgUri = getSettings().api?.imgUri || '';
 interface ProductVariantFilters {
   idProductAttribute?: number;
   master?: boolean;
@@ -46,16 +47,17 @@ export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcru
       link: item.slug
     }));
 
-export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] =>
-  (product ? product.media_gallery : [])
-    .map((image: MediaGalleryItem) => ({
-      small: getSettings().api.imgEndpoint + '/300/300/resize' + image.image,
-      big: getSettings().api.imgEndpoint + '/1000/1000/resize' + image.image,
-      normal: getSettings().api.imgEndpoint + '/800/800/resize' + image.image
-    }));
+export const getProductGallery = (
+  product: ProductVariant
+): AgnosticMediaGalleryItem[] =>
+  (product ? product.media_gallery : []).map((image: MediaGalleryItem) => ({
+    small: imgUri + '/300/300/resize' + image.image,
+    big: imgUri + '/1000/1000/resize' + image.image,
+    normal: imgUri + '/800/800/resize' + image.image
+  }));
 
 export const getProductCoverImage = (product: Product): string =>
-  product ? getSettings().api.imgEndpoint + '/300/300/resize' + (product as any).image : '';
+         product ? imgUri + '/300/300/resize' + (product as any).image : '';
 
 export const getProductFiltered = (products: Product[], filters: ProductVariantFilters): ProductVariant[] => {
   if (!products) {
@@ -80,11 +82,18 @@ export const getProductDescription = (product: ProductVariant): any => product?.
 
 export const getProductCategoryIds = (product: ProductVariant): string[] => product?.category_ids;
 
-export const getProductId = (product: ProductVariant): string => product?.id.toString();
+export const getProductId = (product: ProductVariant): string =>
+  product.id?.toString();
 
 export const getFormattedPrice = (price: number) => createFormatPrice(price);
 
 export const getProductMinSaleQty = (product: ProductVariant): number => product?.minimal_quantity ? product.minimal_quantity : 1;
+
+export const getTotalReviews = (product: ProductVariant): number =>
+  product?.reviews?.total_count || 0;
+
+export const getAverageRating = (product: ProductVariant): number =>
+  (product as any)?.averageRating || 0;
 
 export const getProductReviews = (product: ProductVariant) =>
   (product?.reviews?.items ? product.reviews.items : [])
@@ -112,7 +121,9 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getRating: getProductRating,
   getId: getProductId,
   getMinSaleQty: getProductMinSaleQty,
-  getFormattedPrice
+  getFormattedPrice,
+  getTotalReviews,
+  getAverageRating
 };
 
 export default productGetters;
