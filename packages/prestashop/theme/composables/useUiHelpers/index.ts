@@ -3,7 +3,7 @@
 
 import { getCurrentInstance } from '@vue/composition-api';
 import { AgnosticFacet } from '@vue-storefront/core';
-import { Category, Manufacturer } from '~/../composables/lib';
+import { Category, Manufacturer, ProductSortInput, SortEnum } from '@jkawulok/prestashop-composables';
 
 const nonFilters = ['page', 'sort', 'itemsPerPage'];
 
@@ -20,20 +20,24 @@ const reduceFilters = (query) => (prev, curr) => {
   };
 };
 
-const getPageType = (context): string => {
-  return context.$router.component;
-};
-
 const buildBaseFilter = (pageType: string, slug: string) => {
   // todo: in product listing we should diplay products with visibility: catalog or both.
   switch (pageType) {
-    case 'Category':
+    case 'category':
       return { category_with_parents: { in: slug } };
-    case 'Manufacturer':
+    case 'manufacturer':
       return { manufacturer: { in: slug } };
     default:
       return {};
   }
+};
+
+const buildSortTerm = (sort: string): ProductSortInput => {
+  const [option, direction] = sort.split('-');
+  const sortOptions: ProductSortInput = {
+    [option]: SortEnum[direction.charAt(0).toUpperCase() + direction.slice(1)]
+  };
+  return sortOptions;
 };
 
 const getFiltersDataFromUrl = (context, onlyFilters) => {
@@ -49,23 +53,18 @@ const useUiHelpers = () => {
   const context = getContext();
 
   const getFacetsFromURL = () => {
-    const {
-      query,
-      params
-    } = context.$router.history.current;
+    const { query, params, name } = context.$router.history.current;
 
-    const slug = params.slug;
+    const slug = params.slug_1;
 
     return {
-      terms: buildBaseFilter(
-        getPageType(context),
-        slug
-      ),
+      categorySlug: name === 'category' ? slug : null,
+      baseFilter: buildBaseFilter(name, slug),
+      term: query.term,
       sort: query.sort || 'score-desc',
-      page: query.page,
+      page: parseInt(query.page) || 0,
       filters: getFiltersDataFromUrl(context, true),
-      itemsPerPage:
-                                   parseInt(query.itemsPerPage, 10) || 20
+      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20
     };
   };
 
@@ -134,6 +133,7 @@ const useUiHelpers = () => {
     changeItemsPerPage,
     changeSearchTerm,
     isFacetColor,
+    buildSortTerm,
     isFacetCheckbox
   };
 };
