@@ -65,7 +65,10 @@ export default {
       api: {
         uri: 'https://api.maleomi.pl/gateway',
         imgUri: 'https://api.maleomi.pl/img'
-      }
+      },
+      currency: 'PLN',
+      locale: 'pl-PL',
+      country: 'PL'
     }]
   ],
   modules: [
@@ -90,6 +93,11 @@ export default {
     }
   },
   build: {
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map';
+      }
+    },
     transpile: [
       'vee-validate/dist/rules'
     ],
