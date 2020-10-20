@@ -4,8 +4,8 @@
   "sideEffects": false,
   "main": "lib/index.cjs.js",
   "module": "lib/index.es.js",
-  "types": "lib/index.d.ts",
   "tsModule": "src/index.ts",
+  "types": "lib/prestashop/composables/src/index.d.ts",
   "scripts": {
     "build": "rimraf lib && rollup -c",
     "dev": "rollup -c -w",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@jkawulok/prestashop-api": "^0.0.3",
-    "@vue-storefront/core": "^2.0.8",
+    "@vue-storefront/core": "2.0.8",
     "vue": "^2.6.x"
   },
   "publishConfig": {
