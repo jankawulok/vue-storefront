@@ -14,7 +14,6 @@ import { createFormatPrice, createFormatDate } from './_utils';
 import { Product, MediaGalleryItem, ProductVariant } from './../types/GraphQL';
 import { getSettings } from '@jkawulok/prestashop-api';
 
-const imgUri = getSettings().api?.imgUri || '';
 interface ProductVariantFilters {
   idProductAttribute?: number;
   master?: boolean;
@@ -51,14 +50,17 @@ export const getProductGallery = (
   product: ProductVariant
 ): AgnosticMediaGalleryItem[] =>
   (product ? product.media_gallery : []).map((image: MediaGalleryItem) => ({
-    small: imgUri + '/300/300/resize' + image.image,
-    big: imgUri + '/1000/1000/resize' + image.image,
-    normal: imgUri + '/800/800/resize' + image.image
+    small: getSettings().api.imgUri + '/300/300/resize' + image.image,
+    big: getSettings().api.imgUri + '/1000/1000/resize' + image.image,
+    normal: getSettings().api.imgUri + '/800/800/resize' + image.image
   }));
 
 export const getProductCoverImage = (product: Product): string =>
-         product ? imgUri + '/300/300/resize' + (product as any).image : '';
+  product ? getSettings().api?.imgUri + '/300/300/resize' + (product as any).image : '';
 
+// const getDefaultVariant = (products: ProductVariant[] | Readonly<ProductVariant> | Product[] | Readonly<Product>)
+
+         
 export const getProductFiltered = (products: Product[], filters: ProductVariantFilters): ProductVariant[] => {
   if (!products) {
     return [];
@@ -67,11 +69,9 @@ export const getProductFiltered = (products: Product[], filters: ProductVariantF
   //   const attribute = products[0].attributes_combinations?.find((variant) => variant.id_product_attribute === filters.idProductAttribute);
   //   return [{...products[0], ...attribute} as ProductVariant];
   // }
-  // if (filters.master) {
-  //   const attribute = products[0].attributes_combinations?.find((variant) => variant.default_on === 1);
-  //   return [{...products[0], ...attribute} as ProductVariant];
-  // }
-  return products as ProductVariant[];
+  return products.map((product) => {
+    return { ...product, ...product.attributes_combinations?.find((variant) => variant.default_on === 1) } as ProductVariant;
+  });
 };
 // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
