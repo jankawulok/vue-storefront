@@ -1,7 +1,10 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
+
 import { useFacetFactory, FacetSearchResult } from '@vue-storefront/core';
-import { getProduct } from '@jkawulok/prestashop-api';
+import { getCategory } from '@jkawulok/prestashop-api';
 import { FacetResultsData } from './../types';
-import { mapProductSearchByQueryParams } from '../helpers';
+import { mapSortBy } from '../helpers';
 
 const ITEMS_PER_PAGE = [20, 40, 80];
 
@@ -10,13 +13,21 @@ const factoryParams = {
     params: FacetSearchResult<FacetResultsData>
   ): Promise<FacetResultsData> => {
     const itemsPerPage = params.input.itemsPerPage;
-    const categories = [];
-    const productQuery = mapProductSearchByQueryParams(params.input);
-
-    const productResponse = await getProduct(productQuery);
-    const products = productResponse.data.products.items;
+    const categoryResponse = await getCategory({
+      withProducts: true,
+      productSearch: params.input.term,
+      filter: {
+        url_key: { eq: params.input.categorySlug }
+      },
+      productPageSize: params.input.itemsPerPage,
+      productCurrentPage: params.input.page,
+      productSort: mapSortBy(params.input.sort)
+    });
+    const categories = categoryResponse.data.categories.items;
+    const products = categoryResponse.data.categories.items[0]?.products?.items || [];
+    const productsTotal = categoryResponse.data.categories.items[0]?.products?.total_count?.value || 0;
     const facets = {};
-    productResponse.data.products.available_filters.forEach((filter) => {
+    categoryResponse.data.categories.items[0].products.available_filters.forEach((filter) => {
       const { options, ...rest } = filter;
       facets[filter.attribute_code] = {
         ...rest,
@@ -28,7 +39,7 @@ const factoryParams = {
       products,
       categories,
       facets,
-      total: productResponse.data.products.total_count.value,
+      total: productsTotal,
       perPageOptions: ITEMS_PER_PAGE,
       itemsPerPage
     };

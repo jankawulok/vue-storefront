@@ -33,15 +33,22 @@ const getSortOptions = (searchData: SearchData): AgnosticSort => {
     },
     {
       type: 'sort',
-      value: 'price_asc',
-      id: 'price_asc',
+      value: 'name-asc',
+      id: 'name-asc',
+      label: 'A do Z',
+      count: null
+    },
+    {
+      type: 'sort',
+      value: 'price-asc',
+      id: 'price-asc',
       label: 'Price from low to high',
       count: null
     },
     {
       type: 'sort',
-      value: 'price_desc',
-      id: 'price_desc',
+      value: 'price-desc',
+      id: 'price-desc',
       label: 'Price from high to low',
       count: null
     }

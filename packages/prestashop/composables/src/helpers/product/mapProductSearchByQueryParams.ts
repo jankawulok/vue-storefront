@@ -11,7 +11,7 @@ const mapProductSearchByQueryParams = (params) => {
     searchQuery.filter = params.term;
   }
   if (params.filter) {
-    searchQuery.filter = params.filter;
+    searchQuery.postFilter = params.filter;
   }
   if (params.catId) {
     /* eslint-disable camelcase */

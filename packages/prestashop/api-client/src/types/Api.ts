@@ -2,6 +2,7 @@ import { ApolloQueryResult, FetchResult } from '@apollo/client';
 import {
   ProductFilterInput,
   ProductSortInput,
+  ProductAggregationInput,
   CategoryFilterInput,
   CategorySortInput,
   Cart,
@@ -39,6 +40,13 @@ export interface CategorySearch extends BaseSearch {
   sort?: CategorySortInput;
   withProducts?: boolean;
   navigation?: boolean;
+  productSearch?: string;
+  productFilter?: ProductFilterInput;
+  productPostFilter?: ProductFilterInput;
+  productPageSize?: number;
+  productCurrentPage?: number;
+  productSort?: ProductSortInput;
+  productAggregation?: ProductAggregationInput;
 }
 
 export interface CustomerParams {

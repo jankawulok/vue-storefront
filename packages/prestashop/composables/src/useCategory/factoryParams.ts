@@ -1,13 +1,12 @@
 import { UseCategoryFactoryParams } from '@vue-storefront/core';
-import { getCategory} from '@jkawulok/prestashop-api';
+import { getCategory, CategorySearch } from '@jkawulok/prestashop-api';
 import { Category } from './../types/GraphQL';
 import { mapProductSearchByQueryParams } from '../helpers';
-import { CategorySearchParams } from '../types';
 
 export const params: UseCategoryFactoryParams<Category, any> = {
   categorySearch: async (params) => {
     // let searchQuery: CategorySearchParams = {withProducts: params.withProducts, filter: params.filter, search: params.search, sort: params.sort, pageSize: params.pageSize, currentPage: params.currentPage};
-    const searchQuery: CategorySearchParams = { ...params};
+    const searchQuery: CategorySearch = { ...params};
     const productsQuery = mapProductSearchByQueryParams(params.productSearchParams);
     params.products = productsQuery;
     if (productsQuery.aggregation) {
