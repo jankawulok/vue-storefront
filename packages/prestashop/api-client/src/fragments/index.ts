@@ -24,6 +24,7 @@ export const ProductTileFragment = `
     }
     rating
     attributes_combinations {
+      default_on
       id_attribute_group
       id_attribute
       id_product_attribute
