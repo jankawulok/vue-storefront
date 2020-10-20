@@ -10,18 +10,6 @@ const createSetPersonalDetails = ({ factoryParams, setShippingDetails, cartField
 
   if (!options.save) return;
   loading.value.personalDetails = true;
-
-  const cartResponse = await updateCart({
-    id: cartFields.cart.value.id,
-    version: cartFields.cart.value.version,
-    actions: [
-      cartActions.setCustomerEmail(personalDetails.value.email)
-    ]
-  });
-
-  setCart(cartResponse.data.cartUpdate);
-  initFields(cartResponse.data.cartUpdate);
-  setShippingDetails({ firstname, lastname });
   loading.value.personalDetails = false;
 };
 

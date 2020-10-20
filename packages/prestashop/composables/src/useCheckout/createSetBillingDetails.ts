@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { updateCart, cartActions } from '@jkawulok/prestashop-api';
+import { updateCart, cartActions, applyCoupon } from '@jkawulok/prestashop-api';
 import { billingDetails, loading } from './shared';
 import initFields from './initFields';
 
@@ -25,12 +25,15 @@ const createSetBillingDetails = ({ factoryParams, cartFields, setCart }) => asyn
   loading.value.shippingAddress = true;
   const cartResponse = await updateCart({
     actions: [
-      cartActions.setInvoiceAddressAction(billingDetails.value)
+      cartActions.setInvoiceAddressAction(
+        billingDetails.value,
+        billingDetails.value.idAddress
+      )
     ]
   });
 
-  setCart(cartResponse.data.updateCart);
-  initFields(cartResponse.data.updateCart);
+  setCart(cartResponse.data.cartUpdate);
+  initFields(cartResponse.data.cartUpdate);
   loading.value.billingAddress = false;
 };
 
