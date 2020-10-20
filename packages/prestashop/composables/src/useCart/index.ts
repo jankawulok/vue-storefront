@@ -23,14 +23,14 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
       ]
     } as AddItemsToCartInput);
     console.log('addToCart', updatedCart);
-    return updatedCart.data.cart;
+    return updatedCart.data.cartUpdate;
   },
   removeFromCart: async ({ product }) => {
     const updateResponse = await apiRemoveFromCart({
       idProduct: product.id_product,
       idProductAttribute: product.id_product_attribute
     } as RemoveItemFromCartInput);
-    return updateResponse.data.cart;
+    return updateResponse.data.cartUpdate;
   },
   updateQuantity: async ({ currentCart, product, quantity }) => {
     // const updatedCart = await apiUpdateCartQuantity(product, quantity);
@@ -43,11 +43,14 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
   },
   applyCoupon: async ({ currentCart, couponCode }) => {
     const updatedCart = await apiApplyCoupon(couponCode);
-    return { updatedCart: updatedCart.data.cart, updatedCoupon: couponCode };
+    return {
+      updatedCart: updatedCart.data.cartUpdate,
+      updatedCoupon: couponCode
+    };
   },
   removeCoupon: async () => {
     const updatedCart = await apiRemoveCoupon();
-    return { updatedCart: updatedCart.data.cart };
+    return { updatedCart: updatedCart.data.cartUpdate };
   },
   isOnCart: ({ currentCart, product }) => {
     return Boolean(getBasketItemByProduct({ currentCart, product }));
