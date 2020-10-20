@@ -25,5 +25,5 @@
     "@vue-storefront/nuxt-theme": "^0.0.3"
   },
   "author": "Filip Jędrasik",
-  "license": "ISC"
+  "license": "MIT"
 }
