@@ -13,7 +13,7 @@ const userGetters: UserGetters<Customer> = {
   getFirstName: getUserFirstName,
   getLastName: getUserLastName,
   getFullName: getUserFullName,
-  getEmail: getUserEmail
+  getEmailAddress: getUserEmail
 };
 
 export default userGetters;
