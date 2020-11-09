@@ -12,9 +12,13 @@
     "test": "jest"
   },
   "dependencies": {
-    "@jkawulok/prestashop-api": "^0.0.3",
-    "@vue-storefront/core": "2.0.9",
-    "vue": "^2.6.x"
+    "@jkawulok/prestashop-api": "^0.0.4",
+    "@vue-storefront/core": "2.0.10",
+    "vue": "^2.6.12"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.30",
+    "vue-template-compiler": "^2.6.x"
   },
   "publishConfig": {
     "access": "public"
