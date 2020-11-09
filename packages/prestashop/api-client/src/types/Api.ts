@@ -65,7 +65,7 @@ export type QueryResponse<K extends string, V> = ApolloQueryResult<
 >;
 export type CartQueryResponse = QueryResponse<'cart', Cart>
 export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
-export type CartMutationResponse = MutationResponse<'cartUpdate', Cart>
+export type CartMutationResponse = MutationResponse<'cart', Cart>
 export type SetShippingAddressOnCartResponse = MutationResponse<'setShippingAddress', Cart>
 export type SetInvoiceAddressOnCartResponse = MutationResponse<'setInvoiceAddress', Cart>
 export type CustomerMutationResponse = MutationResponse<'customer', Customer>

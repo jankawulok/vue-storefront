@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase, camelcase */
-import { UseCart, useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
+import { useCartFactory, UseCartFactoryParams } from '@vue-storefront/core';
 import { getCart, addToCart as apiAddToCart, removeFromCart as apiRemoveFromCart, applyCoupon as apiApplyCoupon, removeCoupon as apiRemoveCoupon} from '@jkawulok/prestashop-api';
 import { Product, Cart, CartItem, AddItemsToCartInput, RemoveItemFromCartInput } from './../types/GraphQL';
 
@@ -23,14 +23,14 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
       ]
     } as AddItemsToCartInput);
     console.log('addToCart', updatedCart);
-    return updatedCart.data.cartUpdate;
+    return updatedCart.data.cart;
   },
   removeFromCart: async ({ product }) => {
     const updateResponse = await apiRemoveFromCart({
       idProduct: product.id_product,
       idProductAttribute: product.id_product_attribute
     } as RemoveItemFromCartInput);
-    return updateResponse.data.cartUpdate;
+    return updateResponse.data.cart;
   },
   updateQuantity: async ({ currentCart, product, quantity }) => {
     // const updatedCart = await apiUpdateCartQuantity(product, quantity);
@@ -41,16 +41,16 @@ const params: UseCartFactoryParams<Cart, CartItem, Product, any> = {
     console.log('Mocked clearCart', currentCart);
     return currentCart;
   },
-  applyCoupon: async ({ currentCart, couponCode }) => {
+  applyCoupon: async ({ couponCode }) => {
     const updatedCart = await apiApplyCoupon(couponCode);
     return {
-      updatedCart: updatedCart.data.cartUpdate,
+      updatedCart: updatedCart.data.cart,
       updatedCoupon: couponCode
     };
   },
   removeCoupon: async () => {
     const updatedCart = await apiRemoveCoupon();
-    return { updatedCart: updatedCart.data.cartUpdate };
+    return { updatedCart: updatedCart.data.cart };
   },
   isOnCart: ({ currentCart, product }) => {
     return Boolean(getBasketItemByProduct({ currentCart, product }));
