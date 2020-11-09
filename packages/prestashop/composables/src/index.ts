@@ -7,6 +7,7 @@ import useContent from './useContent';
 import useCheckout from './useCheckout';
 import useUrlResolver from './useUrlResolver';
 import useAutocomplete from './useAutocomplete';
+import { useReview, reviewGetters} from './useReview';
 import useFacet from './useFacet';
 import { useWishlist, setWishlist } from './useWishlist';
 import { track } from '@vue-storefront/core';
@@ -28,6 +29,7 @@ export {
   useProduct,
   useCart,
   setCart,
+  useReview,
   useUser,
   setUser,
   useUserOrders,
@@ -39,6 +41,7 @@ export {
   checkoutGetters,
   facetGetters,
   productGetters,
+  reviewGetters,
   userGetters,
   wishlistGetters,
   useUrlResolver,
