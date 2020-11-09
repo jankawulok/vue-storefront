@@ -7,7 +7,7 @@ import {
   AgnosticBreadcrumb,
   AgnosticFacet
 } from '@vue-storefront/core';
-import { ProductVariant } from 'src/types/GraphQL';
+import { ProductVariant, Category } from 'src/types/GraphQL';
 import { FacetResultsData, SearchData } from './../types';
 import { getProductFiltered } from './productGetters';
 
@@ -60,8 +60,19 @@ const getSortOptions = (searchData: SearchData): AgnosticSort => {
   return { options, selected };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getCategoryTree = (searchData): AgnosticCategoryTree => ({} as any);
+export const getCategoryTree = (searchData: SearchData): AgnosticCategoryTree | null => {
+  if (!searchData.data?.categories) {
+    return null;
+  }
+  const getParent = (category: Category): Category => (category.parent && !category.children?.length ? getParent(category.parent) : category);
+  const buildTree = (category: Category) => ({
+    label: category.name,
+    slug: category.url_key,
+    items: category.children ? category.children.map(buildTree) : [],
+    productCount: category.product_count
+  });
+  return buildTree(getParent(searchData.data.categories[0]));
+};
 
 const getProducts = (searchData: SearchData): ProductVariant[] => {
   return getProductFiltered(searchData.data.products, { master: true });
@@ -81,8 +92,12 @@ const getPagination = (searchData: SearchData): AgnosticPagination => {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] => [];
+const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] =>
+  (searchData.data?.categories[0] ? searchData.data?.categories[0].breadcrumbs : [])
+    .map((item) => ({
+      text: item.name,
+      link: item.slug
+    }));
 
 const facetGetters: FacetsGetters<FacetResultsData, ProductVariant[]> = {
   getSortOptions,

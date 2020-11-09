@@ -23,9 +23,9 @@ const factoryParams = {
       productCurrentPage: params.input.page,
       productSort: mapSortBy(params.input.sort)
     });
-    const categories = categoryResponse.data.categories.items;
-    const products = categoryResponse.data.categories.items[0]?.products?.items || [];
-    const productsTotal = categoryResponse.data.categories.items[0]?.products?.total_count?.value || 0;
+    const categories = categoryResponse.data?.categories?.items || [];
+    const products = categoryResponse.data.categories?.items[0]?.products?.items || [];
+    const productsTotal = categoryResponse.data?.categories?.items[0]?.products?.total_count?.value || 0;
     const facets = {};
     categoryResponse.data.categories.items[0].products.available_filters.forEach((filter) => {
       const { options, ...rest } = filter;
