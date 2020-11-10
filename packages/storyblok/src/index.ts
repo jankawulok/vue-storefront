@@ -1,17 +1,23 @@
-import { useStory, useSettings } from './composables';
-import StoryblokClient from 'storyblok-js-client';
-import { StoryblokConfig } from 'storyblok-js-client';
+import useContent from './composables/useContent';
+import RenderContent from './components/renderContent';
+import { apiClientFactory } from '@vue-storefront/core';
+import StoryblokClient, { StoryblokConfig } from 'storyblok-js-client';
 
 let client: StoryblokClient = null;
 
-const setup = (setupConfig: StoryblokConfig) => {
-  client = new StoryblokClient(setupConfig);
-  return { client };
-};
+const { setup, update, getSettings } = apiClientFactory<StoryblokConfig, StoryblokConfig>({
+  defaultSettings: {
+    accessToken: 'xf5dRMMjltLzKOcNgMaU9Att',
+    cache: {
+      clear: 'auto',
+      type: 'memory'
+    }
+  },
+  onSetup: (config: StoryblokConfig) => {
+    client = new StoryblokClient(config);
+  }
+});
 
-export {
-  setup,
-  client,
-  useStory,
-  useSettings
-};
+const settings = getSettings();
+
+export { client, setup, update, getSettings, settings, useContent, RenderContent };
