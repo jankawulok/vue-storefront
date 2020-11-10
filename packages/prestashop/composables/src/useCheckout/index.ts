@@ -1,7 +1,11 @@
 /* istanbul ignore file */
 import { UseCheckout } from '@vue-storefront/core';
-import { ref, Ref, computed } from '@vue/composition-api';
+import VueCompositionAPI, { ref, Ref, computed } from '@vue/composition-api';
 import { Customer, Address, ShippingMethod } from './../types/GraphQL';
+import Vue from 'vue';
+
+// We need to register it again because of Vue instance instantiation issues
+Vue.use(VueCompositionAPI);
 
 const PAYMENT_METHODS_MOCK = [
   {
