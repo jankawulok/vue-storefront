@@ -14,13 +14,28 @@ import { getProductFiltered } from './productGetters';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getAll = (searchData, criteria?: string[]): AgnosticFacet[] => [];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getGrouped = (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchData,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  criteria?: string[]
-): AgnosticGroupedFacet[] => [];
+const getGrouped = (searchData: SearchData): AgnosticGroupedFacet[] => {
+  if (!searchData.data?.facets) {
+    return [];
+  }
+
+  return searchData.data.facets.map((facet) => {
+    return {
+      id: facet.attribute_code,
+      label: facet.label,
+      count: facet.count,
+      options: facet.options.map((option) => {
+        return {
+          type: 'term',
+          id: option.value,
+          value: option.label,
+          count: option.count,
+          attrName: facet.attribute_code
+        };
+      })
+    };
+  });
+};
 
 const getSortOptions = (searchData: SearchData): AgnosticSort => {
   const options = [

@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 
 import { Ref } from '@vue/composition-api';
-import { ProductSortInput, ProductAggregationInput } from '../types/GraphQL';
+import { ProductSortInput, ProductAggregationInput, Aggregation } from '../types/GraphQL';
 import { Product, Category } from '@jkawulok/prestashop-api';
 import { FacetSearchResult } from '@vue-storefront/core';
 
@@ -49,7 +49,7 @@ export interface ProductsSearchParams {
 export interface FacetResultsData {
   products: Product[];
   categories: Category[];
-  facets: Record<string, Filter>;
+  facets: Aggregation[];
   total: number;
   perPageOptions: number[];
   itemsPerPage: number;
