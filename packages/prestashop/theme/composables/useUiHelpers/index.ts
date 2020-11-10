@@ -3,7 +3,7 @@
 
 import { getCurrentInstance } from '@vue/composition-api';
 import { AgnosticFacet } from '@vue-storefront/core';
-import { Category, Manufacturer, ProductSortInput, SortEnum } from '@jkawulok/prestashop-composables';
+import { Manufacturer, ProductSortInput, SortEnum } from '@jkawulok/prestashop-composables';
 
 const nonFilters = ['page', 'sort', 'itemsPerPage'];
 
@@ -69,9 +69,9 @@ const useUiHelpers = () => {
   };
 
   const getCatLink = (
-    category: Category
+    category
   ): string => {
-    return `/c/${category.url_key}`;
+    return `/c/${category.slug}`;
   };
 
   const changeSorting = (sort: string) => {
