@@ -10,6 +10,9 @@ const mapProductSearchByQueryParams = (params) => {
   if (params.term) {
     searchQuery.filter = params.term;
   }
+  if (params.id) {
+    searchQuery.filter = Object.assign({}, searchQuery.filter, { id: { in: params.id} });
+  }
   if (params.filter) {
     searchQuery.postFilter = params.filter;
   }
